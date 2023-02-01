@@ -86,9 +86,9 @@ public class SwerveDriveSubsystem extends SubsystemBase {
 
         SmartDashboard.putNumber("Target Angle", Math.toDegrees(FRA));
         SmartDashboard.putNumber("Target Throttle", FRT);
-        SmartDashboard.putNumber("Current Angle", Math.toDegrees(frontRightModule.currentAngle));
+        SmartDashboard.putNumber("Current Angle", Functions.DeltaAngleDegrees(0, frontRightModule.currentAngle));
         SmartDashboard.putNumber("Current Angle Rate", Math.toDegrees(frontRightModule.currentAngleSpeed));
-
+        SmartDashboard.putNumber("Current Angle Raw", frontRightModule.currentAngle);
         
     }
 

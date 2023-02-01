@@ -5,6 +5,7 @@
 package frc.robot;
 
 import com.ctre.phoenix.sensors.CANCoder;
+import com.ctre.phoenix.sensors.WPI_CANCoder;
 //import com.revrobotics.CANEncoder;
 //import com.revrobotics.CANSensor;
 import com.revrobotics.CANSparkMax;
@@ -32,8 +33,8 @@ import edu.wpi.first.wpilibj.XboxController;
 public final class Constants 
 {
     public static double turnMultiplier = 0.75;
-    public static double swerveModulePMult = 1;
-    public static double swerveModuleDMult = 0.5;
+    public static double swerveModulePMult = 0.01;
+    public static double swerveModuleDMult = 0;
 
     public static XboxController controller = new XboxController(0);
     
@@ -47,10 +48,10 @@ public final class Constants
     public static CANSparkMax backRightDriveMotor = new CANSparkMax(8, MotorType.kBrushless);
     public static CANSparkMax backLeftDriveMotor = new CANSparkMax(9, MotorType.kBrushless);
 
-    public static CANCoder  frontRightEncoder = new CANCoder(10);
-    public static CANCoder  frontLeftEncoder = new CANCoder(11);
-    public static CANCoder  backRightEncoder = new CANCoder(12);
-    public static CANCoder  backLeftEncoder = new CANCoder(13);
+    public static WPI_CANCoder  frontRightEncoder = new WPI_CANCoder(10);
+    public static WPI_CANCoder  frontLeftEncoder = new WPI_CANCoder(11);
+    public static WPI_CANCoder  backRightEncoder = new WPI_CANCoder(12);
+    public static WPI_CANCoder  backLeftEncoder = new WPI_CANCoder(13);
     
     public static Compressor demoCompressor = new Compressor(0, PneumaticsModuleType.CTREPCM);
     public static Solenoid demoSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM, 1);
