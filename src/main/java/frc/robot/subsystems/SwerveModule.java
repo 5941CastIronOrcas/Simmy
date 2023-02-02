@@ -20,11 +20,15 @@ public class SwerveModule {
     double oldDeltaAngle = 0;
     double currentAngle;
     double currentAngleSpeed;
+    boolean invertAngleMotor;
+    boolean invertDriveMotor;
     
 
-    public SwerveModule(CANSparkMax inputAngleMotor, CANSparkMax inputDriveMotor, WPI_CANCoder inputEncoder)
+    public SwerveModule(CANSparkMax inputAngleMotor, Boolean InvertAngleMotor, CANSparkMax inputDriveMotor, Boolean InvertDriveMotor, WPI_CANCoder inputEncoder)
     {
         angleMotor = inputAngleMotor;
+        invertAngleMotor = InvertAngleMotor;
+        invertDriveMotor = InvertDriveMotor;
         driveMotor =  inputDriveMotor;
         encoder = inputEncoder;
 
@@ -32,13 +36,18 @@ public class SwerveModule {
 
     public void Drive(double angle, double speed)
     {
-        currentAngle = encoder.getAbsolutePosition();//65;
-        //driveMotor.set(speed);
-        currentAngleSpeed = encoder.getVelocity();//65;
-        //archive currentSpeed = ((Functions.DeltaAngle(angle, currentAngle) - oldDeltaAngle) / 0.02);
-        double pComponent = Constants.swerveModulePMult * Functions.DeltaAngleDegrees(angle, currentAngle);
+        if(Double.isNaN(angle)) angle = 0;
+        currentAngle = encoder.getAbsolutePosition();
+        if(Math.abs(Functions.DeltaAngleDegrees(Math.toDegrees(angle), currentAngle)) > 90)
+        {
+            angle = angle + (Math.PI);
+            speed = -speed;
+        }
+        driveMotor.set((invertDriveMotor?-1:1)*speed);
+        currentAngleSpeed = encoder.getVelocity();
+        double pComponent = Constants.swerveModulePMult * Functions.DeltaAngleDegrees(Math.toDegrees(angle), currentAngle);
         double dComponent = Constants.swerveModuleDMult * currentAngleSpeed;
-        //angleMotor.set(pComponent + dComponent);
-        oldDeltaAngle = Functions.DeltaAngleDegrees(angle, currentAngle);
+        angleMotor.set((invertAngleMotor?-1:1)*(pComponent + dComponent));
+
     }
 }

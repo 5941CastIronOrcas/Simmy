@@ -26,16 +26,21 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     double BRT;
     double BLT;
 
+    double FRTOutput;
+    double FLTOutput;
+    double BRTOutput;
+    double BLTOutput;
+
     double LSX;
     double LSY;
     double RSX;
 
     double highestSpeed = 0;
     
-    SwerveModule frontRightModule = new SwerveModule(Constants.frontRightAngleMotor, Constants.frontRightDriveMotor, Constants.frontRightEncoder);
-    SwerveModule frontLeftModule = new SwerveModule(Constants.frontLeftAngleMotor, Constants.frontLeftDriveMotor, Constants.frontLeftEncoder);
-    SwerveModule backRightModule = new SwerveModule(Constants.backRightAngleMotor, Constants.backRightDriveMotor, Constants.backRightEncoder);
-    SwerveModule backLeftModule = new SwerveModule(Constants.backLeftAngleMotor, Constants.backLeftDriveMotor, Constants.backLeftEncoder);
+    SwerveModule frontRightModule = new SwerveModule(Constants.frontRightAngleMotor, true, Constants.frontRightDriveMotor, true, Constants.frontRightEncoder);
+    SwerveModule frontLeftModule = new SwerveModule(Constants.frontLeftAngleMotor, false, Constants.frontLeftDriveMotor, false, Constants.frontLeftEncoder);
+    SwerveModule backRightModule = new SwerveModule(Constants.backRightAngleMotor, false, Constants.backRightDriveMotor, false, Constants.backRightEncoder);
+    SwerveModule backLeftModule = new SwerveModule(Constants.backLeftAngleMotor, false, Constants.backLeftDriveMotor, false, Constants.backLeftEncoder);
 
     public SwerveDriveSubsystem() //Constructor (Init)
     {
@@ -78,17 +83,22 @@ public class SwerveDriveSubsystem extends SubsystemBase {
             BRT = (Math.abs(BRX)+Math.abs(BRY)) / highestSpeed;
             BLT = (Math.abs(BLX)+Math.abs(BLY)) / highestSpeed;
 
-            frontRightModule.Drive(FRA, FRT);
-            frontLeftModule.Drive(FLA, FLT);
-            backRightModule.Drive(BRA, BRT);
-            backLeftModule.Drive(BLA, BLT);
+            FRTOutput += Functions.Clamp(FRT-FRTOutput, -Constants.swerveModuleMaxThrottleChange, Constants.swerveModuleMaxThrottleChange);
+            FLTOutput += Functions.Clamp(FLT-FLTOutput, -Constants.swerveModuleMaxThrottleChange, Constants.swerveModuleMaxThrottleChange);
+            BRTOutput += Functions.Clamp(BRT-BRTOutput, -Constants.swerveModuleMaxThrottleChange, Constants.swerveModuleMaxThrottleChange);
+            BLTOutput += Functions.Clamp(BLT-BLTOutput, -Constants.swerveModuleMaxThrottleChange, Constants.swerveModuleMaxThrottleChange);
+
+            frontRightModule.Drive(FRA, FRTOutput);
+            frontLeftModule.Drive(FLA, FLTOutput);
+            backRightModule.Drive(BRA, BRTOutput);
+            backLeftModule.Drive(BLA, BLTOutput);
         }
 
-        SmartDashboard.putNumber("Target Angle", Math.toDegrees(FRA));
-        SmartDashboard.putNumber("Target Throttle", FRT);
-        SmartDashboard.putNumber("Current Angle", Functions.DeltaAngleDegrees(0, frontRightModule.currentAngle));
-        SmartDashboard.putNumber("Current Angle Rate", Math.toDegrees(frontRightModule.currentAngleSpeed));
-        SmartDashboard.putNumber("Current Angle Raw", frontRightModule.currentAngle);
+        SmartDashboard.putNumber("FRA Target", Math.toDegrees(FRA));
+        SmartDashboard.putNumber("FRT Target", FRT);
+        SmartDashboard.putNumber("FRA Current", Functions.DeltaAngleDegrees(0, frontRightModule.currentAngle));
+        SmartDashboard.putNumber("FRA Rate", Math.toDegrees(frontRightModule.currentAngleSpeed));
+        SmartDashboard.putNumber("FRA Delta", Functions.DeltaAngleDegrees(FRA, frontRightModule.currentAngle));
         
     }
 

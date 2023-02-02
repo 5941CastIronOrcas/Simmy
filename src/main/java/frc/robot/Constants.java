@@ -4,7 +4,8 @@
 
 package frc.robot;
 
-import com.ctre.phoenix.sensors.CANCoder;
+import com.ctre.phoenix.sensors.Pigeon2;
+//import com.ctre.phoenix.sensors.CANCoder;
 import com.ctre.phoenix.sensors.WPI_CANCoder;
 //import com.revrobotics.CANEncoder;
 //import com.revrobotics.CANSensor;
@@ -35,6 +36,7 @@ public final class Constants
     public static double turnMultiplier = 0.75;
     public static double swerveModulePMult = 0.01;
     public static double swerveModuleDMult = 0;
+    public static double swerveModuleMaxThrottleChange = 0.1;
 
     public static XboxController controller = new XboxController(0);
     
@@ -43,15 +45,17 @@ public final class Constants
     public static CANSparkMax backRightAngleMotor = new CANSparkMax(4, MotorType.kBrushless);
     public static CANSparkMax backLeftAngleMotor = new CANSparkMax(5, MotorType.kBrushless);
 
-    public static CANSparkMax frontRightDriveMotor = new CANSparkMax(6, MotorType.kBrushless);
+    public static CANSparkMax frontRightDriveMotor = new CANSparkMax(12, MotorType.kBrushless);
     public static CANSparkMax frontLeftDriveMotor = new CANSparkMax(7, MotorType.kBrushless);
     public static CANSparkMax backRightDriveMotor = new CANSparkMax(8, MotorType.kBrushless);
     public static CANSparkMax backLeftDriveMotor = new CANSparkMax(9, MotorType.kBrushless);
 
-    public static WPI_CANCoder  frontRightEncoder = new WPI_CANCoder(10);
-    public static WPI_CANCoder  frontLeftEncoder = new WPI_CANCoder(11);
-    public static WPI_CANCoder  backRightEncoder = new WPI_CANCoder(12);
-    public static WPI_CANCoder  backLeftEncoder = new WPI_CANCoder(13);
+    public static WPI_CANCoder  frontRightEncoder = new WPI_CANCoder(15);
+    public static WPI_CANCoder  frontLeftEncoder = new WPI_CANCoder(16);
+    public static WPI_CANCoder  backRightEncoder = new WPI_CANCoder(17);
+    public static WPI_CANCoder  backLeftEncoder = new WPI_CANCoder(18);
+
+    public static Pigeon2 primaryEncoder = new Pigeon2(19);
     
     public static Compressor demoCompressor = new Compressor(0, PneumaticsModuleType.CTREPCM);
     public static Solenoid demoSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM, 1);
