@@ -34,6 +34,10 @@ public class Functions {
         }
         
     }
+    public static double Exponential(double input)
+    {
+        return input * Math.abs(input);
+    }
     public static double DeltaAngleDegrees(double startAngle, double endAngle)
     {
         return ((((endAngle - startAngle - 180) % 360) + 360) % 360)-180;

@@ -38,9 +38,9 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     double highestSpeed = 0;
     
     SwerveModule frontRightModule = new SwerveModule(Constants.frontRightAngleMotor, true, Constants.frontRightDriveMotor, true, Constants.frontRightEncoder);
-    SwerveModule frontLeftModule = new SwerveModule(Constants.frontLeftAngleMotor, false, Constants.frontLeftDriveMotor, false, Constants.frontLeftEncoder);
-    SwerveModule backRightModule = new SwerveModule(Constants.backRightAngleMotor, false, Constants.backRightDriveMotor, false, Constants.backRightEncoder);
-    SwerveModule backLeftModule = new SwerveModule(Constants.backLeftAngleMotor, false, Constants.backLeftDriveMotor, false, Constants.backLeftEncoder);
+    SwerveModule frontLeftModule = new SwerveModule(Constants.frontLeftAngleMotor, true, Constants.frontLeftDriveMotor, true, Constants.frontLeftEncoder);
+    SwerveModule backRightModule = new SwerveModule(Constants.backRightAngleMotor, true, Constants.backRightDriveMotor, false, Constants.backRightEncoder);
+    SwerveModule backLeftModule = new SwerveModule(Constants.backLeftAngleMotor, true, Constants.backLeftDriveMotor, false, Constants.backLeftEncoder);
 
     public SwerveDriveSubsystem() //Constructor (Init)
     {
@@ -50,11 +50,10 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     @Override
     public void periodic() //Every 0.02 sec (50 FPS)
     {
-        if(Constants.controller.getAButton())
-        {
-            LSX = Functions.DeadZone(Constants.controller.getLeftX(), 0.1);
-            LSY = Functions.DeadZone(-Constants.controller.getLeftY(), 0.1);
-            RSX = Functions.DeadZone(Constants.controller.getRightX(), 0.1);
+        
+            LSX = Functions.Exponential(Functions.DeadZone(Constants.controller.getLeftX(), 0.1));
+            LSY = Functions.Exponential(Functions.DeadZone(-Constants.controller.getLeftY(), 0.1));
+            RSX = Functions.Exponential(Functions.DeadZone(Constants.controller.getRightX(), 0.1));
             
 
             FRX = Constants.turnMultiplier*RSX + LSX;
@@ -92,7 +91,7 @@ public class SwerveDriveSubsystem extends SubsystemBase {
             frontLeftModule.Drive(FLA, FLTOutput);
             backRightModule.Drive(BRA, BRTOutput);
             backLeftModule.Drive(BLA, BLTOutput);
-        }
+        
 
         /*
         SmartDashboard.putNumber("FRA Target", Math.toDegrees(FRA));
