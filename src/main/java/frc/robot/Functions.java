@@ -47,4 +47,17 @@ public class Functions {
         return ((((endAngle - startAngle - Math.PI) % (2*Math.PI)) + (2*Math.PI)) % (2*Math.PI))-Math.PI;
     }
 
+    public static void KillAll()
+    {
+        Constants.frontRightAngleMotor.stopMotor();
+        Constants.frontLeftAngleMotor.stopMotor();
+        Constants.backRightAngleMotor.stopMotor();
+        Constants.backLeftAngleMotor.stopMotor();
+        
+        Constants.frontRightDriveMotor.stopMotor();
+        Constants.frontLeftDriveMotor.stopMotor();
+        Constants.backRightDriveMotor.stopMotor();
+        Constants.backLeftDriveMotor.stopMotor();
+    }
+
 }

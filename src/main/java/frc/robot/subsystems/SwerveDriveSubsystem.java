@@ -50,7 +50,8 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     @Override
     public void periodic() //Every 0.02 sec (50 FPS)
     {
-        
+        if(Constants.controller.getAButton())
+        {
             LSX = Functions.Exponential(Functions.DeadZone(Constants.controller.getLeftX(), 0.1));
             LSY = Functions.Exponential(Functions.DeadZone(-Constants.controller.getLeftY(), 0.1));
             RSX = Functions.Exponential(Functions.DeadZone(Constants.controller.getRightX(), 0.1));
@@ -91,7 +92,11 @@ public class SwerveDriveSubsystem extends SubsystemBase {
             frontLeftModule.Drive(FLA, FLTOutput);
             backRightModule.Drive(BRA, BRTOutput);
             backLeftModule.Drive(BLA, BLTOutput);
-        
+        }
+        else
+        {
+            Functions.KillAll();
+        }
 
         /*
         SmartDashboard.putNumber("FRA Target", Math.toDegrees(FRA));
