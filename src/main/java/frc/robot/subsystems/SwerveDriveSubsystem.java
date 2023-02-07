@@ -111,5 +111,9 @@ public class SwerveDriveSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("BLA Current", Functions.DeltaAngleDegrees(0, backLeftModule.currentAngle));
         
     }
+    public void Drive(double LSX, double LSY, double RSX)
+    {
+
+    }
     
 }
