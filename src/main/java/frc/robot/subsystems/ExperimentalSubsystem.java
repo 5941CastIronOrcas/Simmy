@@ -4,14 +4,22 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 public class ExperimentalSubsystem extends SubsystemBase {
 
   public ExperimentalSubsystem() {}
 
   @Override
-  public void periodic() {}
+  public void periodic() {
+    /*
+    SmartDashboard.putNumber("Accelerometer Pitch", Constants.primaryAccelerometer.getPitch());
+    SmartDashboard.putNumber("Accelerometer Pitch", Constants.primaryAccelerometer.getRoll());
+    SmartDashboard.putNumber("Accelerometer Pitch", Constants.primaryAccelerometer.getYaw());
+    */
+  }
 
   @Override
   public void simulationPeriodic() {}

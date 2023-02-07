@@ -105,11 +105,12 @@ public class SwerveDriveSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("FRA Rate", Math.toDegrees(frontRightModule.currentAngleSpeed));
         SmartDashboard.putNumber("FRA Delta", Functions.DeltaAngleDegrees(FRA, frontRightModule.currentAngle));
         */
+        /*
         SmartDashboard.putNumber("FRA Current", Functions.DeltaAngleDegrees(0, frontRightModule.currentAngle));
         SmartDashboard.putNumber("FLA Current", Functions.DeltaAngleDegrees(0, frontLeftModule.currentAngle));
         SmartDashboard.putNumber("BRA Current", Functions.DeltaAngleDegrees(0, backRightModule.currentAngle));
         SmartDashboard.putNumber("BLA Current", Functions.DeltaAngleDegrees(0, backLeftModule.currentAngle));
-        
+        */
     }
     public void Drive(double LSX, double LSY, double RSX)
     {
