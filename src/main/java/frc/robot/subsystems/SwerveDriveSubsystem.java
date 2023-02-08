@@ -52,9 +52,9 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     {
         if(Constants.controller.getAButton())
         {
-            LSX = Functions.Exponential(Functions.DeadZone(Constants.controller.getLeftX(), 0.1));
-            LSY = Functions.Exponential(Functions.DeadZone(-Constants.controller.getLeftY(), 0.1));
-            RSX = Functions.Exponential(Functions.DeadZone(Constants.controller.getRightX(), 0.1));
+            LSX = Functions.Exponential(Functions.DeadZone(Constants.controller.getLeftX(), Constants.controllerDeadZone));
+            LSY = Functions.Exponential(Functions.DeadZone(-Constants.controller.getLeftY(), Constants.controllerDeadZone));
+            RSX = Functions.Exponential(Functions.DeadZone(Constants.controller.getRightX(), Constants.controllerDeadZone));
             
 
             FRX = Constants.turnMultiplier*RSX + LSX;

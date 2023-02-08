@@ -39,6 +39,7 @@ public final class Constants
     public static double swerveModuleMaxThrottleChange = 0.1;
 
     public static XboxController controller = new XboxController(0);
+    public static double controllerDeadZone = 0.1;
     
     public static CANSparkMax frontRightAngleMotor = new CANSparkMax(2, MotorType.kBrushless);
     public static CANSparkMax frontLeftAngleMotor = new CANSparkMax(3, MotorType.kBrushless);
