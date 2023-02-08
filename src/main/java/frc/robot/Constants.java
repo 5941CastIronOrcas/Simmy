@@ -55,7 +55,7 @@ public final class Constants
     public static WPI_CANCoder  backRightEncoder = new WPI_CANCoder(17);
     public static WPI_CANCoder  backLeftEncoder = new WPI_CANCoder(18);
 
-    public static Pigeon2 primaryEncoder = new Pigeon2(19);
+    public static Pigeon2 primaryAccelerometer = new Pigeon2(19);
     
     public static Compressor demoCompressor = new Compressor(0, PneumaticsModuleType.CTREPCM);
     public static Solenoid demoSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM, 1);
