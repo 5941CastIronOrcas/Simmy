@@ -25,6 +25,7 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     double LSX, LSY, RSX;
 
     double highestSpeed = 0;
+    boolean crouchMode = false;
     
     SwerveModule frontRightModule = new SwerveModule(Constants.frontRightAngleMotor, true, Constants.frontRightDriveMotor, true, Constants.frontRightEncoder);
     SwerveModule frontLeftModule = new SwerveModule(Constants.frontLeftAngleMotor, true, Constants.frontLeftDriveMotor, true, Constants.frontLeftEncoder);
@@ -39,11 +40,15 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     @Override
     public void periodic() //Every 0.02 sec (50 FPS)
     {
-        if(Constants.controller.getAButton())
+        if(Constants.controller.getLeftBumper())
         {
-            LSX = Functions.Exponential(Functions.DeadZone(Constants.controller.getLeftX(), Constants.controllerDeadZone));
-            LSY = Functions.Exponential(Functions.DeadZone(-Constants.controller.getLeftY(), Constants.controllerDeadZone));
-            RSX = Functions.Exponential(Functions.DeadZone(Constants.controller.getRightX(), Constants.controllerDeadZone));
+            if(Constants.controller.getLeftStickButtonPressed())
+            {
+                crouchMode = !crouchMode;
+            }
+            LSX = (crouchMode?Constants.swerveCrouchModeMult:1)*Functions.Exponential(Functions.DeadZone(Constants.controller.getLeftX(), Constants.controllerDeadZone));
+            LSY = (crouchMode?Constants.swerveCrouchModeMult:1)*Functions.Exponential(Functions.DeadZone(-Constants.controller.getLeftY(), Constants.controllerDeadZone));
+            RSX = (crouchMode?Constants.swerveCrouchModeMult:1)*Functions.Exponential(Functions.DeadZone(Constants.controller.getRightX(), Constants.controllerDeadZone));
             
             //set the target X and Y speeds based on controller input
             FRX = Constants.turnMultiplier*RSX + LSX;
@@ -80,6 +85,7 @@ public class SwerveDriveSubsystem extends SubsystemBase {
             BRTOutput += Functions.Clamp(BRT-BRTOutput, -Constants.swerveModuleMaxThrottleChange, Constants.swerveModuleMaxThrottleChange);
             BLTOutput += Functions.Clamp(BLT-BLTOutput, -Constants.swerveModuleMaxThrottleChange, Constants.swerveModuleMaxThrottleChange);
 
+            //Tell the modules to angle and drive themselves
             frontRightModule.Drive(FRA, FRTOutput);
             frontLeftModule.Drive(FLA, FLTOutput);
             backRightModule.Drive(BRA, BRTOutput);
@@ -87,6 +93,7 @@ public class SwerveDriveSubsystem extends SubsystemBase {
         }
         else
         {
+            //Kill all motors
             Functions.KillAll();
         }
 

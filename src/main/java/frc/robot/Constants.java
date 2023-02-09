@@ -37,6 +37,7 @@ public final class Constants
     public static double swerveModulePMult = 0.01;
     public static double swerveModuleDMult = 0;
     public static double swerveModuleMaxThrottleChange = 0.1;
+    public static double swerveCrouchModeMult = 0.25;
 
     public static XboxController controller = new XboxController(0);
     public static double controllerDeadZone = 0.1;
