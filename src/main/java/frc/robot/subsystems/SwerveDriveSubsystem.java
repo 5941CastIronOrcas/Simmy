@@ -14,33 +14,15 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     //A = angle
     //T = throttle
 
-    double FRX;
-    double FRY;
-    double FLX;
-    double FLY;
-    double BRX;
-    double BRY;
-    double BLX;
-    double BLY;
+    double FRX, FRY, FLX, FLY, BRX, BRY, BLX, BLY;
 
-    double FRA;
-    double FLA;
-    double BRA;
-    double BLA;
+    double FRA, FLA, BRA, BLA;
     
-    double FRT;
-    double FLT;
-    double BRT;
-    double BLT;
+    double FRT, FLT, BRT, BLT;
 
-    double FRTOutput;
-    double FLTOutput;
-    double BRTOutput;
-    double BLTOutput;
+    double FRTOutput, FLTOutput, BRTOutput, BLTOutput;
 
-    double LSX;
-    double LSY;
-    double RSX;
+    double LSX, LSY, RSX;
 
     double highestSpeed = 0;
     
