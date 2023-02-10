@@ -27,8 +27,8 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     double highestSpeed = 0;
     boolean crouchMode = false;
     
-    SwerveModule frontRightModule = new SwerveModule(Constants.frontRightAngleMotor, true, Constants.frontRightDriveMotor, true, Constants.frontRightEncoder);
-    SwerveModule frontLeftModule = new SwerveModule(Constants.frontLeftAngleMotor, true, Constants.frontLeftDriveMotor, true, Constants.frontLeftEncoder);
+    SwerveModule frontRightModule = new SwerveModule(Constants.frontRightAngleMotor, true, Constants.frontRightDriveMotor, false, Constants.frontRightEncoder);
+    SwerveModule frontLeftModule = new SwerveModule(Constants.frontLeftAngleMotor, true, Constants.frontLeftDriveMotor, false, Constants.frontLeftEncoder);
     SwerveModule backRightModule = new SwerveModule(Constants.backRightAngleMotor, true, Constants.backRightDriveMotor, false, Constants.backRightEncoder);
     SwerveModule backLeftModule = new SwerveModule(Constants.backLeftAngleMotor, true, Constants.backLeftDriveMotor, false, Constants.backLeftEncoder);
 
@@ -103,8 +103,8 @@ public class SwerveDriveSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("FRA Current", Functions.DeltaAngleDegrees(0, frontRightModule.currentAngle));
         SmartDashboard.putNumber("FRA Rate", Math.toDegrees(frontRightModule.currentAngleSpeed));
         SmartDashboard.putNumber("FRA Delta", Functions.DeltaAngleDegrees(FRA, frontRightModule.currentAngle));
-        */
-        /*
+        
+        
         SmartDashboard.putNumber("FRA Current", Functions.DeltaAngleDegrees(0, frontRightModule.currentAngle));
         SmartDashboard.putNumber("FLA Current", Functions.DeltaAngleDegrees(0, frontLeftModule.currentAngle));
         SmartDashboard.putNumber("BRA Current", Functions.DeltaAngleDegrees(0, backRightModule.currentAngle));
