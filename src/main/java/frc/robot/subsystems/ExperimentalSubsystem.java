@@ -15,10 +15,7 @@ public class ExperimentalSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     
-    SmartDashboard.putNumber("Accelerometer Pitch", Constants.primaryAccelerometer.getPitch());
-    SmartDashboard.putNumber("Accelerometer Roll", Constants.primaryAccelerometer.getRoll());
     SmartDashboard.putNumber("Accelerometer Yaw", Constants.primaryAccelerometer.getYaw());
-    SmartDashboard.putNumber("Accelerometer Compass", Constants.primaryAccelerometer.getAbsoluteCompassHeading());
     
   }
 

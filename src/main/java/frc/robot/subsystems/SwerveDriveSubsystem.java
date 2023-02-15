@@ -27,6 +27,8 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     double highestSpeed = 0;
     boolean crouchMode = false;
     
+    double robotYawAngle = 0;
+
     SwerveModule frontRightModule = new SwerveModule(Constants.frontRightAngleMotor, true, Constants.frontRightDriveMotor, false, Constants.frontRightEncoder);
     SwerveModule frontLeftModule = new SwerveModule(Constants.frontLeftAngleMotor, true, Constants.frontLeftDriveMotor, false, Constants.frontLeftEncoder);
     SwerveModule backRightModule = new SwerveModule(Constants.backRightAngleMotor, true, Constants.backRightDriveMotor, false, Constants.backRightEncoder);
@@ -40,15 +42,32 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     @Override
     public void periodic() //Every 0.02 sec (50 FPS)
     {
+        LSX = (crouchMode?Constants.swerveCrouchModeMult:1)*Functions.Exponential(Functions.DeadZone(Constants.controller.getLeftX(), Constants.controllerDeadZone));
+        LSY = (crouchMode?Constants.swerveCrouchModeMult:1)*Functions.Exponential(Functions.DeadZone(-Constants.controller.getLeftY(), Constants.controllerDeadZone));
+        RSX = (crouchMode?Constants.swerveCrouchModeMult:1)*Functions.Exponential(Functions.DeadZone(Constants.controller.getRightX(), Constants.controllerDeadZone));
+        robotYawAngle = Functions.DeltaAngleDegrees(0, -Constants.primaryAccelerometer.getYaw());
         if(Constants.controller.getLeftBumper())
         {
-            if(Constants.controller.getLeftStickButtonPressed())
+            Drive(LSX*Math.cos(Math.toRadians(-robotYawAngle))+LSY*Math.sin(Math.toRadians(-robotYawAngle)), LSY*Math.cos(Math.toRadians(-robotYawAngle))+LSX*Math.sin(Math.toRadians(robotYawAngle)), RSX);
+        }
+        else
+        {
+            //Kill all motors
+            Functions.KillAll();
+        }
+        if(Constants.controller.getRightBumperPressed())
+        {
+            Constants.primaryAccelerometer.setYaw(0);
+        }
+
+        SmartDashboard.putNumber("Robot Yaw", robotYawAngle);
+    }
+    public void Drive(double LSX, double LSY, double RSX)
+    {
+        if(Constants.controller.getLeftStickButtonPressed())
             {
                 crouchMode = !crouchMode;
             }
-            LSX = (crouchMode?Constants.swerveCrouchModeMult:1)*Functions.Exponential(Functions.DeadZone(Constants.controller.getLeftX(), Constants.controllerDeadZone));
-            LSY = (crouchMode?Constants.swerveCrouchModeMult:1)*Functions.Exponential(Functions.DeadZone(-Constants.controller.getLeftY(), Constants.controllerDeadZone));
-            RSX = (crouchMode?Constants.swerveCrouchModeMult:1)*Functions.Exponential(Functions.DeadZone(Constants.controller.getRightX(), Constants.controllerDeadZone));
             
             //set the target X and Y speeds based on controller input
             FRX = Constants.turnMultiplier*RSX + LSX;
@@ -90,30 +109,6 @@ public class SwerveDriveSubsystem extends SubsystemBase {
             frontLeftModule.Drive(FLA, FLTOutput);
             backRightModule.Drive(BRA, BRTOutput);
             backLeftModule.Drive(BLA, BLTOutput);
-        }
-        else
-        {
-            //Kill all motors
-            Functions.KillAll();
-        }
-
-        /*
-        SmartDashboard.putNumber("FRA Target", Math.toDegrees(FRA));
-        SmartDashboard.putNumber("FRT Target", FRT);
-        SmartDashboard.putNumber("FRA Current", Functions.DeltaAngleDegrees(0, frontRightModule.currentAngle));
-        SmartDashboard.putNumber("FRA Rate", Math.toDegrees(frontRightModule.currentAngleSpeed));
-        SmartDashboard.putNumber("FRA Delta", Functions.DeltaAngleDegrees(FRA, frontRightModule.currentAngle));
-        
-        
-        SmartDashboard.putNumber("FRA Current", Functions.DeltaAngleDegrees(0, frontRightModule.currentAngle));
-        SmartDashboard.putNumber("FLA Current", Functions.DeltaAngleDegrees(0, frontLeftModule.currentAngle));
-        SmartDashboard.putNumber("BRA Current", Functions.DeltaAngleDegrees(0, backRightModule.currentAngle));
-        SmartDashboard.putNumber("BLA Current", Functions.DeltaAngleDegrees(0, backLeftModule.currentAngle));
-        */
-    }
-    public void Drive(double LSX, double LSY, double RSX)
-    {
-
     }
     
 }
