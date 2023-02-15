@@ -25,7 +25,7 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     double LSX, LSY, RSX;
 
     double highestSpeed = 0;
-    boolean crouchMode = false;
+    boolean crouchMode = true;
     
     double robotYawAngle = 0;
 
@@ -55,7 +55,7 @@ public class SwerveDriveSubsystem extends SubsystemBase {
             //Kill all motors
             Functions.KillAll();
         }
-        if(Constants.controller.getRightBumperPressed())
+        if(Constants.controller.getRightBumper())
         {
             Constants.primaryAccelerometer.setYaw(0);
         }
