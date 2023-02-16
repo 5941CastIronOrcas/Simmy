@@ -12,11 +12,27 @@ public class ExperimentalSubsystem extends SubsystemBase {
 
   public ExperimentalSubsystem() {}
 
+    double XVelocity = 0;
+    double ZVelocity = 0;
   @Override
   public void periodic() {
-    
-    SmartDashboard.putNumber("Accelerometer Yaw", Constants.primaryAccelerometer.getYaw());
-    
+    double[] q = new double[4];
+    short[] a = new short[3];
+    double[] g = new double[3];
+    Constants.primaryAccelerometer.get6dQuaternion(q);
+    Constants.primaryAccelerometer.getBiasedAccelerometer(a);
+    Constants.primaryAccelerometer.getGravityVector(g);
+    double XAccel = g[1];
+    XVelocity += (XAccel * 0.02);
+    double ZAccel = g[0];
+    ZVelocity += (ZAccel * 0.02);
+    SmartDashboard.putNumberArray("quater", q);
+    SmartDashboard.putNumberArray("grav", g);
+    SmartDashboard.putNumber("XAccel", XAccel);
+    SmartDashboard.putNumber("XSpeed", XVelocity);
+    SmartDashboard.putNumber("ZAccel", ZAccel);
+    SmartDashboard.putNumber("ZSpeed", ZVelocity);
+    //SmartDashboard.putNumberArray("bias", (double[])a);
   }
 
   @Override

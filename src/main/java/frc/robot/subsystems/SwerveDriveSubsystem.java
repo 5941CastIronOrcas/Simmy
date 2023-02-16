@@ -48,7 +48,7 @@ public class SwerveDriveSubsystem extends SubsystemBase {
         robotYawAngle = Functions.DeltaAngleDegrees(0, -Constants.primaryAccelerometer.getYaw());
         if(Constants.controller.getLeftBumper())
         {
-            Drive(LSX*Math.cos(Math.toRadians(-robotYawAngle))+LSY*Math.sin(Math.toRadians(-robotYawAngle)), LSY*Math.cos(Math.toRadians(-robotYawAngle))+LSX*Math.sin(Math.toRadians(robotYawAngle)), RSX);
+            DriveFieldOriented(LSX, LSY, RSX);
         }
         else
         {
@@ -62,6 +62,11 @@ public class SwerveDriveSubsystem extends SubsystemBase {
 
         SmartDashboard.putNumber("Robot Yaw", robotYawAngle);
     }
+    public void DriveFieldOriented(double LSX, double LSY, double RSX)
+    {
+        Drive(LSX*Math.cos(Math.toRadians(-robotYawAngle))+LSY*Math.sin(Math.toRadians(-robotYawAngle)), LSY*Math.cos(Math.toRadians(-robotYawAngle))+LSX*Math.sin(Math.toRadians(robotYawAngle)), RSX);
+    }
+    
     public void Drive(double LSX, double LSY, double RSX)
     {
         if(Constants.controller.getLeftStickButtonPressed())

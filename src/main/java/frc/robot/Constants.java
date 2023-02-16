@@ -40,6 +40,7 @@ public final class Constants
     public static double swerveCrouchModeMult = 0.25;
 
     public static XboxController controller = new XboxController(0);
+    public static XboxController controllerB = new XboxController(1);
     public static double controllerDeadZone = 0.1;
     
     public static CANSparkMax frontRightAngleMotor = new CANSparkMax(2, MotorType.kBrushless);
@@ -51,6 +52,14 @@ public final class Constants
     public static CANSparkMax frontLeftDriveMotor = new CANSparkMax(7, MotorType.kBrushless);
     public static CANSparkMax backRightDriveMotor = new CANSparkMax(8, MotorType.kBrushless);
     public static CANSparkMax backLeftDriveMotor = new CANSparkMax(9, MotorType.kBrushless);
+
+    public static CANSparkMax gripperMotorA = new CANSparkMax(13, MotorType.kBrushless);
+    public static CANSparkMax gripperMotorB = new CANSparkMax(14, MotorType.kBrushless);
+
+    public static double coneGripperPowerIn = 1;
+    public static double cubeGripperPowerIn = 0.5;
+    public static double cubeGripperPowerOut = 0.3;
+    public static double coneGripperPowerOut = 0.6;
 
     public static WPI_CANCoder  frontRightEncoder = new WPI_CANCoder(15);
     public static WPI_CANCoder  frontLeftEncoder = new WPI_CANCoder(16);
