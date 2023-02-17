@@ -48,9 +48,9 @@ public class SwerveDriveSubsystem extends SubsystemBase {
         robotYawAngle = Functions.DeltaAngleDegrees(0, -Constants.primaryAccelerometer.getYaw());
         if(Constants.controller.getLeftBumper())
         {
-            if(Constants.controller.getYButton())
+            if(Constants.controller.getPOV() >= 0)
             {
-                DriveFieldOrientedAtAngle(LSX, LSY, 0);
+                DriveFieldOrientedAtAngle(LSX, LSY, Constants.controller.getPOV());
             }
             else
             {
