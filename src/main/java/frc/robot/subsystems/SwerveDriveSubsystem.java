@@ -69,7 +69,7 @@ public class SwerveDriveSubsystem extends SubsystemBase {
         }
 
         SmartDashboard.putNumber("Robot Yaw", robotYawAngle);
-        SmartDashboard.putNumber("Controller POV", Constants.controller.getPOV());
+
     }
 
     public void DriveFieldOrientedAtAngle(double LSX, double LSY, double angle)
