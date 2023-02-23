@@ -44,7 +44,8 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     {
         LSX = (crouchMode?Constants.swerveCrouchModeMult:1)*Functions.Exponential(Functions.DeadZone(Constants.controller.getLeftX(), Constants.controllerDeadZone));
         LSY = (crouchMode?Constants.swerveCrouchModeMult:1)*Functions.Exponential(Functions.DeadZone(-Constants.controller.getLeftY(), Constants.controllerDeadZone));
-        RSX = (crouchMode?Constants.swerveCrouchModeMult:1)*Functions.Exponential(Functions.DeadZone(Constants.controller.getRightX(), Constants.controllerDeadZone));
+        RSX = Constants.turnMultiplier * (crouchMode?Constants.swerveCrouchModeMult:1)*Functions.Exponential(Functions.DeadZone(Constants.controller.getRightX(), Constants.controllerDeadZone));
+        
         robotYawAngle = Functions.DeltaAngleDegrees(0, -Constants.primaryAccelerometer.getYaw());
         if(Constants.controller.getLeftBumper())
         {
@@ -87,15 +88,16 @@ public class SwerveDriveSubsystem extends SubsystemBase {
                 crouchMode = !crouchMode;
             }
             
+            
             //set the target X and Y speeds based on controller input
-            FRX = Constants.turnMultiplier*RSX + LSX;
-            FRY = -Constants.turnMultiplier*RSX + LSY;
-            FLX = Constants.turnMultiplier*RSX + LSX;
-            FLY = Constants.turnMultiplier*RSX + LSY;
-            BRX = -Constants.turnMultiplier*RSX + LSX;
-            BRY = -Constants.turnMultiplier*RSX + LSY;
-            BLX = -Constants.turnMultiplier*RSX + LSX;
-            BLY = Constants.turnMultiplier*RSX + LSY;
+            FRX = RSX + LSX;
+            FRY = -RSX + LSY;
+            FLX = RSX + LSX;
+            FLY = RSX + LSY;
+            BRX = -RSX + LSX;
+            BRY = -RSX + LSY;
+            BLX = -RSX + LSX;
+            BLY = RSX + LSY;
 
             //set the target angles based on the target X and Y speeds
             FRA = Math.atan2(FRX, FRY);
