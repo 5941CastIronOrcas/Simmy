@@ -35,7 +35,16 @@ public class ExperimentalSubsystem extends SubsystemBase {
     // SmartDashboard.putNumber("ZSpeed", ZVelocity);
     //SmartDashboard.putNumberArray("bias", (double[])a);
     SmartDashboard.putNumber("FidId", Vision.obtainTargets().getFiducialId());
-    //SmartDashboard.putString("Estimated Pose", Vision.getEstimatedGlobalPose();
+    if (Vision.getEstimatedGlobalPose().isPresent()) {
+      SmartDashboard.putBoolean("Pose present", true);
+      SmartDashboard.putNumber("Estimated X Position", Vision.getEstimatedGlobalPose().get().getX());
+      SmartDashboard.putNumber("Estimated Y Position", Vision.getEstimatedGlobalPose().get().getY());
+    }
+    else {
+      SmartDashboard.putBoolean("Pose present", false);
+      SmartDashboard.putNumber("Estimated X Position", -1);
+      SmartDashboard.putNumber("Estimated Y Position", -1);
+    }
   }
 
   @Override

@@ -29,7 +29,7 @@ public class Vision extends SubsystemBase {
 
   public static Transform3d robotToCam = new Transform3d(new Translation3d(0.5, 0.0, 0.5), new Rotation3d(0,0,0));
 
-  public final AprilTagFieldLayout aprilTagFieldLayout = new AprilTagFieldLayout(Arrays.asList(
+  public static AprilTagFieldLayout aprilTagFieldLayout = new AprilTagFieldLayout(Arrays.asList(
     new AprilTag(1, new Pose3d(Units.inchesToMeters(610.77), Units.inchesToMeters( 42.19), Units.inchesToMeters(18.22), new Rotation3d(0.0, 0.0, Math.PI))),
     new AprilTag(2, new Pose3d(Units.inchesToMeters(610.77), Units.inchesToMeters(108.19), Units.inchesToMeters(18.22), new Rotation3d(0.0, 0.0, Math.PI))),
     new AprilTag(3, new Pose3d(Units.inchesToMeters(610.77), Units.inchesToMeters(174.19), Units.inchesToMeters(18.22), new Rotation3d(0.0, 0.0, Math.PI))),
@@ -40,11 +40,17 @@ public class Vision extends SubsystemBase {
     new AprilTag(8, new Pose3d(Units.inchesToMeters( 40.45), Units.inchesToMeters( 42.19), Units.inchesToMeters(18.22), new Rotation3d(0.0, 0.0, 0.0)))
   ), Units.inchesToMeters(651.25), Units.inchesToMeters(315.5));
 
-  PhotonPoseEstimator photonPoseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout, PoseStrategy.CLOSEST_TO_REFERENCE_POSE, camera, robotToCam);
-  
+  public static PhotonPoseEstimator photonPoseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout, PoseStrategy.LOWEST_AMBIGUITY, camera, robotToCam);
+
 
   public Vision() {}
   
+  public static Boolean camCheck() {
+    var result = camera.getLatestResult();
+
+    return result.hasTargets();
+  }
+
   public static PhotonTrackedTarget obtainTargets() {
     var result = camera.getLatestResult();
 
@@ -56,9 +62,15 @@ public class Vision extends SubsystemBase {
     }
   }
 
-  public Optional<EstimatedRobotPose> getEstimatedGlobalPose(Pose2d prevEstimatedRobotPose) {
-    photonPoseEstimator.setReferencePose(prevEstimatedRobotPose);
-    return photonPoseEstimator.update();
+  public static Optional<Pose2d> getEstimatedGlobalPose() {
+    var emptyTarget = new PhotonTrackedTarget();
+
+    if (!camCheck()) {
+      return Optional.empty();
+    }
+    else {
+    return Optional.of(photonPoseEstimator.update().get().estimatedPose.toPose2d());
+    }
   }
 
   @Override
