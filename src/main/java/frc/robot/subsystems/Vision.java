@@ -3,20 +3,15 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.apriltag.AprilTag;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
-import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
 import java.util.Arrays;
 import java.util.Optional;
-
-import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
 import org.photonvision.PhotonPoseEstimator.PoseStrategy;
@@ -63,7 +58,7 @@ public class Vision extends SubsystemBase {
   }
 
   public static Optional<Pose2d> getEstimatedGlobalPose() {
-    var emptyTarget = new PhotonTrackedTarget();
+    //var emptyTarget = new PhotonTrackedTarget();
 
     if (!camCheck()) {
       return Optional.empty();
