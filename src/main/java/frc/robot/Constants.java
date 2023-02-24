@@ -77,4 +77,9 @@ public final class Constants
     public static DoubleSolenoid demoDoubleSolenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 5, 6);
     public static PneumaticsControlModule demoPCM = new PneumaticsControlModule();
     
+    public static double armOriginVerticalOffset = 90;
+    public static double armOriginHorizontalOffset = -19;
+    public static double armSegmentALength = 52;
+    public static double armSegmentBLength = 52;
+
 }
