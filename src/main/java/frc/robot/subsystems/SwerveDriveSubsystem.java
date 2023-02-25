@@ -30,9 +30,9 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     double robotYawAngle = 0;
 
     SwerveModule frontRightModule = new SwerveModule(Constants.frontRightAngleMotor, true, Constants.frontRightDriveMotor, false, Constants.frontRightEncoder);
-    SwerveModule frontLeftModule = new SwerveModule(Constants.frontLeftAngleMotor, true, Constants.frontLeftDriveMotor, false, Constants.frontLeftEncoder);
+    SwerveModule frontLeftModule = new SwerveModule(Constants.frontLeftAngleMotor, true, Constants.frontLeftDriveMotor, true, Constants.frontLeftEncoder);
     SwerveModule backRightModule = new SwerveModule(Constants.backRightAngleMotor, true, Constants.backRightDriveMotor, false, Constants.backRightEncoder);
-    SwerveModule backLeftModule = new SwerveModule(Constants.backLeftAngleMotor, true, Constants.backLeftDriveMotor, false, Constants.backLeftEncoder);
+    SwerveModule backLeftModule = new SwerveModule(Constants.backLeftAngleMotor, true, Constants.backLeftDriveMotor, true, Constants.backLeftEncoder);
 
     public SwerveDriveSubsystem() //Constructor (Init)
     {
@@ -73,7 +73,11 @@ public class SwerveDriveSubsystem extends SubsystemBase {
             Constants.primaryAccelerometer.setYaw(0);
         }
 
-        SmartDashboard.putNumber("Robot Yaw", robotYawAngle);
+        //SmartDashboard.putNumber("Robot Yaw", robotYawAngle);
+        //SmartDashboard.putNumber("FRA", frontRightModule.currentAngle);
+        //SmartDashboard.putNumber("FLA", frontLeftModule.currentAngle);
+        //SmartDashboard.putNumber("BRA", backRightModule.currentAngle);
+        //SmartDashboard.putNumber("BLA", backLeftModule.currentAngle);
 
     }
 

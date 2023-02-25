@@ -48,6 +48,5 @@ public class SwerveModule {
         double pComponent = Constants.swerveModulePMult * Functions.DeltaAngleDegrees(Math.toDegrees(angle), currentAngle);
         double dComponent = Constants.swerveModuleDMult * currentAngleSpeed;
         angleMotor.set((invertAngleMotor?-1:1)*(pComponent + dComponent));
-
     }
 }
