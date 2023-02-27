@@ -48,6 +48,10 @@ public class ExperimentalSubsystem extends SubsystemBase {
 
     Constants.armMotorA1.set(Constants.controllerB.getLeftY());
     SmartDashboard.putNumber("FR Enc Vel", Constants.frontRightDriveMotor.getEncoder().getVelocity());
+    SmartDashboard.putNumber("Confield X", VisionSubsystem.conFieldX);
+    SmartDashboard.putNumber("Confield Y", VisionSubsystem.conFieldY);
+    SmartDashboard.putNumber("April Yaw Deg", VisionSubsystem.aprilYawAngle);
+
 
   }
 
