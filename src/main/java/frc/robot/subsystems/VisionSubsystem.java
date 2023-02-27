@@ -12,6 +12,8 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import java.util.Arrays;
 import java.util.Optional;
+
+import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
 import org.photonvision.PhotonPoseEstimator.PoseStrategy;
@@ -37,6 +39,12 @@ public class VisionSubsystem extends SubsystemBase {
 
   public static PhotonPoseEstimator photonPoseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout, PoseStrategy.LOWEST_AMBIGUITY, camera, robotToCam);
 
+  public static double conFieldX;
+  public static double conFieldY;
+
+  public static double aprilYawAngle;
+
+  public static Pose2d estimatedGlobalPoseOld;
 
   public VisionSubsystem() {}
   
@@ -70,7 +78,24 @@ public class VisionSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    
+    if (getEstimatedGlobalPose().isPresent()) {
+      if (estimatedGlobalPoseOld != getEstimatedGlobalPose().get()) {
+        // apriltags present and information updated
+        conFieldX = getEstimatedGlobalPose().get().getX();
+        conFieldY = getEstimatedGlobalPose().get().getY();
+        aprilYawAngle = getEstimatedGlobalPose().get().getRotation().getDegrees();
+      }
+      else {
+      // apriltags present, information not updated
+      }
+    }
+    else {
+      // no apriltags detected
+    }
+    if (getEstimatedGlobalPose().isPresent()) {
+      estimatedGlobalPoseOld = getEstimatedGlobalPose().get();
+    }
   }
 
 }
+

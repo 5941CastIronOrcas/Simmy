@@ -47,6 +47,7 @@ public class ExperimentalSubsystem extends SubsystemBase {
     }
 
     Constants.armMotorA1.set(Constants.controllerB.getLeftY());
+    SmartDashboard.putNumber("FR Enc Vel", Constants.frontRightDriveMotor.getEncoder().getVelocity());
 
   }
 
