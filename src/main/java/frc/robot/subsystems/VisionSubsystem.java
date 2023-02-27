@@ -18,7 +18,7 @@ import org.photonvision.PhotonPoseEstimator.PoseStrategy;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
 
-public class Vision extends SubsystemBase {
+public class VisionSubsystem extends SubsystemBase {
   
   public static PhotonCamera camera = new PhotonCamera("Microsoft_LifeCam_HD-3000");
 
@@ -38,7 +38,7 @@ public class Vision extends SubsystemBase {
   public static PhotonPoseEstimator photonPoseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout, PoseStrategy.LOWEST_AMBIGUITY, camera, robotToCam);
 
 
-  public Vision() {}
+  public VisionSubsystem() {}
   
   public static Boolean camCheck() {
     var result = camera.getLatestResult();
