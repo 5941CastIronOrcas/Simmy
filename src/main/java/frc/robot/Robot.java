@@ -18,6 +18,8 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
+  boolean crouchMode = true;
+  double LSX, LSY, RSX;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -83,7 +85,36 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() 
   {
-    
+    if(Constants.controller.getLeftStickButtonPressed())
+        {
+          crouchMode = !crouchMode;
+        }
+        
+      LSX = (crouchMode?Constants.swerveCrouchModeMult:1)*Functions.Exponential(Functions.DeadZone(Constants.controller.getLeftX(), Constants.controllerDeadZone));
+      LSY = (crouchMode?Constants.swerveCrouchModeMult:1)*Functions.Exponential(Functions.DeadZone(-Constants.controller.getLeftY(), Constants.controllerDeadZone));
+      RSX = Constants.turnMultiplier * (crouchMode?Constants.swerveCrouchModeMult:1)*Functions.Exponential(Functions.DeadZone(Constants.controller.getRightX(), Constants.controllerDeadZone));
+      
+      RobotContainer.driveTrain.robotYawAngle = Functions.DeltaAngleDegrees(0, -Constants.primaryAccelerometer.getYaw());
+      if(Constants.controller.getLeftBumper())
+      {
+        if(Constants.controller.getPOV() >= 0)
+          {
+            RobotContainer.driveTrain.DriveFieldOrientedAtAngle(LSX, LSY, Constants.controller.getPOV());
+          }
+          else
+          {
+            RobotContainer.driveTrain.DriveFieldOriented(LSX, LSY, RSX);
+          }
+      }
+      else
+      {
+        //Kill all motors
+        Functions.KillAll();
+      }
+      if(Constants.controller.getRightBumper())
+      {
+        Constants.primaryAccelerometer.setYaw(0);
+      }
   }
 
   @Override

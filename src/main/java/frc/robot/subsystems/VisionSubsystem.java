@@ -60,7 +60,8 @@ public class VisionSubsystem extends SubsystemBase {
     if  (result.hasTargets()) {
       //Sends back the most clear target and its data
       return result.getBestTarget();
-    } else {
+    } 
+    else {
       return new PhotonTrackedTarget();
     }
   }

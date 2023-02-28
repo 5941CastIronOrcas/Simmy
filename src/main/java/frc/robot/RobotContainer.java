@@ -24,7 +24,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   
-  private final SwerveDriveSubsystem driveTrain = new SwerveDriveSubsystem();
+  public static final SwerveDriveSubsystem driveTrain = new SwerveDriveSubsystem();
 
   private final ExperimentalSubsystem experimental = new ExperimentalSubsystem();
 

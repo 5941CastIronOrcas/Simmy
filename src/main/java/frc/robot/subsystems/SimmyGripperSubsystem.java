@@ -17,10 +17,7 @@ public class SimmyGripperSubsystem extends SubsystemBase {
   @Override
   public void periodic() 
   {
-    if(Constants.controllerB.getAButton())
-    {
-
-    }
+    
   }
 
   @Override
@@ -31,6 +28,25 @@ public class SimmyGripperSubsystem extends SubsystemBase {
 
   public void intakeCone()
   {
-    Constants.gripperMotorA.set(0);
+    Constants.gripperMotorA.set(Constants.coneGripperPowerIn);
+    Constants.gripperMotorB.set(Constants.coneGripperPowerIn);
+  }
+
+  public void releaseCone()
+  {
+    Constants.gripperMotorA.set(Constants.coneGripperPowerOut);
+    Constants.gripperMotorB.set(Constants.coneGripperPowerOut);
+  }
+
+  public void intakeCube()
+  {
+    Constants.gripperMotorA.set(Constants.cubeGripperPowerIn);
+    Constants.gripperMotorB.set(Constants.cubeGripperPowerIn);
+  }
+
+  public void releaseCube()
+  {
+    Constants.gripperMotorA.set(Constants.cubeGripperPowerOut);
+    Constants.gripperMotorB.set(Constants.cubeGripperPowerOut);
   }
 }

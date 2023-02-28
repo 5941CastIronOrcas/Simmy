@@ -22,12 +22,12 @@ public class SwerveDriveSubsystem extends SubsystemBase {
 
     double FRTOutput, FLTOutput, BRTOutput, BLTOutput;
 
-    double LSX, LSY, RSX;
+    //double LSX, LSY, RSX;
 
     double highestSpeed = 0;
-    boolean crouchMode = true;
+    //boolean crouchMode = true;
     
-    double robotYawAngle = 0;
+    public double robotYawAngle = 0;
 
     SwerveModule frontRightModule = new SwerveModule(Constants.frontRightAngleMotor, true, Constants.frontRightDriveMotor, false, Constants.frontRightEncoder);
     SwerveModule frontLeftModule = new SwerveModule(Constants.frontLeftAngleMotor, true, Constants.frontLeftDriveMotor, true, Constants.frontLeftEncoder);
@@ -42,7 +42,7 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     @Override
     public void periodic() //Every 0.02 sec (50 FPS)
     {
-        if(Constants.controller.getLeftStickButtonPressed())
+        /*if(Constants.controller.getLeftStickButtonPressed())
         {
             crouchMode = !crouchMode;
         }
@@ -78,7 +78,7 @@ public class SwerveDriveSubsystem extends SubsystemBase {
         //SmartDashboard.putNumber("FLA", frontLeftModule.currentAngle);
         //SmartDashboard.putNumber("BRA", backRightModule.currentAngle);
         //SmartDashboard.putNumber("BLA", backLeftModule.currentAngle);
-
+        */
     }
 
     public void DriveFieldOrientedAtAngle(double LSX, double LSY, double angle)
