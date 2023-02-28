@@ -39,6 +39,10 @@ public class ExperimentalSubsystem extends SubsystemBase {
       SmartDashboard.putBoolean("Pose present", true);
       SmartDashboard.putNumber("Estimated X Position", VisionSubsystem.getEstimatedGlobalPose().get().getX());
       SmartDashboard.putNumber("Estimated Y Position", VisionSubsystem.getEstimatedGlobalPose().get().getY());
+      SmartDashboard.putNumber("FR Enc Vel", Constants.frontRightDriveMotor.getEncoder().getVelocity());
+      SmartDashboard.putNumber("Confield X", VisionSubsystem.conFieldX);
+      SmartDashboard.putNumber("Confield Y", VisionSubsystem.conFieldY);
+      SmartDashboard.putNumber("April Yaw Deg", VisionSubsystem.aprilYawAngle);
     }
     else {
       SmartDashboard.putBoolean("Pose present", false);
@@ -47,10 +51,7 @@ public class ExperimentalSubsystem extends SubsystemBase {
     }
 
     Constants.armMotorA1.set(Constants.controllerB.getLeftY());
-    SmartDashboard.putNumber("FR Enc Vel", Constants.frontRightDriveMotor.getEncoder().getVelocity());
-    SmartDashboard.putNumber("Confield X", VisionSubsystem.conFieldX);
-    SmartDashboard.putNumber("Confield Y", VisionSubsystem.conFieldY);
-    SmartDashboard.putNumber("April Yaw Deg", VisionSubsystem.aprilYawAngle);
+    
 
 
   }
