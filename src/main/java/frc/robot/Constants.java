@@ -38,6 +38,8 @@ public final class Constants
     public static double swerveModuleDMult = 0.0001;
     public static double swerveModuleMaxThrottleChange = 0.1;
     public static double swerveCrouchModeMult = 0.25;
+    public static double swerveDriveRatio = (1/8.14);
+    public static double swerveWheelCircumference = 10*Math.PI; //in cm
 
     public static double swerveAutoTurnPMult = 0.005;
     public static double swerveAutoTurnDMult = 0;

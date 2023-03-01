@@ -72,13 +72,13 @@ public class SwerveDriveSubsystem extends SubsystemBase {
         {
             Constants.primaryAccelerometer.setYaw(0);
         }
-
+        */
         //SmartDashboard.putNumber("Robot Yaw", robotYawAngle);
-        //SmartDashboard.putNumber("FRA", frontRightModule.currentAngle);
+        SmartDashboard.putNumber("FRA", frontRightModule.currentAngle);
         //SmartDashboard.putNumber("FLA", frontLeftModule.currentAngle);
         //SmartDashboard.putNumber("BRA", backRightModule.currentAngle);
         //SmartDashboard.putNumber("BLA", backLeftModule.currentAngle);
-        */
+        
     }
 
     public void DriveFieldOrientedAtAngle(double LSX, double LSY, double angle)

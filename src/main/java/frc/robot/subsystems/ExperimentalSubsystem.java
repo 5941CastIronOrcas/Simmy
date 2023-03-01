@@ -11,10 +11,13 @@ import frc.robot.Constants;
 
 public class ExperimentalSubsystem extends SubsystemBase {
 
-  public ExperimentalSubsystem() {}
-
-    double XVelocity = 0;
-    double ZVelocity = 0;
+  double XVelocity = 0;
+  double ZVelocity = 0;
+  boolean demo = false;
+  public ExperimentalSubsystem() 
+  {
+    SmartDashboard.putBoolean("Demo In", demo);
+  }
   @Override
   public void periodic() {
     // double[] q = new double[4];
@@ -35,7 +38,7 @@ public class ExperimentalSubsystem extends SubsystemBase {
     // SmartDashboard.putNumber("ZSpeed", ZVelocity);
     //SmartDashboard.putNumberArray("bias", (double[])a);
     //SmartDashboard.putNumber("FidId", VisionSubsystem.obtainTargets().getFiducialId());
-    if (VisionSubsystem.getEstimatedGlobalPose().isPresent()) {
+    /*if (VisionSubsystem.getEstimatedGlobalPose().isPresent()) {
       SmartDashboard.putBoolean("Pose present", true);
       SmartDashboard.putNumber("Estimated X Position", VisionSubsystem.getEstimatedGlobalPose().get().getX());
       SmartDashboard.putNumber("Estimated Y Position", VisionSubsystem.getEstimatedGlobalPose().get().getY());
@@ -48,12 +51,11 @@ public class ExperimentalSubsystem extends SubsystemBase {
       SmartDashboard.putBoolean("Pose present", false);
       SmartDashboard.putNumber("Estimated X Position", -1);
       SmartDashboard.putNumber("Estimated Y Position", -1);
-    }
-
+    }*/
+    demo = SmartDashboard.getBoolean("Demo In", false);
     Constants.armMotorA1.set(Constants.controllerB.getLeftY());
+    SmartDashboard.putBoolean("Demo Out", demo);
     
-
-
   }
 
   @Override

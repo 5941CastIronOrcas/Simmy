@@ -9,7 +9,11 @@ import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
+import frc.robot.RobotContainer;
+
 import java.util.Arrays;
 import java.util.Optional;
 
@@ -39,8 +43,8 @@ public class VisionSubsystem extends SubsystemBase {
 
   public static PhotonPoseEstimator photonPoseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout, PoseStrategy.LOWEST_AMBIGUITY, camera, robotToCam);
 
-  public static double conFieldX;
-  public static double conFieldY;
+  public static double conFieldX = 0;
+  public static double conFieldY = 0;
 
   public static double aprilYawAngle;
 
@@ -92,10 +96,17 @@ public class VisionSubsystem extends SubsystemBase {
     }
     else {
       // no apriltags detected
+      conFieldY += (Math.cos(RobotContainer.driveTrain.frontRightModule.currentAngle) * Constants.frontRightDriveMotor.getEncoder().getVelocity() * Constants.swerveDriveRatio * (1.0/3000.0) * Constants.swerveWheelCircumference)/100.0;
+      conFieldX += (Math.sin(RobotContainer.driveTrain.frontRightModule.currentAngle) * Constants.frontRightDriveMotor.getEncoder().getVelocity() * Constants.swerveDriveRatio * (1.0/3000.0) * Constants.swerveWheelCircumference)/100.0;
+      SmartDashboard.putNumber("FRM RPM", Constants.frontRightDriveMotor.getEncoder().getVelocity());
+      // = RobotContainer.driveTrain.frontRightModule.currentAngle;
     }
     if (getEstimatedGlobalPose().isPresent()) {
       estimatedGlobalPoseOld = getEstimatedGlobalPose().get();
     }
+    SmartDashboard.putBoolean("isPresent", getEstimatedGlobalPose().isPresent());
+    SmartDashboard.putNumber("conField Y", conFieldY);
+    SmartDashboard.putNumber("conField X", conFieldX);
   }
 
 }
