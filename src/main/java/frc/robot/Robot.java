@@ -5,6 +5,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
@@ -19,7 +20,10 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
   boolean crouchMode = true;
+  boolean preciseMode = true;
   double LSX, LSY, RSX;
+  double LSYB, RSYB;
+  double timeSinceStartAtAutoStart = 0;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -58,6 +62,7 @@ public class Robot extends TimedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
+    timeSinceStartAtAutoStart = Timer.getFPGATimestamp();
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     // schedule the autonomous command (example)
@@ -68,7 +73,17 @@ public class Robot extends TimedRobot {
 
   /** This function is called periodically during autonomous. */
   @Override
-  public void autonomousPeriodic() {}
+  public void autonomousPeriodic() 
+  {
+    if(isAutoTimeBetween(0, 1))
+    {
+
+    }
+    else if(isAutoTimeBetween(1, 5))
+    {
+      
+    }
+  }
 
   @Override
   public void teleopInit() {
@@ -86,35 +101,51 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() 
   {
     if(Constants.controller.getLeftStickButtonPressed())
-        {
-          crouchMode = !crouchMode;
-        }
-        
-      LSX = (crouchMode?Constants.swerveCrouchModeMult:1)*Functions.Exponential(Functions.DeadZone(Constants.controller.getLeftX(), Constants.controllerDeadZone));
-      LSY = (crouchMode?Constants.swerveCrouchModeMult:1)*Functions.Exponential(Functions.DeadZone(-Constants.controller.getLeftY(), Constants.controllerDeadZone));
-      RSX = Constants.turnMultiplier * (crouchMode?Constants.swerveCrouchModeMult:1)*Functions.Exponential(Functions.DeadZone(Constants.controller.getRightX(), Constants.controllerDeadZone));
+    {
+      crouchMode = !crouchMode;
+    }
+    if(Constants.controllerB.getBButtonPressed())
+    {
+      preciseMode = !preciseMode;
+    }
       
-      RobotContainer.driveTrain.robotYawAngle = Functions.DeltaAngleDegrees(0, -Constants.primaryAccelerometer.getYaw());
-      if(Constants.controller.getLeftBumper())
-      {
-        if(Constants.controller.getPOV() >= 0)
-          {
-            RobotContainer.driveTrain.DriveFieldOrientedAtAngle(LSX, LSY, Constants.controller.getPOV());
-          }
-          else
-          {
-            RobotContainer.driveTrain.DriveFieldOriented(LSX, LSY, RSX);
-          }
-      }
-      else
-      {
-        //Kill all motors
-        Functions.KillAll();
-      }
-      if(Constants.controller.getRightBumper())
-      {
-        Constants.primaryAccelerometer.setYaw(0);
-      }
+    LSX = (crouchMode?Constants.swerveCrouchModeMult:1)*Functions.Exponential(Functions.DeadZone(Constants.controller.getLeftX(), Constants.controllerDeadZone));
+    LSY = (crouchMode?Constants.swerveCrouchModeMult:1)*Functions.Exponential(Functions.DeadZone(-Constants.controller.getLeftY(), Constants.controllerDeadZone));
+    RSX = Constants.turnMultiplier * (crouchMode?Constants.swerveCrouchModeMult:1)*Functions.Exponential(Functions.DeadZone(Constants.controller.getRightX(), Constants.controllerDeadZone));
+    
+    LSYB = (preciseMode?Constants.armPreciseModeMult:1)*Functions.Exponential(Functions.DeadZone(Constants.controllerB.getLeftY(), Constants.controllerDeadZone));
+    RSYB = (preciseMode?Constants.armPreciseModeMult:1)*Functions.Exponential(Functions.DeadZone(Constants.controllerB.getRightY(), Constants.controllerDeadZone));
+
+    RobotContainer.driveTrain.robotYawAngle = Functions.DeltaAngleDegrees(0, -Constants.primaryAccelerometer.getYaw());
+    if(Constants.controller.getLeftBumper())
+    {
+      if(Constants.controller.getPOV() >= 0)
+        {
+          RobotContainer.driveTrain.DriveFieldOrientedAtAngle(LSX, LSY, Constants.controller.getPOV());
+        }
+        else
+        {
+          RobotContainer.driveTrain.DriveFieldOriented(LSX, LSY, RSX);
+        }
+    }
+    else
+    {
+      //Kill all motors
+      Functions.KillAllSwerve();
+    }
+
+    if(Constants.controllerB.getLeftBumper()){
+      //RobotContainer.armSystem.updateTarget(RSYB, LSYB);
+      //RobotContainer.armSystem.moveArmToTarget();
+      RobotContainer.armSystem.moveArm(LSYB, RSYB);
+    }else{
+      Functions.KillAllArm();
+    }
+
+    if(Constants.controller.getRightBumper())
+    {
+      Constants.primaryAccelerometer.setYaw(0);
+    }
   }
 
   @Override
@@ -134,4 +165,13 @@ public class Robot extends TimedRobot {
   /** This function is called periodically whilst in simulation. */
   @Override
   public void simulationPeriodic() {}
+
+  public boolean isAutoTimeBetween(double time1, double time2)
+  {
+    if(time1 < Timer.getFPGATimestamp() - timeSinceStartAtAutoStart && Timer.getFPGATimestamp()-timeSinceStartAtAutoStart < time2)
+    {
+      return true;
+    }
+    return false;
+  }
 }

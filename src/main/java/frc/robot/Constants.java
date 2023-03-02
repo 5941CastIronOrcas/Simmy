@@ -85,6 +85,12 @@ public final class Constants
     public static double armOriginHorizontalOffset = -19;
     public static double armSegmentALength = 52;
     public static double armSegmentBLength = 52;
+    public static double armGearRatio1 = (1/250);
+    public static double armGearRatio2 = (1/50);
+    public static double armSegment1PMult = 0;
+    public static double armSegment2PMult = 0;
+    public static double armPreciseModeMult = 0.33;
+    public static double armSpeedMult = 0.1;
 
     public static CANSparkMax armMotor1 = new CANSparkMax(13, MotorType.kBrushless);
     public static CANSparkMax armMotor2 = new CANSparkMax(14, MotorType.kBrushless);

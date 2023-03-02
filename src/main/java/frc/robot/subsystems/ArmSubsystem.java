@@ -29,13 +29,15 @@ public class ArmSubsystem extends SubsystemBase {
   
   public double targetX; //position of target, in cm
   public double targetY; 
-  public double targetDistance; 
-  public double targetAngle;
+  public double targetDistance; //distance of target from mount
+  public double targetAngle; //angle of target from mount
 
   public ArmSubsystem() {}
 
   @Override
   public void periodic() {
+    raiseAngle = Constants.armMotor1.getEncoder().getPosition() * 360 * Constants.armGearRatio1;
+    bendAngle = (Constants.armMotor2.getEncoder().getPosition() * 360 * Constants.armGearRatio2) + 180; //if it doesn't work check the 180
     // This method will be called once per scheduler run
   }
 
@@ -89,10 +91,24 @@ public class ArmSubsystem extends SubsystemBase {
     return new double[]{(targetAngle + Math.acos(((segment1Length*segment1Length) - (segment2Length*segment2Length) + (targetDistance*targetDistance))/(2 * segment1Length * targetDistance)) * (180/Math.PI)), (Math.acos(((segment1Length*segment1Length) + (segment2Length*segment2Length) - (targetDistance*targetDistance))/(2 * segment1Length * segment2Length)) * (180/Math.PI))};
   }
 
+  public void resetArmAngles(){
+    Constants.armMotor1.getEncoder().setPosition(0);
+    Constants.armMotor2.getEncoder().setPosition(0);
+  }
+
   public void moveArm(double S1, double S2)
   {
     Constants.armMotor1.set(S1);
     Constants.armMotor2.set(S2);
   }
-  
+
+  public void moveArmToTarget(){
+    moveArm(Constants.armSegment1PMult * (positionToAngle(targetX, targetY)[0]-raiseAngle), Constants.armSegment2PMult * (positionToAngle(targetX, targetY)[1]-bendAngle));
+  }
+
+  public void updateTarget(double x, double y){
+    targetX += x * Constants.armSpeedMult;
+    targetY += y * Constants.armSpeedMult;
+    clampTargets();
+  }
 }
