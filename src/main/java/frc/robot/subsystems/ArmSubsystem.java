@@ -88,5 +88,11 @@ public class ArmSubsystem extends SubsystemBase {
     //returns raise angle, bend angle
     return new double[]{(targetAngle + Math.acos(((segment1Length*segment1Length) - (segment2Length*segment2Length) + (targetDistance*targetDistance))/(2 * segment1Length * targetDistance)) * (180/Math.PI)), (Math.acos(((segment1Length*segment1Length) + (segment2Length*segment2Length) - (targetDistance*targetDistance))/(2 * segment1Length * segment2Length)) * (180/Math.PI))};
   }
+
+  public void moveArm(double S1, double S2)
+  {
+    Constants.armMotor1.set(S1);
+    Constants.armMotor2.set(S2);
+  }
   
 }

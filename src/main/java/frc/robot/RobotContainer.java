@@ -7,6 +7,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.ExperimentalSubsystem;
 //import frc.robot.subsystems.PneumaticsSubsystem;
@@ -27,6 +28,8 @@ public class RobotContainer {
   public static final SwerveDriveSubsystem driveTrain = new SwerveDriveSubsystem();
 
   private final ExperimentalSubsystem experimental = new ExperimentalSubsystem();
+
+  public static ArmSubsystem armSystem = new ArmSubsystem();
 
   //private final PneumaticsSubsystem pneumaticsStuff = new PneumaticsSubsystem();
 

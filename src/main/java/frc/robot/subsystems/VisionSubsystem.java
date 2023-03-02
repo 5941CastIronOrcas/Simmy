@@ -48,7 +48,7 @@ public class VisionSubsystem extends SubsystemBase {
 
   public static double aprilYawAngle;
 
-  public static Pose2d estimatedGlobalPoseOld;
+  public static Pose2d estimatedGlobalPoseOld = new Pose2d();
 
   public VisionSubsystem() {}
   
@@ -70,25 +70,31 @@ public class VisionSubsystem extends SubsystemBase {
     }
   }
 
-  public static Optional<Pose2d> getEstimatedGlobalPose() {
+  public static Pose2d getEstimatedGlobalPose() {
     //var emptyTarget = new PhotonTrackedTarget();
-
     if (!camCheck()) {
-      return Optional.empty();
+      return estimatedGlobalPoseOld;
     }
-    else {
-    return Optional.of(photonPoseEstimator.update().get().estimatedPose.toPose2d());
+    if (photonPoseEstimator.update().isPresent()) {
+      return photonPoseEstimator.update().orElse(null).estimatedPose.toPose2d();
     }
+    return estimatedGlobalPoseOld;
   }
 
   @Override
   public void periodic() {
-    if (getEstimatedGlobalPose().isPresent()) {
-      if (estimatedGlobalPoseOld != getEstimatedGlobalPose().get()) {
+    Pose2d globalPose = estimatedGlobalPoseOld;
+    if (camCheck()) {
+      if (getEstimatedGlobalPose() != null) {
+        globalPose = getEstimatedGlobalPose();
+      }
+    }
+    if (camCheck()) {
+      if (estimatedGlobalPoseOld != globalPose) {
         // apriltags present and information updated
-        conFieldX = getEstimatedGlobalPose().get().getX();
-        conFieldY = getEstimatedGlobalPose().get().getY();
-        aprilYawAngle = getEstimatedGlobalPose().get().getRotation().getDegrees();
+        conFieldX = globalPose.getX();
+        conFieldY = globalPose.getY();
+        aprilYawAngle = globalPose.getRotation().getDegrees();
       }
       else {
       // apriltags present, information not updated
@@ -96,15 +102,15 @@ public class VisionSubsystem extends SubsystemBase {
     }
     else {
       // no apriltags detected
-      conFieldY += (Math.cos(RobotContainer.driveTrain.frontRightModule.currentAngle) * Constants.frontRightDriveMotor.getEncoder().getVelocity() * Constants.swerveDriveRatio * (1.0/3000.0) * Constants.swerveWheelCircumference)/100.0;
-      conFieldX += (Math.sin(RobotContainer.driveTrain.frontRightModule.currentAngle) * Constants.frontRightDriveMotor.getEncoder().getVelocity() * Constants.swerveDriveRatio * (1.0/3000.0) * Constants.swerveWheelCircumference)/100.0;
+      conFieldY += ((Math.cos(RobotContainer.driveTrain.frontRightModule.currentAngle) * Constants.frontRightDriveMotor.getEncoder().getVelocity() * Constants.swerveDriveRatio * (1.0/3000.0) * Constants.swerveWheelCircumference) + (Math.cos(RobotContainer.driveTrain.frontLeftModule.currentAngle) * Constants.frontLeftDriveMotor.getEncoder().getVelocity() * Constants.swerveDriveRatio * (1.0/3000.0) * Constants.swerveWheelCircumference) + (Math.cos(RobotContainer.driveTrain.backRightModule.currentAngle) * Constants.backRightDriveMotor.getEncoder().getVelocity() * Constants.swerveDriveRatio * (1.0/3000.0) * Constants.swerveWheelCircumference) + (Math.cos(RobotContainer.driveTrain.backLeftModule.currentAngle) * Constants.backLeftDriveMotor.getEncoder().getVelocity() * Constants.swerveDriveRatio * (1.0/3000.0) * Constants.swerveWheelCircumference))/400.0;
+      conFieldX += ((Math.sin(RobotContainer.driveTrain.frontRightModule.currentAngle) * Constants.frontRightDriveMotor.getEncoder().getVelocity() * Constants.swerveDriveRatio * (1.0/3000.0) * Constants.swerveWheelCircumference) + (Math.sin(RobotContainer.driveTrain.frontLeftModule.currentAngle) * Constants.frontLeftDriveMotor.getEncoder().getVelocity() * Constants.swerveDriveRatio * (1.0/3000.0) * Constants.swerveWheelCircumference) + (Math.sin(RobotContainer.driveTrain.backRightModule.currentAngle) * Constants.backRightDriveMotor.getEncoder().getVelocity() * Constants.swerveDriveRatio * (1.0/3000.0) * Constants.swerveWheelCircumference) + (Math.sin(RobotContainer.driveTrain.backLeftModule.currentAngle) * Constants.backLeftDriveMotor.getEncoder().getVelocity() * Constants.swerveDriveRatio * (1.0/3000.0) * Constants.swerveWheelCircumference))/100.0;
       SmartDashboard.putNumber("FRM RPM", Constants.frontRightDriveMotor.getEncoder().getVelocity());
       // = RobotContainer.driveTrain.frontRightModule.currentAngle;
     }
-    if (getEstimatedGlobalPose().isPresent()) {
-      estimatedGlobalPoseOld = getEstimatedGlobalPose().get();
+    if (camCheck() && getEstimatedGlobalPose() != null) {
+      estimatedGlobalPoseOld = getEstimatedGlobalPose();
     }
-    SmartDashboard.putBoolean("isPresent", getEstimatedGlobalPose().isPresent());
+    SmartDashboard.putBoolean("isPresent", camCheck());
     SmartDashboard.putNumber("conField Y", conFieldY);
     SmartDashboard.putNumber("conField X", conFieldX);
   }

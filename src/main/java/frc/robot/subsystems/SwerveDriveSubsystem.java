@@ -80,11 +80,16 @@ public class SwerveDriveSubsystem extends SubsystemBase {
         //SmartDashboard.putNumber("BLA", backLeftModule.currentAngle);
         
     }
+    public void DriveTo(double x, double y, double angle)
+    {
+        DriveFieldOrientedAtAngle(Constants.swerveDriveToPMult*(x-VisionSubsystem.conFieldX), Constants.swerveDriveToPMult*(y-VisionSubsystem.conFieldY), angle);
+    }
 
     public void DriveFieldOrientedAtAngle(double LSX, double LSY, double angle)
     {
         DriveFieldOriented(LSX, LSY, -Constants.swerveAutoTurnPMult*Functions.DeltaAngleDegrees(angle, robotYawAngle));
     }
+
     public void DriveFieldOriented(double LSX, double LSY, double RSX)
     {
         Drive(LSX*Math.cos(Math.toRadians(-robotYawAngle))+LSY*Math.sin(Math.toRadians(-robotYawAngle)), LSY*Math.cos(Math.toRadians(-robotYawAngle))+LSX*Math.sin(Math.toRadians(robotYawAngle)), RSX);

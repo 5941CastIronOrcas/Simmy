@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
 
 
 public class ExperimentalSubsystem extends SubsystemBase {
@@ -53,7 +54,7 @@ public class ExperimentalSubsystem extends SubsystemBase {
       SmartDashboard.putNumber("Estimated Y Position", -1);
     }*/
     demo = SmartDashboard.getBoolean("Demo In", false);
-    Constants.armMotorA1.set(Constants.controllerB.getLeftY());
+    RobotContainer.armSystem.moveArm(Constants.controllerB.getLeftY(), Constants.controllerB.getRightY());
     SmartDashboard.putBoolean("Demo Out", demo);
     
   }

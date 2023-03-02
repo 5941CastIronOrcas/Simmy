@@ -40,6 +40,8 @@ public final class Constants
     public static double swerveCrouchModeMult = 0.25;
     public static double swerveDriveRatio = (1/8.14);
     public static double swerveWheelCircumference = 10*Math.PI; //in cm
+    public static double swerveDriveToPMult = 0;
+    public static double swerveDriveToDMult = 0;
 
     public static double swerveAutoTurnPMult = 0.005;
     public static double swerveAutoTurnDMult = 0;
@@ -58,8 +60,8 @@ public final class Constants
     public static CANSparkMax backRightDriveMotor = new CANSparkMax(8, MotorType.kBrushless);
     public static CANSparkMax backLeftDriveMotor = new CANSparkMax(9, MotorType.kBrushless);
 
-    public static CANSparkMax gripperMotorA = new CANSparkMax(14, MotorType.kBrushless);
-    public static CANSparkMax gripperMotorB = new CANSparkMax(15, MotorType.kBrushless);
+    public static CANSparkMax gripperMotorA = new CANSparkMax(10, MotorType.kBrushless);
+    public static CANSparkMax gripperMotorB = new CANSparkMax(6, MotorType.kBrushless);
 
     public static double coneGripperPowerIn = 1;
     public static double cubeGripperPowerIn = 0.5;
@@ -84,6 +86,7 @@ public final class Constants
     public static double armSegmentALength = 52;
     public static double armSegmentBLength = 52;
 
-    public static CANSparkMax armMotorA1 = new CANSparkMax(13, MotorType.kBrushless);
+    public static CANSparkMax armMotor1 = new CANSparkMax(13, MotorType.kBrushless);
+    public static CANSparkMax armMotor2 = new CANSparkMax(14, MotorType.kBrushless);
 
 }
