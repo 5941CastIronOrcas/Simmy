@@ -75,13 +75,23 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() 
   {
-    if(isAutoTimeBetween(0, 1))
+    if(isAutoTimeBetween(0, 1)) //first 1 second
     {
-
+      Functions.KillAllSwerve();
+      Functions.KillAllArm();
     }
-    else if(isAutoTimeBetween(1, 5))
+    else if(isAutoTimeBetween(1, 4)) //next 3 seconds
     {
-      
+      RobotContainer.driveTrain.Drive(0, 0.25, 0);
+    }
+    else if(isAutoTimeBetween(4, 7)) //next 3 seconds
+    {
+      RobotContainer.driveTrain.Drive(0, -0.25, 0);
+    }
+    else
+    {
+      Functions.KillAllArm();
+      Functions.KillAllSwerve();
     }
   }
 

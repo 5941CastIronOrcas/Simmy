@@ -103,7 +103,13 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public void moveArmToTarget(){
-    moveArm(Constants.armSegment1PMult * (positionToAngle(targetX, targetY)[0]-raiseAngle), Constants.armSegment2PMult * (positionToAngle(targetX, targetY)[1]-bendAngle));
+    //moveArm(Constants.armSegment1PMult * (positionToAngle(targetX, targetY)[0]-raiseAngle), Constants.armSegment2PMult * (positionToAngle(targetX, targetY)[1]-bendAngle));
+    moveArmToAngle(positionToAngle(targetX, targetY)[0], positionToAngle(targetX, targetY)[1]);
+  }
+  
+  public void moveArmToAngle(double A1, double A2)
+  {
+    moveArm(Constants.armSegment1PMult * (A1-raiseAngle), Constants.armSegment2PMult * (A1-bendAngle));
   }
 
   public void updateTarget(double x, double y){
