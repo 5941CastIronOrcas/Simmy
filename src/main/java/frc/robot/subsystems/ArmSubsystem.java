@@ -73,7 +73,7 @@ public class ArmSubsystem extends SubsystemBase {
     }
     */
     targetY = Math.max(targetY, Constants.clawMinHeight);
-     //set minimum height later
+    targetX = Math.min(targetX, 93.5); //adjust later if not working
   }
 
   //converts angle of arm segments 1 & 2 to the current position of the end of the arm.
