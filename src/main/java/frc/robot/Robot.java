@@ -85,9 +85,9 @@ public class Robot extends TimedRobot {
     {
       RobotContainer.driveTrain.Drive(0, 0.25, 0);
     }
-    else if(isAutoTimeBetween(4, 7)) //next 3 seconds
+    else if(isAutoTimeBetween(4, 14)) //next 3 seconds
     {
-      RobotContainer.driveTrain.Drive(0, -0.25, 0);
+      RobotContainer.driveTrain.AutoBalance();
     }
     else
     {
