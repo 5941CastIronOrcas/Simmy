@@ -28,8 +28,16 @@ public class SimmyGripperSubsystem extends SubsystemBase {
 
   public void intakeCone()
   {
-    Constants.gripperMotorA.set(Constants.coneGripperPowerIn);
-    Constants.gripperMotorB.set(Constants.coneGripperPowerIn);
+    if(Constants.gripperMotorA.getOutputCurrent() < Constants.coneAmpLimit){
+      Constants.gripperMotorA.set(Constants.coneGripperPowerIn);
+    }else{
+      Constants.gripperMotorA.set(0);
+    }
+    if(Constants.gripperMotorB.getOutputCurrent() < Constants.coneAmpLimit){
+      Constants.gripperMotorB.set(Constants.coneGripperPowerIn);
+    }else{
+      Constants.gripperMotorB.set(0);
+    }
   }
 
   public void releaseCone()
@@ -40,8 +48,16 @@ public class SimmyGripperSubsystem extends SubsystemBase {
 
   public void intakeCube()
   {
-    Constants.gripperMotorA.set(Constants.cubeGripperPowerIn);
-    Constants.gripperMotorB.set(Constants.cubeGripperPowerIn);
+    if(Constants.gripperMotorA.getOutputCurrent() < Constants.cubeAmpLimit){
+      Constants.gripperMotorA.set(Constants.cubeGripperPowerIn);
+    }else{
+      Constants.gripperMotorA.set(0);
+    }
+    if(Constants.gripperMotorB.getOutputCurrent() < Constants.cubeAmpLimit){
+      Constants.gripperMotorB.set(Constants.cubeGripperPowerIn);
+    }else{
+      Constants.gripperMotorB.set(0);
+    }
   }
 
   public void releaseCube()

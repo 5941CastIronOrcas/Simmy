@@ -64,13 +64,16 @@ public class ArmSubsystem extends SubsystemBase {
     */
     if((targetY - mountY) * (targetY - mountY) + (targetX - mountX) * (targetX - mountX) > (segment1Length + segment2Length) * (segment1Length + segment2Length)){
       double angle = Math.atan2(targetY - mountY, targetX - mountX);
-      targetX = Math.cos(angle) * (segment1Length + segment2Length) + mountX;
-      targetY = Math.sin(angle) * (segment1Length + segment2Length) + mountY;
+      targetX = (Math.cos(angle) * (segment1Length + segment2Length) * 0.999) + mountX;
+      targetY = (Math.sin(angle) * (segment1Length + segment2Length) * 0.999) + mountY;
     }
+    /*
     if(targetY > segment1Length - segment2Length + mountY){
       targetX = Math.max(targetX, Math.cos(Math.asin((targetY - segment1Length - mountY) / segment2Length)) * segment2Length + mountX);
     }
-    targetY = Math.max(targetY, 0); //set minimum height later
+    */
+    targetY = Math.max(targetY, Constants.clawMinHeight);
+     //set minimum height later
   }
 
   //converts angle of arm segments 1 & 2 to the current position of the end of the arm.

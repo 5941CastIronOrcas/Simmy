@@ -63,10 +63,12 @@ public final class Constants
     public static CANSparkMax gripperMotorA = new CANSparkMax(10, MotorType.kBrushless);
     public static CANSparkMax gripperMotorB = new CANSparkMax(6, MotorType.kBrushless);
 
-    public static double coneGripperPowerIn = 1;
-    public static double cubeGripperPowerIn = 0.5;
-    public static double cubeGripperPowerOut = 0.3;
-    public static double coneGripperPowerOut = 0.6;
+    public static double coneGripperPowerIn = 0.5;
+    public static double cubeGripperPowerIn = 0.25;
+    public static double cubeGripperPowerOut = 0.15;
+    public static double coneGripperPowerOut = 0.3;
+    public static double coneAmpLimit = 20;
+    public static double cubeAmpLimit = 20;
 
     public static WPI_CANCoder  frontRightEncoder = new WPI_CANCoder(15);
     public static WPI_CANCoder  frontLeftEncoder = new WPI_CANCoder(16);
@@ -83,6 +85,7 @@ public final class Constants
     
     public static double armOriginVerticalOffset = 90;
     public static double armOriginHorizontalOffset = -19;
+    public static double clawMinHeight = 0;
     public static double armSegmentALength = 52;
     public static double armSegmentBLength = 52;
     public static double armGearRatio1 = (1.0/175.0);
