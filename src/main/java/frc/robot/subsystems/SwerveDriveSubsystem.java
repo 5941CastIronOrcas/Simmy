@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import javax.lang.model.util.ElementScanner14;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -27,7 +29,7 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     double highestSpeed = 0;
     //boolean crouchMode = true;
     
-    public double robotYawAngle = 0;
+    public double robotYawAngle = 0, robotPitchAngle = 0;
 
     SwerveModule frontRightModule = new SwerveModule(Constants.frontRightAngleMotor, true, Constants.frontRightDriveMotor, false, Constants.frontRightEncoder);
     SwerveModule frontLeftModule = new SwerveModule(Constants.frontLeftAngleMotor, true, Constants.frontLeftDriveMotor, true, Constants.frontLeftEncoder);
@@ -42,37 +44,8 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     @Override
     public void periodic() //Every 0.02 sec (50 FPS)
     {
-        /*if(Constants.controller.getLeftStickButtonPressed())
-        {
-            crouchMode = !crouchMode;
-        }
-        
-        LSX = (crouchMode?Constants.swerveCrouchModeMult:1)*Functions.Exponential(Functions.DeadZone(Constants.controller.getLeftX(), Constants.controllerDeadZone));
-        LSY = (crouchMode?Constants.swerveCrouchModeMult:1)*Functions.Exponential(Functions.DeadZone(-Constants.controller.getLeftY(), Constants.controllerDeadZone));
-        RSX = Constants.turnMultiplier * (crouchMode?Constants.swerveCrouchModeMult:1)*Functions.Exponential(Functions.DeadZone(Constants.controller.getRightX(), Constants.controllerDeadZone));
-        
         robotYawAngle = Functions.DeltaAngleDegrees(0, -Constants.primaryAccelerometer.getYaw());
-        if(Constants.controller.getLeftBumper())
-        {
-            if(Constants.controller.getPOV() >= 0)
-            {
-                DriveFieldOrientedAtAngle(LSX, LSY, Constants.controller.getPOV());
-            }
-            else
-            {
-                DriveFieldOriented(LSX, LSY, RSX);
-            }
-        }
-        else
-        {
-            //Kill all motors
-            Functions.KillAll();
-        }
-        if(Constants.controller.getRightBumper())
-        {
-            Constants.primaryAccelerometer.setYaw(0);
-        }
-        */
+        robotPitchAngle = Constants.primaryAccelerometer.getRoll();
         SmartDashboard.putNumber("Robot Yaw", robotYawAngle);
         SmartDashboard.putNumber("FRA", frontRightModule.currentAngle);
         SmartDashboard.putNumber("FLA", frontLeftModule.currentAngle);
@@ -80,6 +53,7 @@ public class SwerveDriveSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("BLA", backLeftModule.currentAngle);
         
     }
+
     public void DriveTo(double x, double y, double angle)
     {
         DriveFieldOrientedAtAngle(Constants.swerveDriveToPMult*(x-VisionSubsystem.conFieldX), Constants.swerveDriveToPMult*(y-VisionSubsystem.conFieldY), angle);
@@ -138,6 +112,22 @@ public class SwerveDriveSubsystem extends SubsystemBase {
             frontLeftModule.Drive(FLA, FLTOutput);
             backRightModule.Drive(BRA, BRTOutput);
             backLeftModule.Drive(BLA, BLTOutput);
+    }
+
+    public void AutoBalance()
+    {
+        if(robotPitchAngle > 5)
+        {
+            Drive(0,0.25,0);
+        }
+        else if(robotPitchAngle < -5)
+        {
+            Drive(0,-0.25,0);
+        }
+        else
+        {
+            Drive(0,0,0);
+        }
     }
     
 }
