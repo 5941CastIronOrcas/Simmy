@@ -86,6 +86,7 @@ public final class Constants
     public static double armOriginVerticalOffset = 90;
     public static double armOriginHorizontalOffset = -19;
     public static double clawMinHeight = 0;
+    public static double clawMaxHeight = 185; //bit low on the safe side, as the claw adds height
     public static double armSegmentALength = 52;
     public static double armSegmentBLength = 52;
     public static double armGearRatio1 = (1.0/175.0);

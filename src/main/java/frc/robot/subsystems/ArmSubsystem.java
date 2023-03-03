@@ -72,8 +72,8 @@ public class ArmSubsystem extends SubsystemBase {
       targetX = Math.max(targetX, Math.cos(Math.asin((targetY - segment1Length - mountY) / segment2Length)) * segment2Length + mountX);
     }
     */
-    targetY = Math.max(targetY, Constants.clawMinHeight);
-    targetX = Math.min(targetX, 93.5); //adjust later if not working
+    targetY = Functions.Clamp(targetY, Constants.clawMinHeight, Constants.clawMaxHeight); //clamp to keep from hiting the floor, and ceiling
+    targetX = Math.min(targetX, 93.5); //adjust later if not working, clamp to limit extension range
   }
 
   //converts angle of arm segments 1 & 2 to the current position of the end of the arm.
