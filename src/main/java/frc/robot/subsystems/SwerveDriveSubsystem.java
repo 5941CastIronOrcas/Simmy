@@ -46,11 +46,11 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     {
         robotYawAngle = Functions.DeltaAngleDegrees(0, -Constants.primaryAccelerometer.getYaw());
         robotPitchAngle = Constants.primaryAccelerometer.getRoll();
-        SmartDashboard.putNumber("Robot Yaw", robotYawAngle);
-        SmartDashboard.putNumber("FRA", frontRightModule.currentAngle);
-        SmartDashboard.putNumber("FLA", frontLeftModule.currentAngle);
-        SmartDashboard.putNumber("BRA", backRightModule.currentAngle);
-        SmartDashboard.putNumber("BLA", backLeftModule.currentAngle);
+        //SmartDashboard.putNumber("Robot Yaw", robotYawAngle);
+        //SmartDashboard.putNumber("FRA", frontRightModule.currentAngle);
+        //SmartDashboard.putNumber("FLA", frontLeftModule.currentAngle);
+        //SmartDashboard.putNumber("BRA", backRightModule.currentAngle);
+        //SmartDashboard.putNumber("BLA", backLeftModule.currentAngle);
         
     }
 

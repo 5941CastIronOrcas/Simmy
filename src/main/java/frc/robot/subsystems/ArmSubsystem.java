@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Functions;
@@ -39,6 +40,8 @@ public class ArmSubsystem extends SubsystemBase {
   public void periodic() {
     raiseAngle = Constants.armMotor1.getEncoder().getPosition() * 360 * Constants.armGearRatio1;
     bendAngle = (Constants.armMotor2.getEncoder().getPosition() * 360 * Constants.armGearRatio2) + 180; //if it doesn't work check the 180
+    SmartDashboard.putNumber("S1 Angle", raiseAngle);
+    SmartDashboard.putNumber("S2 Angle", bendAngle);
     // This method will be called once per scheduler run
   }
 
