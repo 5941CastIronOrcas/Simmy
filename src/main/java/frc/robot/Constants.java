@@ -85,8 +85,8 @@ public final class Constants
     public static double armOriginHorizontalOffset = -19;
     public static double armSegmentALength = 52;
     public static double armSegmentBLength = 52;
-    public static double armGearRatio1 = (1/250);
-    public static double armGearRatio2 = (1/50);
+    public static double armGearRatio1 = (1/175);
+    public static double armGearRatio2 = (1/43);
     public static double armSegment1PMult = 0;
     public static double armSegment2PMult = 0;
     public static double armPreciseModeMult = 0.33;

@@ -57,6 +57,7 @@ public class ExperimentalSubsystem extends SubsystemBase {
     RobotContainer.armSystem.moveArm(Constants.controllerB.getLeftY(), Constants.controllerB.getRightY());
     SmartDashboard.putBoolean("Demo Out", demo);
     SmartDashboard.putNumber("FRM Position", Constants.frontRightDriveMotor.getEncoder().getPosition());
+    SmartDashboard.putNumber("Pitch Angle", Constants.primaryAccelerometer.getRoll());
     
   }
 

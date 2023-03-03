@@ -10,6 +10,7 @@ import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.ExperimentalSubsystem;
+import frc.robot.subsystems.SimmyGripperSubsystem;
 //import frc.robot.subsystems.PneumaticsSubsystem;
 import frc.robot.subsystems.SwerveDriveSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
@@ -29,8 +30,9 @@ public class RobotContainer {
 
   private final ExperimentalSubsystem experimental = new ExperimentalSubsystem();
 
-  public static ArmSubsystem armSystem = new ArmSubsystem();
+  public static final ArmSubsystem armSystem = new ArmSubsystem();
 
+  public static final SimmyGripperSubsystem simmyGripperSystem = new SimmyGripperSubsystem();
   //private final PneumaticsSubsystem pneumaticsStuff = new PneumaticsSubsystem();
 
   

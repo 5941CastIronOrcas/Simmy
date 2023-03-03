@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Functions;
 
 
 public class ArmSubsystem extends SubsystemBase {
@@ -109,7 +110,7 @@ public class ArmSubsystem extends SubsystemBase {
   
   public void moveArmToAngle(double A1, double A2)
   {
-    moveArm(Constants.armSegment1PMult * (A1-raiseAngle), Constants.armSegment2PMult * (A1-bendAngle));
+    moveArm(Constants.armSegment1PMult * (Functions.DeltaAngleDegrees(A1, raiseAngle)), Constants.armSegment2PMult * (Functions.DeltaAngleDegrees(A1, raiseAngle)));
   }
 
   public void updateTarget(double x, double y){

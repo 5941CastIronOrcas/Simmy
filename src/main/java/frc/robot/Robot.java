@@ -148,6 +148,26 @@ public class Robot extends TimedRobot {
       //RobotContainer.armSystem.updateTarget(RSYB, LSYB);
       //RobotContainer.armSystem.moveArmToTarget();
       RobotContainer.armSystem.moveArm(LSYB, RSYB);
+      if (Constants.controllerB.getAButton())
+      {
+        RobotContainer.simmyGripperSystem.intakeCube();
+      }
+      else if (Constants.controllerB.getBButton())
+      {
+        RobotContainer.simmyGripperSystem.releaseCube();
+      }
+      else if (Constants.controllerB.getXButton())
+      {
+        RobotContainer.simmyGripperSystem.intakeCone();
+      }
+      else if (Constants.controllerB.getYButton())
+      {
+        RobotContainer.simmyGripperSystem.releaseCone();
+      }
+      else 
+      {
+        RobotContainer.simmyGripperSystem.stopGripper();
+      }
     }else{
       Functions.KillAllArm();
     }
