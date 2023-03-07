@@ -55,13 +55,13 @@ public final class Constants
     public static CANSparkMax backRightAngleMotor = new CANSparkMax(4, MotorType.kBrushless);
     public static CANSparkMax backLeftAngleMotor = new CANSparkMax(5, MotorType.kBrushless);
 
-    public static CANSparkMax frontRightDriveMotor = new CANSparkMax(12, MotorType.kBrushless);
+    public static CANSparkMax frontRightDriveMotor = new CANSparkMax(30, MotorType.kBrushless);
     public static CANSparkMax frontLeftDriveMotor = new CANSparkMax(7, MotorType.kBrushless);
     public static CANSparkMax backRightDriveMotor = new CANSparkMax(8, MotorType.kBrushless);
     public static CANSparkMax backLeftDriveMotor = new CANSparkMax(9, MotorType.kBrushless);
 
-    public static CANSparkMax gripperMotorA = new CANSparkMax(10, MotorType.kBrushless);
-    public static CANSparkMax gripperMotorB = new CANSparkMax(6, MotorType.kBrushless);
+    public static CANSparkMax gripperMotorA = new CANSparkMax(10, MotorType.kBrushless); //Right
+    public static CANSparkMax gripperMotorB = new CANSparkMax(6, MotorType.kBrushless); //Left
 
     public static double coneGripperPowerIn = 0.5;
     public static double cubeGripperPowerIn = 0.25;

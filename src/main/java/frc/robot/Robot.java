@@ -21,6 +21,7 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
   boolean crouchMode = true;
+  double crouchSpeed = 1;
   boolean preciseMode = true;
   double LSX, LSY, RSX;
   double LSYB, RSYB;
@@ -80,12 +81,13 @@ public class Robot extends TimedRobot {
     {
       Functions.KillAllSwerve();
       Functions.KillAllArm();
+      Constants.primaryAccelerometer.setYaw(0);
     }
-    else if(isAutoTimeBetween(1, 4)) //next 3 seconds
+    else if(isAutoTimeBetween(1, 2)) //next 1 seconds
     {
-      RobotContainer.driveTrain.Drive(0, 0.25, 0);
+      RobotContainer.driveTrain.DriveFieldOrientedAtAngle(0,0.5,0);
     }
-    else if(isAutoTimeBetween(4, 14)) //next 3 seconds
+    else if(isAutoTimeBetween(2, 14)) //remainder
     {
       RobotContainer.driveTrain.AutoBalance();
     }
@@ -111,19 +113,24 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() 
   {
-    if(Constants.controller.getLeftStickButtonPressed())
+    /*if(Constants.controller.getLeftStickButtonPressed())
     {
       crouchMode = !crouchMode;
-    }
+    }*/
+    crouchSpeed = 1-((1-Constants.swerveCrouchModeMult) * Constants.controller.getLeftTriggerAxis());
+
     if(Constants.controllerB.getBButtonPressed())
     {
       preciseMode = !preciseMode;
     }
       
-    LSX = (crouchMode?Constants.swerveCrouchModeMult:1)*Functions.Exponential(Functions.DeadZone(Constants.controller.getLeftX(), Constants.controllerDeadZone));
-    LSY = (crouchMode?Constants.swerveCrouchModeMult:1)*Functions.Exponential(Functions.DeadZone(-Constants.controller.getLeftY(), Constants.controllerDeadZone));
-    RSX = Constants.turnMultiplier * (crouchMode?Constants.swerveCrouchModeMult:1)*Functions.Exponential(Functions.DeadZone(Constants.controller.getRightX(), Constants.controllerDeadZone));
-    
+    //LSX = (crouchMode?Constants.swerveCrouchModeMult:1)*Functions.Exponential(Functions.DeadZone(Constants.controller.getLeftX(), Constants.controllerDeadZone));
+    //LSY = (crouchMode?Constants.swerveCrouchModeMult:1)*Functions.Exponential(Functions.DeadZone(-Constants.controller.getLeftY(), Constants.controllerDeadZone));
+    //RSX = Constants.turnMultiplier * (crouchMode?Constants.swerveCrouchModeMult:1)*Functions.Exponential(Functions.DeadZone(Constants.controller.getRightX(), Constants.controllerDeadZone));
+    LSX = (crouchSpeed)*Functions.Exponential(Functions.DeadZone(Constants.controller.getLeftX(), Constants.controllerDeadZone));
+    LSY = (crouchSpeed)*Functions.Exponential(Functions.DeadZone(-Constants.controller.getLeftY(), Constants.controllerDeadZone));
+    RSX = Constants.turnMultiplier * (crouchSpeed)*Functions.Exponential(Functions.DeadZone(Constants.controller.getRightX(), Constants.controllerDeadZone));
+
     LSYB = (preciseMode?Constants.armPreciseModeMult:1)*Functions.Exponential(Functions.DeadZone(Constants.controllerB.getLeftY(), Constants.controllerDeadZone));
     RSYB = (preciseMode?Constants.armPreciseModeMult:1)*Functions.Exponential(Functions.DeadZone(Constants.controllerB.getRightY(), Constants.controllerDeadZone));
 

@@ -118,11 +118,11 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     {
         if(robotPitchAngle > 5)
         {
-            Drive(0,0.25,0);
+            Drive(0,0.0625,0);
         }
         else if(robotPitchAngle < -5)
         {
-            Drive(0,-0.25,0);
+            Drive(0,-0.0625,0);
         }
         else
         {
