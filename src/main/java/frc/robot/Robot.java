@@ -113,10 +113,6 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() 
   {
-    /*if(Constants.controller.getLeftStickButtonPressed())
-    {
-      crouchMode = !crouchMode;
-    }*/
     crouchSpeed = 1-((1-Constants.swerveCrouchModeMult) * Constants.controller.getLeftTriggerAxis());
 
     if(Constants.controllerB.getBButtonPressed())
@@ -124,9 +120,6 @@ public class Robot extends TimedRobot {
       preciseMode = !preciseMode;
     }
       
-    //LSX = (crouchMode?Constants.swerveCrouchModeMult:1)*Functions.Exponential(Functions.DeadZone(Constants.controller.getLeftX(), Constants.controllerDeadZone));
-    //LSY = (crouchMode?Constants.swerveCrouchModeMult:1)*Functions.Exponential(Functions.DeadZone(-Constants.controller.getLeftY(), Constants.controllerDeadZone));
-    //RSX = Constants.turnMultiplier * (crouchMode?Constants.swerveCrouchModeMult:1)*Functions.Exponential(Functions.DeadZone(Constants.controller.getRightX(), Constants.controllerDeadZone));
     LSX = (crouchSpeed)*Functions.Exponential(Functions.DeadZone(Constants.controller.getLeftX(), Constants.controllerDeadZone));
     LSY = (crouchSpeed)*Functions.Exponential(Functions.DeadZone(-Constants.controller.getLeftY(), Constants.controllerDeadZone));
     RSX = Constants.turnMultiplier * (crouchSpeed)*Functions.Exponential(Functions.DeadZone(Constants.controller.getRightX(), Constants.controllerDeadZone));
@@ -135,21 +128,13 @@ public class Robot extends TimedRobot {
     RSYB = (preciseMode?Constants.armPreciseModeMult:1)*Functions.Exponential(Functions.DeadZone(Constants.controllerB.getRightY(), Constants.controllerDeadZone));
 
     RobotContainer.driveTrain.robotYawAngle = Functions.DeltaAngleDegrees(0, -Constants.primaryAccelerometer.getYaw());
-    if(Constants.controller.getLeftBumper())
+    if(Constants.controller.getPOV() >= 0)
     {
-      if(Constants.controller.getPOV() >= 0)
-        {
-          RobotContainer.driveTrain.DriveFieldOrientedAtAngle(LSX, LSY, Constants.controller.getPOV());
-        }
-        else
-        {
-          RobotContainer.driveTrain.DriveFieldOriented(LSX, LSY, RSX);
-        }
+      RobotContainer.driveTrain.DriveFieldOrientedAtAngle(LSX, LSY, Constants.controller.getPOV());
     }
     else
     {
-      //Kill all motors
-      Functions.KillAllSwerve();
+      RobotContainer.driveTrain.DriveFieldOriented(LSX, LSY, RSX);
     }
 
     if(Constants.controllerB.getLeftBumper()){
