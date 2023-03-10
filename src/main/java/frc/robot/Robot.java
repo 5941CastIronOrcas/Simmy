@@ -6,6 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -163,6 +164,17 @@ public class Robot extends TimedRobot {
     if(Constants.controller.getRightBumper())
     {
       Constants.primaryAccelerometer.setYaw(0);
+    }
+
+    if(Constants.PDP.getTotalCurrent() > Constants.currentWarningLevel)
+    {
+      Constants.controller.setRumble(RumbleType.kBothRumble, 1);
+      Constants.controllerB.setRumble(RumbleType.kBothRumble, 1);
+    }
+    else
+    {
+      Constants.controller.setRumble(RumbleType.kBothRumble, 0);
+      Constants.controllerB.setRumble(RumbleType.kBothRumble, 0);
     }
   }
 

@@ -87,6 +87,7 @@ public final class Constants
     public static PneumaticsControlModule demoPCM = new PneumaticsControlModule();
 
     public static PowerDistribution PDP = new PowerDistribution(0, ModuleType.kCTRE);
+    public static double currentWarningLevel = 1;
     
     public static double armOriginVerticalOffset = 90;
     public static double armOriginHorizontalOffset = -19;
