@@ -44,6 +44,7 @@ public final class Constants
     public static double swerveDriveToDMult = 0;
 
     public static double swerveAutoTurnPMult = 0.005;
+    public static double swerveAutoTurnMaxSpeed = 0.5;
     public static double swerveAutoTurnDMult = 0;
 
     public static XboxController controller = new XboxController(0);

@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import javax.lang.model.util.ElementScanner14;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -29,7 +30,7 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     double highestSpeed = 0;
     //boolean crouchMode = true;
     
-    public double robotYawAngle = 0, robotPitchAngle = 0;
+    public double robotYawAngle = 0, robotPitchAngle = 0, robotYawFieldRelative;
 
     SwerveModule frontRightModule = new SwerveModule(Constants.frontRightAngleMotor, true, Constants.frontRightDriveMotor, false, Constants.frontRightEncoder);
     SwerveModule frontLeftModule = new SwerveModule(Constants.frontLeftAngleMotor, true, Constants.frontLeftDriveMotor, true, Constants.frontLeftEncoder);
@@ -45,6 +46,13 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     public void periodic() //Every 0.02 sec (50 FPS)
     {
         robotYawAngle = Functions.DeltaAngleDegrees(0, -Constants.primaryAccelerometer.getYaw());
+        if(DriverStation.getAlliance() == DriverStation.Alliance.Red)
+        {robotYawFieldRelative = Functions.DeltaAngleDegrees(0, robotYawAngle - 90);}
+        else if(DriverStation.getAlliance() == DriverStation.Alliance.Blue)
+        {robotYawFieldRelative = Functions.DeltaAngleDegrees(0, robotYawAngle + 90);}
+        else
+        {robotYawFieldRelative = robotYawAngle;}
+        
         robotPitchAngle = Constants.primaryAccelerometer.getRoll();
         //SmartDashboard.putNumber("Robot Yaw", robotYawAngle);
         //SmartDashboard.putNumber("FRA", frontRightModule.currentAngle);
@@ -61,7 +69,7 @@ public class SwerveDriveSubsystem extends SubsystemBase {
 
     public void DriveFieldOrientedAtAngle(double LSX, double LSY, double angle)
     {
-        DriveFieldOriented(LSX, LSY, -Constants.swerveAutoTurnPMult*Functions.DeltaAngleDegrees(angle, robotYawAngle));
+        DriveFieldOriented(LSX, LSY, Functions.Clamp(-Constants.swerveAutoTurnPMult*Functions.DeltaAngleDegrees(angle, robotYawAngle), -Constants.swerveAutoTurnMaxSpeed, Constants.swerveAutoTurnMaxSpeed));
     }
 
     public void DriveFieldOriented(double LSX, double LSY, double RSX)
