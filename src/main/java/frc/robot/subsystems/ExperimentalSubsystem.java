@@ -4,6 +4,11 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.networktables.GenericEntry;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardComponent;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -14,10 +19,13 @@ public class ExperimentalSubsystem extends SubsystemBase {
 
   double XVelocity = 0;
   double ZVelocity = 0;
-  boolean demo = false;
+  ShuffleboardTab demoTab = Shuffleboard.getTab("demoTab");
+  GenericEntry demoInputEntry = demoTab.add("demo input", 0).getEntry();
+  GenericEntry demoOutputEntry = demoTab.add("demo output", 0).getEntry();
+  
   public ExperimentalSubsystem() 
   {
-    SmartDashboard.putBoolean("Demo In", demo);
+    
   }
   @Override
   public void periodic() {
@@ -53,10 +61,10 @@ public class ExperimentalSubsystem extends SubsystemBase {
       SmartDashboard.putNumber("Estimated X Position", -1);
       SmartDashboard.putNumber("Estimated Y Position", -1);
     }*/
-    demo = SmartDashboard.getBoolean("Demo In", false);
-    SmartDashboard.putBoolean("Demo Out", demo);
+    
     SmartDashboard.putNumber("FRM Position", Constants.frontRightDriveMotor.getEncoder().getPosition());
     SmartDashboard.putNumber("Pitch Angle", Constants.primaryAccelerometer.getRoll());
+    demoOutputEntry.setDouble(demoInputEntry.getDouble(-6));
     
   }
 

@@ -26,6 +26,7 @@ public class Robot extends TimedRobot {
   double LSX, LSY, RSX;
   double LSYB, RSYB;
   double timeSinceStartAtAutoStart = 0;
+  int selectedAutoSequence = 1;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -65,6 +66,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     timeSinceStartAtAutoStart = Timer.getFPGATimestamp();
+    
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     // schedule the autonomous command (example)
@@ -77,24 +79,17 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() 
   {
-    if(isAutoTimeBetween(0, 1)) //first 1 second
+    switch(selectedAutoSequence)
     {
-      Functions.KillAllSwerve();
-      Functions.KillAllArm();
-      Constants.primaryAccelerometer.setYaw(0);
-    }
-    else if(isAutoTimeBetween(1, 2)) //next 1 seconds
-    {
-      RobotContainer.driveTrain.DriveFieldOrientedAtAngle(0,0.5,0);
-    }
-    else if(isAutoTimeBetween(2, 14)) //remainder
-    {
-      RobotContainer.driveTrain.AutoBalance();
-    }
-    else
-    {
-      Functions.KillAllArm();
-      Functions.KillAllSwerve();
+      case 0:
+        autoSequence0();
+        break;
+      case 1:
+        autoSequence1();
+        break;
+      default:
+        autoSequence0();
+        break;
     }
   }
 
@@ -196,5 +191,32 @@ public class Robot extends TimedRobot {
       return true;
     }
     return false;
+  }
+  public void autoSequence0()
+  {
+    Functions.KillAllArm();
+    Functions.KillAllSwerve();
+  }
+  public void autoSequence1()
+  {
+    if(isAutoTimeBetween(0, 1)) //first 1 second
+    {
+      Functions.KillAllSwerve();
+      Functions.KillAllArm();
+      Constants.primaryAccelerometer.setYaw(0);
+    }
+    else if(isAutoTimeBetween(1, 2)) //next 1 seconds
+    {
+      RobotContainer.driveTrain.DriveFieldOrientedAtAngle(0,0.5,0);
+    }
+    else if(isAutoTimeBetween(2, 14)) //remainder
+    {
+      RobotContainer.driveTrain.AutoBalance();
+    }
+    else
+    {
+      Functions.KillAllArm();
+      Functions.KillAllSwerve();
+    }
   }
 }

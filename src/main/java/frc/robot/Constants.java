@@ -17,8 +17,10 @@ import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsControlModule;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -83,6 +85,8 @@ public final class Constants
     public static Solenoid demoSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM, 1);
     public static DoubleSolenoid demoDoubleSolenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 5, 6);
     public static PneumaticsControlModule demoPCM = new PneumaticsControlModule();
+
+    public static PowerDistribution PDP = new PowerDistribution(0, ModuleType.kCTRE);
     
     public static double armOriginVerticalOffset = 90;
     public static double armOriginHorizontalOffset = -19;
