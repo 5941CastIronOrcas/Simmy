@@ -64,6 +64,7 @@ public class ExperimentalSubsystem extends SubsystemBase {
     
     SmartDashboard.putNumber("FRM Position", Constants.frontRightDriveMotor.getEncoder().getPosition());
     SmartDashboard.putNumber("Pitch Angle", Constants.primaryAccelerometer.getRoll());
+    SmartDashboard.putNumber("Current", Constants.PDP.getTotalCurrent());
     demoOutputEntry.setDouble(demoInputEntry.getDouble(-6));
     
   }
