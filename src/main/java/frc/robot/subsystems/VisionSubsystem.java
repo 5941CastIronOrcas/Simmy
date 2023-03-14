@@ -15,9 +15,7 @@ import frc.robot.Constants;
 import frc.robot.RobotContainer;
 
 import java.util.Arrays;
-import java.util.Optional;
 
-import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
 import org.photonvision.PhotonPoseEstimator.PoseStrategy;

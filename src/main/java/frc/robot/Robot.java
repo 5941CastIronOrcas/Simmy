@@ -27,7 +27,7 @@ public class Robot extends TimedRobot {
   double LSX, LSY, RSX;
   double LSYB, RSYB;
   double timeSinceStartAtAutoStart = 0;
-  int selectedAutoSequence = 1;
+  int selectedAutoSequence = 2;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -38,6 +38,8 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
+    Constants.gripperMotorA.setSmartCurrentLimit((int)Constants.clawAmpLimit);
+    Constants.gripperMotorB.setSmartCurrentLimit((int)Constants.clawAmpLimit);
   }
 
   /**
@@ -88,6 +90,9 @@ public class Robot extends TimedRobot {
       case 1:
         autoSequence1();
         break;
+      case 2:
+        autoSequence2();
+        break;
       default:
         autoSequence0();
         break;
@@ -133,33 +138,15 @@ public class Robot extends TimedRobot {
       RobotContainer.driveTrain.DriveFieldOriented(LSX, LSY, RSX);
     }
 
-    if(Constants.controllerB.getLeftBumper()){
+    //if(trueConstants.controllerB.getLeftBumper()){
       //RobotContainer.armSystem.updateTarget(RSYB, LSYB);
       //RobotContainer.armSystem.moveArmToTarget();
       RobotContainer.armSystem.moveArm(LSYB, RSYB);
-      if (Constants.controllerB.getAButton())
-      {
-        RobotContainer.simmyGripperSystem.intakeCube();
-      }
-      else if (Constants.controllerB.getBButton())
-      {
-        RobotContainer.simmyGripperSystem.releaseCube();
-      }
-      else if (Constants.controllerB.getXButton())
-      {
-        RobotContainer.simmyGripperSystem.intakeCone();
-      }
-      else if (Constants.controllerB.getYButton())
-      {
-        RobotContainer.simmyGripperSystem.releaseCone();
-      }
-      else 
-      {
-        RobotContainer.simmyGripperSystem.stopGripper();
-      }
-    }else{
-      Functions.KillAllArm();
-    }
+      Constants.gripperMotorA.set(-(Constants.controllerB.getRightTriggerAxis()-Constants.controllerB.getLeftTriggerAxis()));
+      Constants.gripperMotorB.set((Constants.controllerB.getRightTriggerAxis()-Constants.controllerB.getLeftTriggerAxis()));
+    //}else{
+      //Functions.KillAllArm();
+    //}
 
     if(Constants.controller.getRightBumper())
     {
@@ -210,6 +197,24 @@ public class Robot extends TimedRobot {
     Functions.KillAllSwerve();
   }
   public void autoSequence1()
+  {
+    if(isAutoTimeBetween(0, 1)) //first 1 second
+    {
+      Functions.KillAllSwerve();
+      Functions.KillAllArm();
+      Constants.primaryAccelerometer.setYaw(0);
+    }
+    else if(isAutoTimeBetween(1, 2)) //next 1 seconds
+    {
+      RobotContainer.driveTrain.DriveFieldOrientedAtAngle(0,0.5,0);
+    }
+    else
+    {
+      Functions.KillAllArm();
+      Functions.KillAllSwerve();
+    }
+  }
+  public void autoSequence2()
   {
     if(isAutoTimeBetween(0, 1)) //first 1 second
     {

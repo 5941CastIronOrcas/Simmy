@@ -40,9 +40,9 @@ public final class Constants
     public static double swerveModuleDMult = 0.0001;
     public static double swerveModuleMaxThrottleChange = 0.1;
     public static double swerveCrouchModeMult = 0.25;
-    public static double swerveDriveRatio = (1/8.14);
+    public static double swerveDriveRatio = (1.0/8.14);
     public static double swerveWheelCircumference = 10*Math.PI; //in cm
-    public static double swerveDriveToPMult = 0;
+    public static double swerveDriveToPMult = 1;
     public static double swerveDriveToDMult = 0;
 
     public static double swerveAutoTurnPMult = 0.005;
@@ -70,8 +70,7 @@ public final class Constants
     public static double cubeGripperPowerIn = 0.25;
     public static double cubeGripperPowerOut = 0.15;
     public static double coneGripperPowerOut = 0.3;
-    public static double coneAmpLimit = 20;
-    public static double cubeAmpLimit = 20;
+    public static double clawAmpLimit = 30;
 
     public static WPI_CANCoder  frontRightEncoder = new WPI_CANCoder(15);
     public static WPI_CANCoder  frontLeftEncoder = new WPI_CANCoder(16);
@@ -87,7 +86,7 @@ public final class Constants
     public static PneumaticsControlModule demoPCM = new PneumaticsControlModule();
 
     public static PowerDistribution PDP = new PowerDistribution(0, ModuleType.kCTRE);
-    public static double currentWarningLevel = 5;
+    public static double currentWarningLevel = 80;
     
     public static double armOriginVerticalOffset = 90;
     public static double armOriginHorizontalOffset = -19;

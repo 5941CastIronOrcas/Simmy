@@ -28,16 +28,11 @@ public class SimmyGripperSubsystem extends SubsystemBase {
 
   public void intakeCone()
   {
-    if(Constants.gripperMotorA.getOutputCurrent() < Constants.coneAmpLimit){
-      Constants.gripperMotorA.set(Constants.coneGripperPowerIn);
-    }else{
-      Constants.gripperMotorA.set(0);
-    }
-    if(Constants.gripperMotorB.getOutputCurrent() < Constants.coneAmpLimit){
-      Constants.gripperMotorB.set(Constants.coneGripperPowerIn);
-    }else{
-      Constants.gripperMotorB.set(0);
-    }
+    //SmartDashboard.putNumber("aMotor Current", Constants.gripperMotorA.getOutputCurrent());
+    Constants.gripperMotorA.set(Constants.coneGripperPowerIn);
+    //SmartDashboard.putNumber("aMotor Current", Constants.gripperMotorB.getOutputCurrent());
+    Constants.gripperMotorB.set(Constants.coneGripperPowerIn);
+
   }
 
   public void releaseCone()
@@ -48,16 +43,12 @@ public class SimmyGripperSubsystem extends SubsystemBase {
 
   public void intakeCube()
   {
-    if(Constants.gripperMotorA.getOutputCurrent() < Constants.cubeAmpLimit){
-      Constants.gripperMotorA.set(Constants.cubeGripperPowerIn);
-    }else{
-      Constants.gripperMotorA.set(0);
-    }
-    if(Constants.gripperMotorB.getOutputCurrent() < Constants.cubeAmpLimit){
-      Constants.gripperMotorB.set(Constants.cubeGripperPowerIn);
-    }else{
-      Constants.gripperMotorB.set(0);
-    }
+    //SmartDashboard.putNumber("aMotor Current", Constants.gripperMotorA.getOutputCurrent());
+
+    Constants.gripperMotorA.set(Constants.cubeGripperPowerIn);
+    //SmartDashboard.putNumber("aMotor Current", Constants.gripperMotorB.getOutputCurrent());
+    Constants.gripperMotorB.set(Constants.cubeGripperPowerIn);
+    
   }
 
   public void releaseCube()
