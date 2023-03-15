@@ -22,6 +22,7 @@ public class SwerveModule {
     double currentAngleSpeed;
     boolean invertAngleMotor;
     boolean invertDriveMotor;
+    boolean isBackwards = false;
     
 
     public SwerveModule(CANSparkMax inputAngleMotor, Boolean InvertAngleMotor, CANSparkMax inputDriveMotor, Boolean InvertDriveMotor, WPI_CANCoder inputEncoder)
@@ -42,6 +43,11 @@ public class SwerveModule {
         {
             angle = angle + (Math.PI);
             speed = -speed;
+            isBackwards = true;
+        }
+        else
+        {
+            isBackwards = false;
         }
         driveMotor.set((invertDriveMotor?-1:1)*speed);
         currentAngleSpeed = encoder.getVelocity();
