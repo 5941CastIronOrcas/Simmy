@@ -54,6 +54,7 @@ public class SwerveDriveSubsystem extends SubsystemBase {
         
         robotPitchAngle = Constants.primaryAccelerometer.getRoll();
         SmartDashboard.putNumber("Robot Yaw", robotYawAngle);
+        SmartDashboard.putNumber("RobotFieldYaw", robotYawFieldRelative);
         SmartDashboard.putNumber("FRA", frontRightModule.currentAngle);
         SmartDashboard.putNumber("FLA", frontLeftModule.currentAngle);
         SmartDashboard.putNumber("BRA", backRightModule.currentAngle);
@@ -63,7 +64,17 @@ public class SwerveDriveSubsystem extends SubsystemBase {
 
     public void DriveTo(double x, double y, double angle)
     {
-        DriveFieldOrientedAtAngle(Constants.swerveDriveToPMult*(x-VisionSubsystem.conFieldX), Constants.swerveDriveToPMult*(y-VisionSubsystem.conFieldY), angle);
+        DriveFIELDOrientedAtAngle(Constants.swerveDriveToPMult*(x-VisionSubsystem.conFieldX), Constants.swerveDriveToPMult*(y-VisionSubsystem.conFieldY), angle);
+    }
+
+    public void DriveFIELDOrientedAtAngle(double x, double y, double angle)
+    {
+        DriveFieldOriented(x, y, Functions.Clamp(-Constants.swerveAutoTurnPMult*Functions.DeltaAngleDegrees(angle, robotYawFieldRelative), -Constants.swerveAutoTurnMaxSpeed, Constants.swerveAutoTurnMaxSpeed));
+    }
+
+    public void DriveFIELDOriented(double x, double y, double turn)
+    {
+        Drive(x*Math.cos(Math.toRadians(-robotYawFieldRelative))+y*Math.sin(Math.toRadians(-robotYawFieldRelative)), y*Math.cos(Math.toRadians(-robotYawFieldRelative))+x*Math.sin(Math.toRadians(robotYawFieldRelative)), turn);
     }
 
     public void DriveFieldOrientedAtAngle(double LSX, double LSY, double angle)

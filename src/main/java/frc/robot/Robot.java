@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.subsystems.VisionSubsystem;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -129,7 +130,11 @@ public class Robot extends TimedRobot {
     RSYB = (preciseMode?Constants.armPreciseModeMult:1)*Functions.Exponential(Functions.DeadZone(Constants.controllerB.getRightY(), Constants.controllerDeadZone));
 
     RobotContainer.driveTrain.robotYawAngle = Functions.DeltaAngleDegrees(0, -Constants.primaryAccelerometer.getYaw());
-    if(Constants.controller.getPOV() >= 0)
+    if(Constants.controller.getAButton())
+    {
+      RobotContainer.driveTrain.DriveTo(0, 0, 0);
+    }
+    else if(Constants.controller.getPOV() >= 0)
     {
       RobotContainer.driveTrain.DriveFieldOrientedAtAngle(LSX, LSY, Constants.controller.getPOV());
     }
@@ -162,6 +167,11 @@ public class Robot extends TimedRobot {
     {
       Constants.controller.setRumble(RumbleType.kBothRumble, 0);
       Constants.controllerB.setRumble(RumbleType.kBothRumble, 0);
+    }
+    if(Constants.controller.getYButtonPressed())
+    {
+      VisionSubsystem.conFieldX = 0;
+      VisionSubsystem.conFieldY = 0;
     }
   }
 

@@ -26,6 +26,9 @@ public class VisionSubsystem extends SubsystemBase {
   
   public static PhotonCamera camera = new PhotonCamera("Microsoft_LifeCam_HD-3000");
 
+  public static double deltaX = 0;
+  public static double deltaY = 0;
+
   public static Transform3d robotToCam = new Transform3d(new Translation3d(0.5, 0.0, 0.5), new Rotation3d(0,0,0));
 
   public static AprilTagFieldLayout aprilTagFieldLayout = new AprilTagFieldLayout(Arrays.asList(
@@ -92,6 +95,23 @@ public class VisionSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
+    //just averages the 4 raw motor angle values
+    //delta XY is meters/frame
+    deltaX = ((
+         (Math.sin(Math.toRadians(RobotContainer.driveTrain.frontRightModule.currentAngle + RobotContainer.driveTrain.robotYawFieldRelative)) * Constants.frontRightDriveMotor.getEncoder().getVelocity() * Constants.swerveDriveRatio * (1.0/3000.0) * Constants.swerveWheelCircumference)
+       + (Math.sin(Math.toRadians(RobotContainer.driveTrain.frontLeftModule.currentAngle + RobotContainer.driveTrain.robotYawFieldRelative)) * -Constants.frontLeftDriveMotor.getEncoder().getVelocity() * Constants.swerveDriveRatio * (1.0/3000.0) * Constants.swerveWheelCircumference)
+       + (Math.sin(Math.toRadians(RobotContainer.driveTrain.backRightModule.currentAngle + RobotContainer.driveTrain.robotYawFieldRelative)) * Constants.backRightDriveMotor.getEncoder().getVelocity() * Constants.swerveDriveRatio * (1.0/3000.0) * Constants.swerveWheelCircumference)
+       + (Math.sin(Math.toRadians(RobotContainer.driveTrain.backLeftModule.currentAngle + RobotContainer.driveTrain.robotYawFieldRelative)) * -Constants.backLeftDriveMotor.getEncoder().getVelocity() * Constants.swerveDriveRatio * (1.0/3000.0) * Constants.swerveWheelCircumference))
+        / 4.0);
+    deltaY = ((
+         (Math.cos(Math.toRadians(RobotContainer.driveTrain.frontRightModule.currentAngle + RobotContainer.driveTrain.robotYawFieldRelative)) * Constants.frontRightDriveMotor.getEncoder().getVelocity() * Constants.swerveDriveRatio * (1.0/3000.0) * Constants.swerveWheelCircumference)
+       + (Math.cos(Math.toRadians(RobotContainer.driveTrain.frontLeftModule.currentAngle + RobotContainer.driveTrain.robotYawFieldRelative)) * -Constants.frontLeftDriveMotor.getEncoder().getVelocity() * Constants.swerveDriveRatio * (1.0/3000.0) * Constants.swerveWheelCircumference)
+       + (Math.cos(Math.toRadians(RobotContainer.driveTrain.backRightModule.currentAngle + RobotContainer.driveTrain.robotYawFieldRelative)) * Constants.backRightDriveMotor.getEncoder().getVelocity() * Constants.swerveDriveRatio * (1.0/3000.0) * Constants.swerveWheelCircumference)
+       + (Math.cos(Math.toRadians(RobotContainer.driveTrain.backLeftModule.currentAngle + RobotContainer.driveTrain.robotYawFieldRelative)) * -Constants.backLeftDriveMotor.getEncoder().getVelocity() * Constants.swerveDriveRatio * (1.0/3000.0) * Constants.swerveWheelCircumference))
+        / 4.0);
+        //uses one module
+    //double tempX = ((Math.sin(Math.toRadians(RobotContainer.driveTrain.frontLeftModule.currentAngle)) * Constants.frontLeftDriveMotor.getEncoder().getVelocity() * Constants.swerveDriveRatio * (1.0/3000.0) * Constants.swerveWheelCircumference));
+    //double tempY = ((Math.cos(Math.toRadians(RobotContainer.driveTrain.frontLeftModule.currentAngle)) * Constants.frontLeftDriveMotor.getEncoder().getVelocity() * Constants.swerveDriveRatio * (1.0/3000.0) * Constants.swerveWheelCircumference));
     Pose2d globalPose = estimatedGlobalPoseOld;
     if (camCheck()) {
       if (getEstimatedGlobalPose() != null) {
@@ -107,21 +127,14 @@ public class VisionSubsystem extends SubsystemBase {
       }
       else {
       // apriltags present, information not updated
+      conFieldX += Math.abs(deltaX) > 0.0001 ? deltaX : 0;
+      conFieldY += Math.abs(deltaY) > 0.0001 ? deltaY : 0;
       }
     }
     else {
       // no apriltags detected
-      
-      //double tempX = ((Math.sin(Math.toRadians(RobotContainer.driveTrain.frontRightModule.currentAngle)) * Constants.frontRightDriveMotor.getEncoder().getVelocity() * Constants.swerveDriveRatio * (1.0/3000.0) * Constants.swerveWheelCircumference) + (Math.sin(Math.toRadians(RobotContainer.driveTrain.frontLeftModule.currentAngle)) * Constants.frontLeftDriveMotor.getEncoder().getVelocity() * Constants.swerveDriveRatio * (1.0/3000.0) * Constants.swerveWheelCircumference) + (Math.sin(Math.toRadians(RobotContainer.driveTrain.backRightModule.currentAngle)) * Constants.backRightDriveMotor.getEncoder().getVelocity() * Constants.swerveDriveRatio * (1.0/3000.0) * Constants.swerveWheelCircumference) + (Math.sin(Math.toRadians(RobotContainer.driveTrain.backLeftModule.currentAngle)) * Constants.backLeftDriveMotor.getEncoder().getVelocity() * Constants.swerveDriveRatio * (1.0/3000.0) * Constants.swerveWheelCircumference)) / 4.0; 
-      double tempX = ((Math.sin(Math.toRadians(RobotContainer.driveTrain.frontLeftModule.currentAngle)) * Constants.frontLeftDriveMotor.getEncoder().getVelocity() * Constants.swerveDriveRatio * (1.0/3000.0) * Constants.swerveWheelCircumference));
-      //double tempY = ((Math.cos(Math.toRadians(RobotContainer.driveTrain.frontRightModule.currentAngle)) * Constants.frontRightDriveMotor.getEncoder().getVelocity() * Constants.swerveDriveRatio * (1.0/3000.0) * Constants.swerveWheelCircumference) + (Math.cos(Math.toRadians(RobotContainer.driveTrain.frontLeftModule.currentAngle)) * Constants.frontLeftDriveMotor.getEncoder().getVelocity() * Constants.swerveDriveRatio * (1.0/3000.0) * Constants.swerveWheelCircumference) + (Math.cos(Math.toRadians(RobotContainer.driveTrain.backRightModule.currentAngle)) * Constants.backRightDriveMotor.getEncoder().getVelocity() * Constants.swerveDriveRatio * (1.0/3000.0) * Constants.swerveWheelCircumference) + (Math.cos(Math.toRadians(RobotContainer.driveTrain.backLeftModule.currentAngle)) * Constants.backLeftDriveMotor.getEncoder().getVelocity() * Constants.swerveDriveRatio * (1.0/3000.0) * Constants.swerveWheelCircumference)) / 4.0; 
-      double tempY = ((Math.cos(Math.toRadians(RobotContainer.driveTrain.frontLeftModule.currentAngle)) * Constants.frontLeftDriveMotor.getEncoder().getVelocity() * Constants.swerveDriveRatio * (1.0/3000.0) * Constants.swerveWheelCircumference));
-      SmartDashboard.putBoolean("FRM inverted?", RobotContainer.driveTrain.frontRightModule.isBackwards);
-      
-      conFieldX += tempX;//Math.abs(tempX) > 0.0001 ? tempX : 0;
-      conFieldY += tempY;//Math.abs(tempY) > 0.0001 ? tempY : 0;
-      SmartDashboard.putNumber("FRM RPM", Constants.frontRightDriveMotor.getEncoder().getVelocity());
-      // = RobotContainer.driveTrain.frontRightModule.currentAngle;
+      conFieldX += Math.abs(deltaX) > 0.0001 ? deltaX : 0;
+      conFieldY += Math.abs(deltaY) > 0.0001 ? deltaY : 0;
     }
     if (camCheck() && getEstimatedGlobalPose() != null) {
       estimatedGlobalPoseOld = getEstimatedGlobalPose();
