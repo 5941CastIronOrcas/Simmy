@@ -1,6 +1,5 @@
 package frc.robot.subsystems;
 
-
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -55,16 +54,18 @@ public class SwerveDriveSubsystem extends SubsystemBase {
         robotPitchAngle = Constants.primaryAccelerometer.getRoll();
         SmartDashboard.putNumber("Robot Yaw", robotYawAngle);
         SmartDashboard.putNumber("RobotFieldYaw", robotYawFieldRelative);
-        SmartDashboard.putNumber("FRA", frontRightModule.currentAngle);
-        SmartDashboard.putNumber("FLA", frontLeftModule.currentAngle);
-        SmartDashboard.putNumber("BRA", backRightModule.currentAngle);
-        SmartDashboard.putNumber("BLA", backLeftModule.currentAngle);
         
     }
 
     public void DriveTo(double x, double y, double angle)
     {
-        DriveFIELDOrientedAtAngle(Constants.swerveDriveToPMult*(x-VisionSubsystem.conFieldX), Constants.swerveDriveToPMult*(y-VisionSubsystem.conFieldY), angle);
+        DriveFIELDOrientedAtAngle(
+            Functions.Clamp(
+                Constants.swerveDriveToPMult*(x-VisionSubsystem.conFieldX), 
+                -Constants.swerveDriveToMaxSpeed, Constants.swerveDriveToMaxSpeed), 
+            Functions.Clamp(Constants.swerveDriveToPMult*(y-VisionSubsystem.conFieldY), 
+                -Constants.swerveDriveToMaxSpeed, Constants.swerveDriveToMaxSpeed), 
+            angle);
     }
 
     public void DriveFIELDOrientedAtAngle(double x, double y, double angle)

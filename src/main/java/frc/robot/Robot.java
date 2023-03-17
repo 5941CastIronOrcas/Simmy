@@ -7,9 +7,9 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.subsystems.DriverDisplay;
 import frc.robot.subsystems.VisionSubsystem;
 
 /**
@@ -28,7 +28,9 @@ public class Robot extends TimedRobot {
   double LSX, LSY, RSX;
   double LSYB, RSYB;
   double timeSinceStartAtAutoStart = 0;
-  int selectedAutoSequence = 2;
+  int selectedAutoSequence = 0;
+  double demoTargetX = 0;
+  double demoTargetY = 0;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -41,6 +43,7 @@ public class Robot extends TimedRobot {
     m_robotContainer = new RobotContainer();
     Constants.gripperMotorA.setSmartCurrentLimit((int)Constants.clawAmpLimit);
     Constants.gripperMotorB.setSmartCurrentLimit((int)Constants.clawAmpLimit);
+    Constants.primaryAccelerometer.setYaw(0);
   }
 
   /**
@@ -57,6 +60,10 @@ public class Robot extends TimedRobot {
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
+    selectedAutoSequence = (int)DriverDisplay.autoSequenceSelector.getInteger(0);
+    demoTargetX = (int)DriverDisplay.demoTargetXSelector.getInteger(0);
+    demoTargetY = (int)DriverDisplay.demoTargetXSelector.getInteger(0);
+
   }
 
   /** This function is called once each time the robot enters Disabled mode. */
@@ -132,7 +139,7 @@ public class Robot extends TimedRobot {
     RobotContainer.driveTrain.robotYawAngle = Functions.DeltaAngleDegrees(0, -Constants.primaryAccelerometer.getYaw());
     if(Constants.controller.getAButton())
     {
-      RobotContainer.driveTrain.DriveTo(0, 0, 0);
+      RobotContainer.driveTrain.DriveTo(demoTargetX, demoTargetY, 0);
     }
     else if(Constants.controller.getPOV() >= 0)
     {
@@ -143,15 +150,11 @@ public class Robot extends TimedRobot {
       RobotContainer.driveTrain.DriveFieldOriented(LSX, LSY, RSX);
     }
 
-    //if(trueConstants.controllerB.getLeftBumper()){
       //RobotContainer.armSystem.updateTarget(RSYB, LSYB);
       //RobotContainer.armSystem.moveArmToTarget();
       RobotContainer.armSystem.moveArm(LSYB, RSYB);
       Constants.gripperMotorA.set(-(Constants.controllerB.getRightTriggerAxis()-Constants.controllerB.getLeftTriggerAxis()));
       Constants.gripperMotorB.set((Constants.controllerB.getRightTriggerAxis()-Constants.controllerB.getLeftTriggerAxis()));
-    //}else{
-      //Functions.KillAllArm();
-    //}
 
     if(Constants.controller.getRightBumper())
     {

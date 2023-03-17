@@ -44,6 +44,7 @@ public final class Constants
     public static double swerveWheelCircumference = 0.1 * Math.PI; //in m
     public static double swerveDriveToPMult = 1;
     public static double swerveDriveToDMult = 0;
+    public static double swerveDriveToMaxSpeed = 0.5;
 
     public static double swerveAutoTurnPMult = 0.005;
     public static double swerveAutoTurnMaxSpeed = 0.5;
