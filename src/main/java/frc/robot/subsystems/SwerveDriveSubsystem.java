@@ -63,9 +63,9 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     {
         DriveFIELDOrientedAtAngle(
             Functions.Clamp(
-                Constants.swerveDriveToPMult*(x-VisionSubsystem.conFieldX), 
+                Constants.swerveDriveToPMult*(x-VisionSubsystem.conFieldX)-Constants.swerveDriveToDMult*(VisionSubsystem.deltaX), 
                 -Constants.swerveDriveToMaxSpeed, Constants.swerveDriveToMaxSpeed), 
-            Functions.Clamp(Constants.swerveDriveToPMult*(y-VisionSubsystem.conFieldY), 
+            Functions.Clamp(Constants.swerveDriveToPMult*(y-VisionSubsystem.conFieldY)-Constants.swerveDriveToDMult*(VisionSubsystem.deltaY), 
                 -Constants.swerveDriveToMaxSpeed, Constants.swerveDriveToMaxSpeed), 
             angle);
     }
