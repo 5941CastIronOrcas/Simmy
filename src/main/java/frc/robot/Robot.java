@@ -40,7 +40,9 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
+    // ^No it won't
     m_robotContainer = new RobotContainer();
+
     Constants.gripperMotorA.setSmartCurrentLimit((int)Constants.clawAmpLimit);
     Constants.gripperMotorB.setSmartCurrentLimit((int)Constants.clawAmpLimit);
     Constants.primaryAccelerometer.setYaw(0);
@@ -122,13 +124,14 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() 
   {
+    //Calculates the speed multipler applied to the joystick axes
     crouchSpeed = 1-((1-Constants.swerveCrouchModeMult) * Constants.controller.getLeftTriggerAxis());
-
     if(Constants.controllerB.getBButtonPressed())
     {
       preciseMode = !preciseMode;
     }
       
+    //Updates doubles representing stick axes
     LSX = (crouchSpeed)*Functions.Exponential(Functions.DeadZone(Constants.controller.getLeftX(), Constants.controllerDeadZone));
     LSY = (crouchSpeed)*Functions.Exponential(Functions.DeadZone(-Constants.controller.getLeftY(), Constants.controllerDeadZone));
     RSX = Constants.turnMultiplier * (crouchSpeed)*Functions.Exponential(Functions.DeadZone(Constants.controller.getRightX(), Constants.controllerDeadZone));
@@ -136,7 +139,7 @@ public class Robot extends TimedRobot {
     LSYB = (preciseMode?Constants.armPreciseModeMult:1)*Functions.Exponential(Functions.DeadZone(Constants.controllerB.getLeftY(), Constants.controllerDeadZone));
     RSYB = (preciseMode?Constants.armPreciseModeMult:1)*Functions.Exponential(Functions.DeadZone(Constants.controllerB.getRightY(), Constants.controllerDeadZone));
 
-    RobotContainer.driveTrain.robotYawAngle = Functions.DeltaAngleDegrees(0, -Constants.primaryAccelerometer.getYaw());
+    //Determines what drive function to use based on controller buttons
     if(Constants.controller.getAButton())
     {
       RobotContainer.driveTrain.DriveTo(demoTargetX, demoTargetY, 0);
@@ -150,27 +153,25 @@ public class Robot extends TimedRobot {
       RobotContainer.driveTrain.DriveFieldOriented(LSX, LSY, RSX);
     }
 
-      //RobotContainer.armSystem.updateTarget(RSYB, LSYB);
-      //RobotContainer.armSystem.moveArmToTarget();
-      RobotContainer.armSystem.moveArm(LSYB, RSYB);
-      Constants.gripperMotorA.set(-(Constants.controllerB.getRightTriggerAxis()-Constants.controllerB.getLeftTriggerAxis()));
-      Constants.gripperMotorB.set((Constants.controllerB.getRightTriggerAxis()-Constants.controllerB.getLeftTriggerAxis()));
-
     if(Constants.controller.getRightBumper())
     {
       Constants.primaryAccelerometer.setYaw(0);
     }
 
+    //RobotContainer.armSystem.updateTarget(RSYB, LSYB);
+    //RobotContainer.armSystem.moveArmToTarget();
+    RobotContainer.armSystem.moveArm(LSYB, RSYB);
+    Constants.gripperMotorA.set(-(Constants.controllerB.getRightTriggerAxis()-Constants.controllerB.getLeftTriggerAxis()));
+    Constants.gripperMotorB.set((Constants.controllerB.getRightTriggerAxis()-Constants.controllerB.getLeftTriggerAxis()));
+
+
     if(Constants.PDP.getTotalCurrent() > Constants.currentWarningLevel)
-    {
-      Constants.controller.setRumble(RumbleType.kBothRumble, 1);
-      Constants.controllerB.setRumble(RumbleType.kBothRumble, 1);
-    }
+    {Constants.controller.setRumble(RumbleType.kBothRumble, 1);
+      Constants.controllerB.setRumble(RumbleType.kBothRumble, 1);}
     else
-    {
-      Constants.controller.setRumble(RumbleType.kBothRumble, 0);
-      Constants.controllerB.setRumble(RumbleType.kBothRumble, 0);
-    }
+    {Constants.controller.setRumble(RumbleType.kBothRumble, 0);
+      Constants.controllerB.setRumble(RumbleType.kBothRumble, 0);}
+    
     if(Constants.controller.getYButtonPressed())
     {
       VisionSubsystem.conFieldX = 0;

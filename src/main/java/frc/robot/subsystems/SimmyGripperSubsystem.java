@@ -10,7 +10,7 @@ import frc.robot.Constants;
 public class SimmyGripperSubsystem extends SubsystemBase {
   
 
-  public SimmyGripperSubsystem() {}
+  public SimmyGripperSubsystem() {}//Honestly this whole subsystem is deprecated and will probably be removed eventually
 
   @Override
   public void periodic() 

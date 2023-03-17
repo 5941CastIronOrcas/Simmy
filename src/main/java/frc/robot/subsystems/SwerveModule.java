@@ -37,7 +37,7 @@ public class SwerveModule {
 
     public void Drive(double angle, double speed)
     {
-        if(Double.isNaN(angle)) angle = 0;
+        if(Double.isNaN(angle)) angle = 0; 
         currentAngle = encoder.getAbsolutePosition();
         if(Math.abs(Functions.DeltaAngleDegrees(Math.toDegrees(angle), currentAngle)) > 90)
         {
@@ -49,10 +49,12 @@ public class SwerveModule {
         {
             isBackwards = false;
         }
-        driveMotor.set((invertDriveMotor?-1:1)*speed);
+        
         currentAngleSpeed = encoder.getVelocity();
         double pComponent = Constants.swerveModulePMult * Functions.DeltaAngleDegrees(Math.toDegrees(angle), currentAngle);
         double dComponent = Constants.swerveModuleDMult * currentAngleSpeed;
+
+        driveMotor.set((invertDriveMotor?-1:1)*speed);
         angleMotor.set((invertAngleMotor?-1:1)*(pComponent + dComponent));
     }
 }

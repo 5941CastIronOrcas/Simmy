@@ -44,6 +44,8 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     public void periodic() //Every 0.02 sec (50 FPS)
     {
         robotYawAngle = Functions.DeltaAngleDegrees(0, -Constants.primaryAccelerometer.getYaw());
+        
+        //Adjusts robotYawFieldRelative depending on what alliance we're on
         if(DriverStation.getAlliance() == DriverStation.Alliance.Red)
         {robotYawFieldRelative = Functions.DeltaAngleDegrees(0, robotYawAngle - 90);}
         else if(DriverStation.getAlliance() == DriverStation.Alliance.Blue)

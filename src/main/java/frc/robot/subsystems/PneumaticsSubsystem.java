@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class PneumaticsSubsystem extends SubsystemBase {
-  /** Creates a new ExampleSubsystem. */
   public PneumaticsSubsystem() {}
 
   @Override
@@ -38,10 +37,5 @@ public class PneumaticsSubsystem extends SubsystemBase {
         Constants.demoSolenoid.set(false);
         Constants.demoDoubleSolenoid.set(Value.kOff);
     }
-  }
-
-  @Override
-  public void simulationPeriodic() {
-    // This method will be called once per scheduler run during simulation
   }
 }
