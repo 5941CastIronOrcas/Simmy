@@ -49,6 +49,8 @@ public class SwerveModule {
         {
             isBackwards = false;
         }
+
+        if(Math.abs(speed) < 0.001) angle = Math.toRadians(currentAngle);
         
         currentAngleSpeed = encoder.getVelocity();
         double pComponent = Constants.swerveModulePMult * Functions.DeltaAngleDegrees(Math.toDegrees(angle), currentAngle);

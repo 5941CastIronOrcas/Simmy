@@ -15,7 +15,7 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     //A = angle
     //T = throttle
 
-    double FRX, FRY, FLX, FLY, BRX, BRY, BLX, BLY;
+    double FRX = 0, FRY = 0, FLX = 0, FLY = 0, BRX = 0, BRY = 0, BLX = 0, BLY = 0;
 
     double FRA, FLA, BRA, BLA;
     
@@ -93,14 +93,22 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     public void Drive(double LSX, double LSY, double RSX)
     {   
             //set the target X and Y speeds based on controller input
-            FRX = RSX + LSX;
+            /*FRX = RSX + LSX;
             FRY = -RSX + LSY;
             FLX = RSX + LSX;
             FLY = RSX + LSY;
             BRX = -RSX + LSX;
             BRY = -RSX + LSY;
             BLX = -RSX + LSX;
-            BLY = RSX + LSY;
+            BLY = RSX + LSY;*/
+            FRX += Functions.Clamp(RSX+LSX - FRX, -Constants.swerveMaxAccel, Constants.swerveMaxAccel);
+            FRY += Functions.Clamp(-RSX+LSY - FRY, -Constants.swerveMaxAccel, Constants.swerveMaxAccel);;
+            FLX += Functions.Clamp(RSX+LSX - FLX, -Constants.swerveMaxAccel, Constants.swerveMaxAccel);
+            FLY += Functions.Clamp(RSX+LSY - FLY, -Constants.swerveMaxAccel, Constants.swerveMaxAccel);
+            BRX += Functions.Clamp(-RSX+LSX - BRX, -Constants.swerveMaxAccel, Constants.swerveMaxAccel);
+            BRY += Functions.Clamp(-RSX+LSY - BRY, -Constants.swerveMaxAccel, Constants.swerveMaxAccel);
+            BLX += Functions.Clamp(-RSX+LSX - BLX, -Constants.swerveMaxAccel, Constants.swerveMaxAccel);
+            BLY += Functions.Clamp(RSX+LSY - BLY, -Constants.swerveMaxAccel, Constants.swerveMaxAccel);
 
             //set the target angles based on the target X and Y speeds
             FRA = Math.atan2(FRX, FRY);

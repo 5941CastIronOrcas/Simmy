@@ -35,11 +35,12 @@ import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 
 public final class Constants 
 {
-    public static double turnMultiplier = 0.65;
+    public static double turnMultiplier = 0.25;
     public static double swerveModulePMult = 0.01;
     public static double swerveModuleDMult = 0.0001;
     public static double swerveModuleMaxThrottleChange = 0.1;
     public static double swerveCrouchModeMult = 0.25;
+    public static double swerveMaxAccel = 0.03; //percent per frame
     public static double swerveDriveRatio = (1.0/8.14);
     public static double swerveWheelCircumference = 0.1 * Math.PI; //in m
     public static double swerveDriveToPMult = 1;
