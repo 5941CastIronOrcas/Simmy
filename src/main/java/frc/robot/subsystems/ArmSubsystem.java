@@ -148,6 +148,8 @@ public class ArmSubsystem extends SubsystemBase {
           Constants.gripperMotorB.set(0.5);
           break;
         default:
+          Constants.gripperMotorA.set(0);
+          Constants.gripperMotorB.set(0);
           break;
       }
     }
