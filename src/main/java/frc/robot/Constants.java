@@ -13,6 +13,7 @@ import com.revrobotics.CANSparkMax;
 //import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsControlModule;
@@ -46,11 +47,16 @@ public final class Constants
     public static double swerveDriveToPMult = 1.0;
     public static double swerveDriveToDMult = 7.0;
     public static double swerveDriveToMaxSpeed = 1.0;
+    public static double swerveMaxSpeed = 3.6576; // meters per second
 
     public static double swerveAutoTurnPMult = 0.005;
     public static double swerveAutoTurnMaxSpeed = 0.5;
     public static double swerveAutoTurnDMult = 0;
 
+    public static Pose2d[] redGrid;
+    public static Pose2d[] blueGrid;
+    
+    
     public static XboxController controller = new XboxController(0);
     public static XboxController controllerB = new XboxController(1);
     public static double controllerDeadZone = 0.1;
@@ -96,12 +102,16 @@ public final class Constants
     public static double clawMaxHeight = 185; //bit low on the safe side, as the claw adds height
     public static double armSegmentALength = 52;
     public static double armSegmentBLength = 52;
-    public static double armGearRatio1 = (1.0/175.0);
-    public static double armGearRatio2 = (1.0/43.0);
-    public static double armSegment1PMult = 0;
-    public static double armSegment2PMult = 0;
+    public static double armGearRatio1 = (1.0/100.0);
+    public static double armGearRatio2 = (1.0/25.0);
+    public static double armSegment1PMult = 1.0/180.0;
+    public static double armSegment2PMult = 1.0/180.0;
     public static double armPreciseModeMult = 0.33;
-    public static double armSpeedMult = 0.1;
+    public static double armSpeedMult = 2; // cm/sec
+    public static double bendRestingAngle = 0;
+    public static double raiseRestingAngle = 0;
+    public static boolean raiseMotorInverted = false;
+    public static boolean bendMotorInverted = false;
 
     public static CANSparkMax armMotor1 = new CANSparkMax(13, MotorType.kBrushless);
     public static CANSparkMax armMotor2 = new CANSparkMax(14, MotorType.kBrushless);

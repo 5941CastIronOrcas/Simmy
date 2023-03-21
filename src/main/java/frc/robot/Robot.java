@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriverDisplay;
 import frc.robot.subsystems.VisionSubsystem;
 
@@ -32,6 +33,7 @@ public class Robot extends TimedRobot {
   int selectedAutoSequence = 0;
   double demoTargetX = 0;
   double demoTargetY = 0;
+  boolean advancedArmControlEnabled = false;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -145,27 +147,38 @@ public class Robot extends TimedRobot {
     //Determines what drive function to use based on controller buttons
     if(Constants.controller.getAButton())
     {
-      RobotContainer.driveTrain.DriveTo(demoTargetX, demoTargetY, 0);
+      RobotContainer.driveTrain.DriveTo(demoTargetX, demoTargetY, RobotContainer.driveTrain.robotYawFieldRelative);
     }
     else if(Constants.controller.getPOV() >= 0)
     {
-      RobotContainer.driveTrain.DriveFieldOrientedAtAngle(LSX, LSY, Constants.controller.getPOV());
+      RobotContainer.driveTrain.DriveDriverOrientedAtAngle(LSX, LSY, Constants.controller.getPOV());
     }
     else
     {
-      RobotContainer.driveTrain.DriveFieldOriented(LSX, LSY, RSX);
+      RobotContainer.driveTrain.DriveDriverOriented(LSX, LSY, RSX);
     }
 
     if(Constants.controller.getRightBumper())
     {
       Constants.primaryAccelerometer.setYaw(0);
     }
-
-    //RobotContainer.armSystem.updateTarget(RSYB, LSYB);
-    //RobotContainer.armSystem.moveArmToTarget();
-    RobotContainer.armSystem.moveArm(LSYB, RSYB);
+    
+    if(Constants.controllerB.getXButtonPressed())
+    {
+      advancedArmControlEnabled = !advancedArmControlEnabled;
+      RobotContainer.armSystem.setTargetToCurrent();
+    }
+    if(advancedArmControlEnabled){
+      RobotContainer.armSystem.updateTarget(RSYB, LSYB);
+      RobotContainer.armSystem.moveArmToTarget();
+    }else{
+      RobotContainer.armSystem.moveArm(LSYB, RSYB);
+    }
     Constants.gripperMotorA.set(-(Constants.controllerB.getRightTriggerAxis()-Constants.controllerB.getLeftTriggerAxis()));
     Constants.gripperMotorB.set((Constants.controllerB.getRightTriggerAxis()-Constants.controllerB.getLeftTriggerAxis()));
+    if(Constants.controllerB.getYButtonPressed()){
+      RobotContainer.armSystem.resetArmAngles();
+    }
 
 
     if(Constants.PDP.getTotalCurrent() > Constants.currentWarningLevel)
@@ -217,6 +230,7 @@ public class Robot extends TimedRobot {
   {
     Functions.KillAllArm();
     Functions.KillAllSwerve();
+    Constants.primaryAccelerometer.setYaw(0);
   }
   public void autoSequence1()
   {
@@ -228,7 +242,7 @@ public class Robot extends TimedRobot {
     }
     else if(isAutoTimeBetween(1, 2)) //next 1 seconds
     {
-      RobotContainer.driveTrain.DriveFieldOrientedAtAngle(0,0.5,0);
+      RobotContainer.driveTrain.DriveDriverOrientedAtAngle(0,0.5,0);
     }
     else
     {
@@ -246,7 +260,7 @@ public class Robot extends TimedRobot {
     }
     else if(isAutoTimeBetween(1, 2)) //next 1 seconds
     {
-      RobotContainer.driveTrain.DriveFieldOrientedAtAngle(0,0.5,0);
+      RobotContainer.driveTrain.DriveDriverOrientedAtAngle(0,0.5,0);
     }
     else if(isAutoTimeBetween(2, 14)) //remainder
     {

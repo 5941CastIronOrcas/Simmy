@@ -99,14 +99,14 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public void resetArmAngles(){
-    Constants.armMotor1.getEncoder().setPosition(0);
-    Constants.armMotor2.getEncoder().setPosition(0);
+    Constants.armMotor1.getEncoder().setPosition(Constants.raiseRestingAngle / Constants.armGearRatio1);
+    Constants.armMotor2.getEncoder().setPosition(Constants.bendRestingAngle / Constants.armGearRatio2);
   }
 
   public void moveArm(double S1, double S2)
   {
-    Constants.armMotor1.set(S1);
-    Constants.armMotor2.set(S2);
+    Constants.armMotor1.set(Constants.raiseMotorInverted ? -S1 : S1);
+    Constants.armMotor2.set(Constants.bendMotorInverted ? -S2 : S2);
   }
 
   public void moveArmToTarget(){
@@ -118,10 +118,38 @@ public class ArmSubsystem extends SubsystemBase {
   {
     moveArm(Constants.armSegment1PMult * (Functions.DeltaAngleDegrees(A1, raiseAngle)), Constants.armSegment2PMult * (Functions.DeltaAngleDegrees(A1, raiseAngle)));
   }
-
+  
   public void updateTarget(double x, double y){
-    targetX += x * Constants.armSpeedMult;
-    targetY += y * Constants.armSpeedMult;
+    targetX += x * Constants.armSpeedMult * 0.02;
+    targetY += y * Constants.armSpeedMult * 0.02;
     clampTargets();
+  }
+  public void setTargetToCurrent()
+  {
+    targetX = angleToPosition(raiseAngle, bendAngle)[0];
+    targetY = angleToPosition(raiseAngle, bendAngle)[1];
+  }
+
+  public void MysteryFunction(double timeSinceStart, int id)
+  {
+    if(timeSinceStart < 4.0*Math.PI/3.0)
+    {
+      targetY = 2*Math.abs(Math.sin(2*timeSinceStart)) + 100;
+    }
+    else
+    {
+      switch(id)
+      {
+        case 1:
+          Constants.gripperMotorA.set(0.5);
+          break;
+        case 2:
+          Constants.gripperMotorA.set(0.5);
+          Constants.gripperMotorB.set(0.5);
+          break;
+        default:
+          break;
+      }
+    }
   }
 }

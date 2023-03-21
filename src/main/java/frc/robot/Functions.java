@@ -1,5 +1,7 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.DriverStation;
+
 public class Functions {
     
     public static double Clamp(double input, double min, double max)
@@ -67,5 +69,29 @@ public class Functions {
         Constants.gripperMotorA.stopMotor();
         Constants.gripperMotorB.stopMotor();
     }
+
+    public static double DriverToFieldAngle(double angle)
+    {
+        if(DriverStation.getAlliance() == DriverStation.Alliance.Red)
+        {angle = Functions.DeltaAngleDegrees(0, angle - 90);}
+        else if(DriverStation.getAlliance() == DriverStation.Alliance.Blue)
+        {angle = Functions.DeltaAngleDegrees(0, angle + 90);}
+        return angle;
+    }
+
+    public static double FieldToDriverAngle(double angle)
+    {
+        if(DriverStation.getAlliance() == DriverStation.Alliance.Red)
+        {angle = Functions.DeltaAngleDegrees(0, angle + 90);}
+        else if(DriverStation.getAlliance() == DriverStation.Alliance.Blue)
+        {angle = Functions.DeltaAngleDegrees(0, angle - 90);}
+        return angle;
+    }
+
+    public static double Pythagorean(double x, double y)
+    {
+        return Math.sqrt((x * x) + (y * y));
+    }
+
 
 }

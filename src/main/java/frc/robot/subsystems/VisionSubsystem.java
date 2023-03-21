@@ -12,6 +12,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Functions;
 import frc.robot.RobotContainer;
 
 import java.util.Arrays;
@@ -93,6 +94,20 @@ public class VisionSubsystem extends SubsystemBase {
     return estimatedGlobalPoseOld;
   }
 
+  public boolean isValid(Pose2d oldPose, Pose2d newPose)
+  {
+    double maxMovement = Constants.swerveMaxSpeed * camera.getLatestResult().getLatencyMillis() * 0.001;
+    double currentMovement = Functions.Pythagorean(oldPose.getX() - newPose.getX(), oldPose.getY() - newPose.getY());
+    if (currentMovement > maxMovement)
+    {
+      return false;
+    }
+    else 
+    {
+      return true;
+    }
+  }
+
   @Override
   public void periodic() {
     //just averages the 4 raw motor angle values
@@ -119,7 +134,7 @@ public class VisionSubsystem extends SubsystemBase {
       }
     }
     if (camCheck()) {
-      if (estimatedGlobalPoseOld != globalPose) {
+      if (estimatedGlobalPoseOld != globalPose && isValid(estimatedGlobalPoseOld, globalPose)) {
         // apriltags present and information updated
         conFieldX = globalPose.getX();
         conFieldY = globalPose.getY();
@@ -142,7 +157,9 @@ public class VisionSubsystem extends SubsystemBase {
     SmartDashboard.putBoolean("isPresent", camCheck());
     SmartDashboard.putNumber("conField Y", conFieldY);
     SmartDashboard.putNumber("conField X", conFieldX);
+    SmartDashboard.putNumber("Latency", camera.getLatestResult().getLatencyMillis());
   }
+
 
 }
 

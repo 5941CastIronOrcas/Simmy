@@ -61,33 +61,33 @@ public class SwerveDriveSubsystem extends SubsystemBase {
 
     public void DriveTo(double x, double y, double angle)
     {
-        DriveFIELDOrientedAtAngle(
+        DriveFieldOrientedAtAngle(
             Functions.DeadZone(Functions.Clamp(
                 Constants.swerveDriveToPMult*(x-VisionSubsystem.conFieldX)
                 -Constants.swerveDriveToDMult*(VisionSubsystem.deltaX), 
-                -Constants.swerveDriveToMaxSpeed, Constants.swerveDriveToMaxSpeed), 0.01), 
+                -Constants.swerveDriveToMaxSpeed, Constants.swerveDriveToMaxSpeed), 0.05), 
                 Functions.DeadZone(Functions.Clamp(Constants.swerveDriveToPMult*(y-VisionSubsystem.conFieldY)
             -Constants.swerveDriveToDMult*(VisionSubsystem.deltaY), 
-                -Constants.swerveDriveToMaxSpeed, Constants.swerveDriveToMaxSpeed), 0.01), 
+                -Constants.swerveDriveToMaxSpeed, Constants.swerveDriveToMaxSpeed), 0.05), 
             angle);
     }
 
-    public void DriveFIELDOrientedAtAngle(double x, double y, double angle)
+    public void DriveFieldOrientedAtAngle(double x, double y, double angle)
     {
-        DriveFieldOriented(DriverStation.getAlliance() == DriverStation.Alliance.Red?y:-y, DriverStation.getAlliance() == DriverStation.Alliance.Red?-x:x, Functions.Clamp(-Constants.swerveAutoTurnPMult*Functions.DeltaAngleDegrees(angle, robotYawFieldRelative), -Constants.swerveAutoTurnMaxSpeed, Constants.swerveAutoTurnMaxSpeed));
+        DriveDriverOriented(DriverStation.getAlliance() == DriverStation.Alliance.Red?y:-y, DriverStation.getAlliance() == DriverStation.Alliance.Red?-x:x, Functions.Clamp(-Constants.swerveAutoTurnPMult*Functions.DeltaAngleDegrees(angle, robotYawFieldRelative), -Constants.swerveAutoTurnMaxSpeed, Constants.swerveAutoTurnMaxSpeed));
     }
 
-    public void DriveFIELDOriented(double x, double y, double turn)
+    public void DriveFieldOriented(double x, double y, double turn)
     {
         Drive(x*Math.cos(Math.toRadians(-robotYawFieldRelative))+y*Math.sin(Math.toRadians(-robotYawFieldRelative)), y*Math.cos(Math.toRadians(-robotYawFieldRelative))+x*Math.sin(Math.toRadians(robotYawFieldRelative)), turn);
     }
 
-    public void DriveFieldOrientedAtAngle(double LSX, double LSY, double angle)
+    public void DriveDriverOrientedAtAngle(double LSX, double LSY, double angle)
     {
-        DriveFieldOriented(LSX, LSY, Functions.Clamp(-Constants.swerveAutoTurnPMult*Functions.DeltaAngleDegrees(angle, robotYawAngle), -Constants.swerveAutoTurnMaxSpeed, Constants.swerveAutoTurnMaxSpeed));
+        DriveDriverOriented(LSX, LSY, Functions.Clamp(-Constants.swerveAutoTurnPMult*Functions.DeltaAngleDegrees(angle, robotYawAngle), -Constants.swerveAutoTurnMaxSpeed, Constants.swerveAutoTurnMaxSpeed));
     }
 
-    public void DriveFieldOriented(double LSX, double LSY, double RSX)
+    public void DriveDriverOriented(double LSX, double LSY, double RSX)
     {
         Drive(LSX*Math.cos(Math.toRadians(-robotYawAngle))+LSY*Math.sin(Math.toRadians(-robotYawAngle)), LSY*Math.cos(Math.toRadians(-robotYawAngle))+LSX*Math.sin(Math.toRadians(robotYawAngle)), RSX);
     }
@@ -161,4 +161,20 @@ public class SwerveDriveSubsystem extends SubsystemBase {
         }
     }
     
+    public void DriveToNearest(int type)
+    {
+        
+        switch(type){
+            case 0:
+                DriveTo(VisionSubsystem.conFieldX, VisionSubsystem.conFieldY, robotYawFieldRelative);
+                break;
+            case 1:
+                //DriveTo();
+                break;
+            default:
+            DriveTo(VisionSubsystem.conFieldX, VisionSubsystem.conFieldY, robotYawFieldRelative);
+                break;
+        }
+        
+    }
 }
