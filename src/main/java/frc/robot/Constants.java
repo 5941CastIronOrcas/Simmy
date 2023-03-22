@@ -104,8 +104,8 @@ public final class Constants
     public static double armSegmentBLength = 52;
     public static double armGearRatio1 = (1.0/100.0);
     public static double armGearRatio2 = (1.0/25.0);
-    public static double armSegment1PMult = 1.0/180.0;
-    public static double armSegment2PMult = 1.0/180.0;
+    public static double armSegment1PMult = 1.0/45.0;
+    public static double armSegment2PMult = 1.0/45.0;
     public static double armPreciseModeMult = 0.33;
     public static double armSpeedMult = 2; // cm/sec
     public static double bendRestingAngle = 0;

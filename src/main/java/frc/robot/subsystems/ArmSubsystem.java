@@ -42,6 +42,8 @@ public class ArmSubsystem extends SubsystemBase {
     bendAngle = (Constants.armMotor2.getEncoder().getPosition() * 360 * Constants.armGearRatio2) + 180; //if it doesn't work check the 180
     SmartDashboard.putNumber("S1 Angle", raiseAngle);
     SmartDashboard.putNumber("S2 Angle", bendAngle);
+    SmartDashboard.putNumber("Arm Target X", targetX);
+    SmartDashboard.putNumber("Arm Target Y", targetY);
     // This method will be called once per scheduler run
   }
 
@@ -122,8 +124,9 @@ public class ArmSubsystem extends SubsystemBase {
   public void updateTarget(double x, double y){
     targetX += x * Constants.armSpeedMult * 0.02;
     targetY += y * Constants.armSpeedMult * 0.02;
-    clampTargets();
+    //clampTargets();
   }
+
   public void setTargetToCurrent()
   {
     targetX = angleToPosition(raiseAngle, bendAngle)[0];
