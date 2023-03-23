@@ -42,15 +42,15 @@ public final class Constants
     public static double swerveModuleMaxThrottleChange = 0.1; //percent per frame
     public static double swerveCrouchModeMult = 0.25;
     public static double swerveMaxAccel = 0.05; //percent per frame
-    public static double swerveDriveRatio = (1.0/8.14);
+    public static double swerveDriveRatio = (1.0/8.14); //Swerve module gear ratio
     public static double swerveWheelCircumference = 0.1 * Math.PI; //in m
     public static double swerveDriveToPMult = 1.0;
     public static double swerveDriveToDMult = 7.0;
-    public static double swerveDriveToMaxSpeed = 1.0;
+    public static double swerveDriveToMaxSpeed = 1.0; //The max speed (percent) that swerve is allowed to move when moving on it's own
     public static double swerveMaxSpeed = 3.6576; // meters per second
 
     public static double swerveAutoTurnPMult = 0.005;
-    public static double swerveAutoTurnMaxSpeed = 0.5;
+    public static double swerveAutoTurnMaxSpeed = 0.5; //The max speed (percent) that swerve is allowed to spin when turning on it's own
     public static double swerveAutoTurnDMult = 0;
 
     public static Pose2d[] redGrid;
