@@ -39,7 +39,7 @@ public final class Constants
     public static double turnMultiplier = 0.25;
     public static double swerveModulePMult = 0.01;
     public static double swerveModuleDMult = 0.0001;
-    public static double swerveModuleMaxThrottleChange = 0.1;
+    public static double swerveModuleMaxThrottleChange = 0.1; //percent per frame
     public static double swerveCrouchModeMult = 0.25;
     public static double swerveMaxAccel = 0.05; //percent per frame
     public static double swerveDriveRatio = (1.0/8.14);
@@ -71,8 +71,8 @@ public final class Constants
     public static CANSparkMax backRightDriveMotor = new CANSparkMax(8, MotorType.kBrushless);
     public static CANSparkMax backLeftDriveMotor = new CANSparkMax(9, MotorType.kBrushless);
 
-    public static CANSparkMax gripperMotorA = new CANSparkMax(10, MotorType.kBrushless); //Right
-    public static CANSparkMax gripperMotorB = new CANSparkMax(6, MotorType.kBrushless); //Left
+    public static CANSparkMax gripperMotorA = new CANSparkMax(10, MotorType.kBrushless); //Left
+    public static CANSparkMax gripperMotorB = new CANSparkMax(6, MotorType.kBrushless); //Right
 
     public static double coneGripperPowerIn = 0.5;
     public static double cubeGripperPowerIn = 0.25;
@@ -104,14 +104,15 @@ public final class Constants
     public static double armSegmentBLength = 52;
     public static double armGearRatio1 = (1.0/100.0);
     public static double armGearRatio2 = (1.0/25.0);
-    public static double armSegment1PMult = 1.0/45.0;
-    public static double armSegment2PMult = 1.0/45.0;
+    public static double armSegment1PMult = 1.0/5.0;
+    public static double armSegment2PMult = 1.0/10.0;
     public static double armPreciseModeMult = 0.33;
-    public static double armSpeedMult = 2; // cm/sec
+    public static double armSpeedMult = 20; // cm/sec
     public static double bendRestingAngle = 0;
     public static double raiseRestingAngle = 0;
-    public static boolean raiseMotorInverted = false;
-    public static boolean bendMotorInverted = false;
+    public static boolean raiseMotorInverted = true;
+    public static boolean bendMotorInverted = true;
+    public static double maxArmSpeed = 0.25;
 
     public static CANSparkMax armMotor1 = new CANSparkMax(13, MotorType.kBrushless);
     public static CANSparkMax armMotor2 = new CANSparkMax(14, MotorType.kBrushless);

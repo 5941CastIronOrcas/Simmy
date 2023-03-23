@@ -27,6 +27,7 @@ public class ArmSubsystem extends SubsystemBase {
   //data
   public double raiseAngle = 0;
   public double bendAngle = 0; 
+  public double segment2HorizonAngle;
   public double[] clawPosition = new double[2];
   
   public double targetX; //position of target, in cm
@@ -39,11 +40,16 @@ public class ArmSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     raiseAngle = Constants.armMotor1.getEncoder().getPosition() * 360 * Constants.armGearRatio1;
-    bendAngle = (Constants.armMotor2.getEncoder().getPosition() * 360 * Constants.armGearRatio2) + 180; //if it doesn't work check the 180
+    segment2HorizonAngle = (Constants.armMotor2.getEncoder().getPosition() * 360 * Constants.armGearRatio2) + 180; //if it doesn't work check the 180
+    bendAngle = segment2HorizonAngle - raiseAngle;
     SmartDashboard.putNumber("S1 Angle", raiseAngle);
     SmartDashboard.putNumber("S2 Angle", bendAngle);
     SmartDashboard.putNumber("Arm Target X", targetX);
     SmartDashboard.putNumber("Arm Target Y", targetY);
+    SmartDashboard.putNumber("Arm Current X", angleToPosition(raiseAngle, bendAngle)[0]);
+    SmartDashboard.putNumber("Arm Current Y", angleToPosition(raiseAngle, bendAngle)[1]);
+    SmartDashboard.putNumber("Target Angle 1", positionToAngle(targetX, targetY)[0]);
+    SmartDashboard.putNumber("Target Angle 2", positionToAngle(targetX, targetY)[1]);
     // This method will be called once per scheduler run
   }
 
@@ -66,8 +72,8 @@ public class ArmSubsystem extends SubsystemBase {
     */
     if((targetY - mountY) * (targetY - mountY) + (targetX - mountX) * (targetX - mountX) > (segment1Length + segment2Length) * (segment1Length + segment2Length)){
       double angle = Math.atan2(targetY - mountY, targetX - mountX);
-      targetX = (Math.cos(angle) * (segment1Length + segment2Length) * 0.999) + mountX;
-      targetY = (Math.sin(angle) * (segment1Length + segment2Length) * 0.999) + mountY;
+      targetX = (Math.cos(angle) * (segment1Length + segment2Length) * 0.8) + mountX;
+      targetY = (Math.sin(angle) * (segment1Length + segment2Length) * 0.8) + mountY;
     }
     /*
     if(targetY > segment1Length - segment2Length + mountY){
@@ -109,6 +115,8 @@ public class ArmSubsystem extends SubsystemBase {
   {
     Constants.armMotor1.set(Constants.raiseMotorInverted ? -S1 : S1);
     Constants.armMotor2.set(Constants.bendMotorInverted ? -S2 : S2);
+    SmartDashboard.putNumber("S1 output", Constants.raiseMotorInverted ? -S1 : S1);
+    SmartDashboard.putNumber("S2 output", Constants.bendMotorInverted ? -S2 : S2);
   }
 
   public void moveArmToTarget(){
@@ -118,12 +126,12 @@ public class ArmSubsystem extends SubsystemBase {
   
   public void moveArmToAngle(double A1, double A2)
   {
-    moveArm(Constants.armSegment1PMult * (Functions.DeltaAngleDegrees(A1, raiseAngle)), Constants.armSegment2PMult * (Functions.DeltaAngleDegrees(A1, raiseAngle)));
+    moveArm(Constants.maxArmSpeed * Functions.Clamp(Constants.armSegment1PMult * (Functions.DeltaAngleDegrees(A1, raiseAngle)), -1, 1), Constants.maxArmSpeed * Functions.Clamp(Constants.armSegment2PMult * (Functions.DeltaAngleDegrees(A2, bendAngle)), -1, 1));
   }
   
   public void updateTarget(double x, double y){
-    targetX += x * Constants.armSpeedMult * 0.02;
-    targetY += y * Constants.armSpeedMult * 0.02;
+    targetX += -x * Constants.armSpeedMult * 0.02;
+    targetY += -y * Constants.armSpeedMult * 0.02;
     //clampTargets();
   }
 

@@ -157,7 +157,7 @@ public class VisionSubsystem extends SubsystemBase {
     SmartDashboard.putBoolean("isPresent", camCheck());
     SmartDashboard.putNumber("conField Y", conFieldY);
     SmartDashboard.putNumber("conField X", conFieldX);
-    SmartDashboard.putNumber("Latency", camera.getLatestResult().getLatencyMillis());
+    //SmartDashboard.putNumber("Latency", camera.getLatestResult().getLatencyMillis());
   }
 
 
