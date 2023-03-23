@@ -104,8 +104,8 @@ public final class Constants
     public static double armSegmentBLength = 52;
     public static double armGearRatio1 = (1.0/100.0);
     public static double armGearRatio2 = (1.0/25.0);
-    public static double armSegment1PMult = 1.0/5.0;
-    public static double armSegment2PMult = 1.0/10.0;
+    public static double armSegment1PMult = 1.0/20.0;
+    public static double armSegment2PMult = 1.0/40.0;
     public static double armPreciseModeMult = 0.33;
     public static double armSpeedMult = 20; // cm/sec
     public static double bendRestingAngle = 0;
@@ -113,6 +113,7 @@ public final class Constants
     public static boolean raiseMotorInverted = true;
     public static boolean bendMotorInverted = true;
     public static double maxArmSpeed = 0.25;
+    public static double armExtendBuffer = 0.8; //set between 0 and 1, 1 for max extension range, but be careful !DO NOT SET ABOVE ONE!
 
     public static CANSparkMax armMotor1 = new CANSparkMax(13, MotorType.kBrushless);
     public static CANSparkMax armMotor2 = new CANSparkMax(14, MotorType.kBrushless);

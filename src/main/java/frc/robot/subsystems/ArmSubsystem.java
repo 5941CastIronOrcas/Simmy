@@ -70,10 +70,10 @@ public class ArmSubsystem extends SubsystemBase {
       targetY = Math.max(Math.min(targetY, Math.tan(Math.acos((targetX - mountX)/(segment1Length + segment2Length))) * (targetX - mountX) + mountY), Math.tan(-Math.acos((targetX - mountX)/(segment1Length + segment2Length))) * (targetX - mountX) + mountY);
     }
     */
-    if((targetY - mountY) * (targetY - mountY) + (targetX - mountX) * (targetX - mountX) > (segment1Length + segment2Length) * (segment1Length + segment2Length)){
+    if((targetY - mountY) * (targetY - mountY) + (targetX - mountX) * (targetX - mountX) > Constants.armExtendBuffer * (segment1Length + segment2Length) * (segment1Length + segment2Length)){
       double angle = Math.atan2(targetY - mountY, targetX - mountX);
-      targetX = (Math.cos(angle) * (segment1Length + segment2Length) * 0.8) + mountX;
-      targetY = (Math.sin(angle) * (segment1Length + segment2Length) * 0.8) + mountY;
+      targetX = (Math.cos(angle) * (segment1Length + segment2Length) * Constants.armExtendBuffer) + mountX;
+      targetY = (Math.sin(angle) * (segment1Length + segment2Length) * Constants.armExtendBuffer) + mountY;
     }
     /*
     if(targetY > segment1Length - segment2Length + mountY){
@@ -126,7 +126,7 @@ public class ArmSubsystem extends SubsystemBase {
   
   public void moveArmToAngle(double A1, double A2)
   {
-    moveArm(Constants.maxArmSpeed * Functions.Clamp(Constants.armSegment1PMult * (Functions.DeltaAngleDegrees(A1, raiseAngle)), -1, 1), Constants.maxArmSpeed * Functions.Clamp(Constants.armSegment2PMult * (Functions.DeltaAngleDegrees(A2, bendAngle)), -1, 1));
+    moveArm(Functions.Clamp(Constants.armSegment1PMult * (Functions.DeltaAngleDegrees(A1, raiseAngle)), -Constants.maxArmSpeed, Constants.maxArmSpeed), Functions.Clamp(Constants.armSegment2PMult * (Functions.DeltaAngleDegrees(A2, bendAngle)), -Constants.maxArmSpeed, Constants.maxArmSpeed));
   }
   
   public void updateTarget(double x, double y){
