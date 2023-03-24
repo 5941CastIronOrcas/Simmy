@@ -70,7 +70,7 @@ public class ArmSubsystem extends SubsystemBase {
       targetY = Math.max(Math.min(targetY, Math.tan(Math.acos((targetX - mountX)/(segment1Length + segment2Length))) * (targetX - mountX) + mountY), Math.tan(-Math.acos((targetX - mountX)/(segment1Length + segment2Length))) * (targetX - mountX) + mountY);
     }
     */
-    if((targetY - mountY) * (targetY - mountY) + (targetX - mountX) * (targetX - mountX) > Constants.armExtendBuffer * (segment1Length + segment2Length) * (segment1Length + segment2Length)){
+    if(Math.sqrt(((targetY - mountY) * (targetY - mountY)) + ((targetX - mountX) * (targetX - mountX))) > Constants.armExtendBuffer * (segment1Length + segment2Length)){
       double angle = Math.atan2(targetY - mountY, targetX - mountX);
       targetX = (Math.cos(angle) * (segment1Length + segment2Length) * Constants.armExtendBuffer) + mountX;
       targetY = (Math.sin(angle) * (segment1Length + segment2Length) * Constants.armExtendBuffer) + mountY;
@@ -107,8 +107,8 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public void resetArmAngles(){
-    Constants.armMotor1.getEncoder().setPosition(Constants.raiseRestingAngle / Constants.armGearRatio1);
-    Constants.armMotor2.getEncoder().setPosition(Constants.bendRestingAngle / Constants.armGearRatio2);
+    Constants.armMotor1.getEncoder().setPosition((Constants.raiseRestingAngle / Constants.armGearRatio1) / 360);
+    Constants.armMotor2.getEncoder().setPosition((Constants.bendRestingAngle / Constants.armGearRatio2) / 360);
   }
 
   public void moveArm(double S1, double S2)
@@ -132,7 +132,7 @@ public class ArmSubsystem extends SubsystemBase {
   public void updateTarget(double x, double y){
     targetX += -x * Constants.armSpeedMult * 0.02;
     targetY += -y * Constants.armSpeedMult * 0.02;
-    //clampTargets();
+    clampTargets();
   }
 
   public void setTargetToCurrent()
