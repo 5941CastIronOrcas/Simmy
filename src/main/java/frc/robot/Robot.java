@@ -30,7 +30,7 @@ public class Robot extends TimedRobot {
   double LSX, LSY, RSX;
   double LSYB, RSYB;
   double timeSinceStartAtAutoStart = 0;
-  int selectedAutoSequence = 0;
+  int selectedAutoSequence = Constants.defaultAutoSequence;
   double demoTargetX = 0;
   double demoTargetY = 0;
   boolean advancedArmControlEnabled = false;
@@ -100,16 +100,16 @@ public class Robot extends TimedRobot {
     switch(selectedAutoSequence)
     {
       case 0:
-        autoSequence0();
+        autoSequence2();
         break;
       case 1:
-        autoSequence1();
+        autoSequence2();
         break;
       case 2:
         autoSequence2();
         break;
       default:
-        autoSequence0();
+        autoSequence2();
         break;
     }
   }
@@ -259,11 +259,11 @@ public class Robot extends TimedRobot {
       Functions.KillAllArm();
       Constants.primaryAccelerometer.setYaw(0);
     }
-    else if(isAutoTimeBetween(1, 2)) //next 1 seconds
+    else if(isAutoTimeBetween(1, 2.6)) //next 1 seconds
     {
-      RobotContainer.driveTrain.DriveDriverOrientedAtAngle(0,0.5,0);
+      RobotContainer.driveTrain.DriveDriverOrientedAtAngle(0,0.4,0);
     }
-    else if(isAutoTimeBetween(2, 14)) //remainder
+    else if(isAutoTimeBetween(2.6, 15)) //remainder
     {
       RobotContainer.driveTrain.AutoBalance();
     }

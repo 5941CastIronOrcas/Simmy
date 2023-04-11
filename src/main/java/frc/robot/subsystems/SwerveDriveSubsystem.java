@@ -147,13 +147,13 @@ public class SwerveDriveSubsystem extends SubsystemBase {
 
     public void AutoBalance()
     {
-        if(robotPitchAngle > 5)
+        if(robotPitchAngle > 8)
         {
-            Drive(0,0.0625,0);
+            Drive(0,-0.0625,0);
         }
         else if(robotPitchAngle < -5)
         {
-            Drive(0,-0.0625,0);
+            Drive(0,0.0625,0);
         }
         else
         {

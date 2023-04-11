@@ -81,7 +81,7 @@ public class ArmSubsystem extends SubsystemBase {
     }
     */
     targetY = Functions.Clamp(targetY, Constants.clawMinHeight, Constants.clawMaxHeight); //clamp to keep from hiting the floor, and ceiling
-    targetX = Math.min(targetX, 93.5); //adjust later if not working, clamp to limit extension range
+    targetX = Functions.Clamp(targetX, -80, 93.5); //adjust later if not working, clamp to limit extension range
   }
 
   //converts angle of arm segments 1 & 2 to the current position of the end of the arm.

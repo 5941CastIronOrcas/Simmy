@@ -41,7 +41,7 @@ public final class Constants
     public static double swerveModuleDMult = 0.0001;
     public static double swerveModuleMaxThrottleChange = 0.1; //percent per frame
     public static double swerveCrouchModeMult = 0.25;
-    public static double swerveMaxAccel = 0.045; //percent per frame
+    public static double swerveMaxAccel = 0.043; //percent per frame
     public static double swerveDriveRatio = (1.0/8.14); //Swerve module gear ratio
     public static double swerveWheelCircumference = 0.1 * Math.PI; //in m
     public static double swerveDriveToPMult = 1.0;
@@ -103,19 +103,20 @@ public final class Constants
     public static double armSegmentALength = 52;
     public static double armSegmentBLength = 52;
     public static double armGearRatio1 = (1.0/100.0);
-    public static double armGearRatio2 = (1.0/25.0);
-    public static double armSegment1PMult = 1.0/20.0;
-    public static double armSegment2PMult = 1.0/40.0;
+    public static double armGearRatio2 = (1.0/80.0);
+    public static double armSegment1PMult = 1.0/15.0;
+    public static double armSegment2PMult = 1.0/15.0;
     public static double armPreciseModeMult = 0.33;
     public static double armSpeedMult = 20; // cm/sec
-    public static double bendRestingAngle = -90; //-90 for hanging   ??? for stowed
-    public static double raiseRestingAngle = 0; //0 for hanging      ??? for stowed
+    public static double bendRestingAngle = -90.0; //-90 for hanging   -139.6 for stowed
+    public static double raiseRestingAngle = 0.0; //0 for hanging      224.32 for stowed
     public static boolean raiseMotorInverted = true;
     public static boolean bendMotorInverted = true;
-    public static double maxArmSpeed = 0.5;
+    public static double maxArmSpeed = 1.0;
     public static double armExtendBuffer = 0.95; //set between 0 and 1, 1 for max extension range, but be careful !DO NOT SET ABOVE ONE!
 
     public static CANSparkMax armMotor1 = new CANSparkMax(13, MotorType.kBrushless);
     public static CANSparkMax armMotor2 = new CANSparkMax(14, MotorType.kBrushless);
 
+    public static int defaultAutoSequence = 2;
 }
