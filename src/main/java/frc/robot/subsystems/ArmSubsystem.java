@@ -141,11 +141,11 @@ public class ArmSubsystem extends SubsystemBase {
     targetY = angleToPosition(raiseAngle, bendAngle)[1];
   }
 
-  public void MysteryFunction(double timeSinceStart, int id)
+  public void RockPaperScissorsPeriodic(double timeSinceStart, int id)
   {
-    if(timeSinceStart < 4.0*Math.PI/3.0)
+    if(timeSinceStart < 2.0*Math.PI)
     {
-      targetY = 2*Math.abs(Math.sin(2*timeSinceStart)) + 100;
+      targetY = 5*(Math.sin((4*timeSinceStart) - (Math.PI/2))) + 55;
     }
     else
     {

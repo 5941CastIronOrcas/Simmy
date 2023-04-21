@@ -34,6 +34,9 @@ public class Robot extends TimedRobot {
   double demoTargetX = 0;
   double demoTargetY = 0;
   boolean advancedArmControlEnabled = false;
+  boolean RPS = false;
+  int RPSValue = 0;
+  double RPSTime = 0;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -175,8 +178,31 @@ public class Robot extends TimedRobot {
     }else{
       RobotContainer.armSystem.moveArm(LSYB, RSYB);
     }
-    Constants.gripperMotorA.set(-(Constants.controllerB.getRightTriggerAxis()-Constants.controllerB.getLeftTriggerAxis()));
-    Constants.gripperMotorB.set((Constants.controllerB.getRightTriggerAxis()-Constants.controllerB.getLeftTriggerAxis()));
+    if(!RPS)
+    {
+      Constants.gripperMotorA.set(-(Constants.controllerB.getRightTriggerAxis()-Constants.controllerB.getLeftTriggerAxis()));
+      Constants.gripperMotorB.set((Constants.controllerB.getRightTriggerAxis()-Constants.controllerB.getLeftTriggerAxis()));
+    }
+    if(Constants.controllerB.getStartButtonPressed() && advancedArmControlEnabled)
+    {
+      RPS = true;
+      RPSValue = (int)(3*Math.random());
+      RPSTime = 0;
+      RobotContainer.armSystem.setTargetToCurrent();
+    }
+    if(Constants.controllerB.getStartButton() && advancedArmControlEnabled)
+    {
+      RPSTime += 0.02;
+      RobotContainer.armSystem.RockPaperScissorsPeriodic(RPSTime, RPSValue);
+    }
+    if(Constants.controllerB.getStartButtonReleased() && advancedArmControlEnabled)
+    {
+      Constants.gripperMotorA.set(0);
+      Constants.gripperMotorB.set(0);
+      RobotContainer.armSystem.setTargetToCurrent();
+      RPS = false;
+    }
+
     if(Constants.controllerB.getYButtonPressed()){
       RobotContainer.armSystem.resetArmAngles();
     }
