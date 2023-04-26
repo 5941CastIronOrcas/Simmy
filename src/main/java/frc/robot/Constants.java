@@ -96,27 +96,27 @@ public final class Constants
     public static PowerDistribution PDP = new PowerDistribution(0, ModuleType.kCTRE);
     public static double currentWarningLevel = 80;
     
-    public static double armOriginVerticalOffset = 90;
-    public static double armOriginHorizontalOffset = -19;
-    public static double clawMinHeight = 0;
-    public static double clawMaxHeight = 185; //bit low on the safe side, as the claw adds height
-    public static double armSegmentALength = 52;
-    public static double armSegmentBLength = 52;
-    public static double armGearRatio1 = (1.0/100.0);
+    public static double armOriginVerticalOffset = 90; // vertical offset of the arm mount from the floor, in cm. 
+    public static double armOriginHorizontalOffset = -19; // horizontal offset of the arm mount from front of bumper, in cm
+    public static double clawMinHeight = 0; // clamp on the minimum height of the claw, prevents hitting the floor (doesn't do that right now).
+    public static double clawMaxHeight = 185; // bit low on the safe side, as the height exceeds frc limit. Should never reach this limit (hopefully).
+    public static double armSegmentALength = 52; // length of the first arm segment, in cm
+    public static double armSegmentBLength = 52; // length of second arm segment from 
+    public static double armGearRatio1 = (1.0/100.0); 
     public static double armGearRatio2 = (1.0/80.0);
-    public static double armSegment1PMult = 1.0/15.0;
-    public static double armSegment2PMult = 1.0/15.0;
-    public static double armPreciseModeMult = 0.33;
+    public static double armSegment1PMult = 1.0/15.0; // arm PID multiplier
+    public static double armSegment2PMult = 1.0/15.0; // arm PID multiplier
+    public static double armPreciseModeMult = 0.33; // precision mode for the arm, slows down arm by multiplier when mode is activated.
     public static double armSpeedMult = 20; // cm/sec
     public static double bendRestingAngle = -90.0; //-90 for hanging   -139.6 for stowed
     public static double raiseRestingAngle = 0.0; //0 for hanging      224.32 for stowed
-    public static boolean raiseMotorInverted = true;
-    public static boolean bendMotorInverted = true;
-    public static double maxArmSpeed = 1.0;
+    public static boolean raiseMotorInverted = true; //inverts the motor movement on arm motor 1
+    public static boolean bendMotorInverted = true; //inverts the motor movement on arm 
+    public static double maxArmSpeed = 1.0; //maximum power output for the arm. 1.0 is 100%. 
     public static double armExtendBuffer = 0.95; //set between 0 and 1, 1 for max extension range, but be careful !DO NOT SET ABOVE ONE!
 
-    public static CANSparkMax armMotor1 = new CANSparkMax(13, MotorType.kBrushless);
-    public static CANSparkMax armMotor2 = new CANSparkMax(14, MotorType.kBrushless);
+    public static CANSparkMax armMotor1 = new CANSparkMax(13, MotorType.kBrushless); //declare arm motors
+    public static CANSparkMax armMotor2 = new CANSparkMax(14, MotorType.kBrushless); 
 
     public static int defaultAutoSequence = 2;
 }

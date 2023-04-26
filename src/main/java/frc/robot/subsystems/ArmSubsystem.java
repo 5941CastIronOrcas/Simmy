@@ -14,10 +14,6 @@ import frc.robot.Functions;
 public class ArmSubsystem extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
 
-  public double leftStickY = 0;
-  public double rightStickY = 0;
-  public float controllerSensitivity = 1;
-
   //constants
   public double mountX = Constants.armOriginHorizontalOffset;
   public double mountY = Constants.armOriginVerticalOffset;
@@ -25,23 +21,24 @@ public class ArmSubsystem extends SubsystemBase {
   public double segment2Length = Constants.armSegmentBLength;
 
   //data
-  public double raiseAngle = 0;
-  public double bendAngle = 0; 
-  public double segment2HorizonAngle;
-  public double[] clawPosition = new double[2];
+  public double raiseAngle = 0; //current raise angle of the arm, in degrees. Horizontal is 0 degrees, down is negative, up is positive. 
+  public double bendAngle = 0; //lower angle between the first arm segment and second arm segment. Arm straight is 180, arm bent is 90. 
+  public double segment2HorizonAngle; //angle of second arm relative to the horizon. 
+  public double[] clawPosition = new double[2]; //currently not used
   
-  public double targetX; //position of target, in cm
-  public double targetY; 
-  public double targetDistance; //distance of target from mount
-  public double targetAngle; //angle of target from mount
+  public double targetX; //position of target x relative to the front of the bumper, in cm 
+  public double targetY; //position of target y relative to the floor, in cm.
+  public double targetDistance; //distance between target and mounting point, in cm.
+  public double targetAngle; //angle of target from mount, relative to horizon. 
 
   public ArmSubsystem() {}
 
   @Override
   public void periodic() {
-    raiseAngle = Constants.armMotor1.getEncoder().getPosition() * 360 * Constants.armGearRatio1;
+    raiseAngle = Constants.armMotor1.getEncoder().getPosition() * 360 * Constants.armGearRatio1; //sets current raise angle to encoder positions.
     segment2HorizonAngle = (Constants.armMotor2.getEncoder().getPosition() * 360 * Constants.armGearRatio2) + 180; //if it doesn't work check the 180
-    bendAngle = segment2HorizonAngle - raiseAngle;
+    bendAngle = segment2HorizonAngle - raiseAngle; //sets the current bend angle based on the encoder positions.
+    
     SmartDashboard.putNumber("S1 Angle", raiseAngle);
     SmartDashboard.putNumber("S2 Angle", bendAngle);
     SmartDashboard.putNumber("Arm Target X", targetX);
@@ -58,28 +55,15 @@ public class ArmSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run during simulation
   }
 
-  public void clampTargets(){ //call when setting target
-    //easy clamp
-    //targetX = Math.max(Math.min(targetX, segment1Length + segment2Length), 0);
-    //targetY = Math.max(Math.min(targetY, segment1Length + segment2Length), 0);
+  //call when setting target. Clamps the target from leaving effective range, clamps the target from hitting the floor, clamps the target from reaching ceiling.
+  public void clampTargets(){
 
-    /* sad I am not using these because they took forever to write.
-    if(rightStickY * rightStickY > leftStickY * leftStickY){
-      targetX = Math.min(targetX,((targetY - mountY) / (Math.tan(Math.asin((targetY - mountY) / (segment1Length + segment2Length))))) + mountX);
-    }else{
-      targetY = Math.max(Math.min(targetY, Math.tan(Math.acos((targetX - mountX)/(segment1Length + segment2Length))) * (targetX - mountX) + mountY), Math.tan(-Math.acos((targetX - mountX)/(segment1Length + segment2Length))) * (targetX - mountX) + mountY);
-    }
-    */
     if(Math.sqrt(((targetY - mountY) * (targetY - mountY)) + ((targetX - mountX) * (targetX - mountX))) > Constants.armExtendBuffer * (segment1Length + segment2Length)){
       double angle = Math.atan2(targetY - mountY, targetX - mountX);
       targetX = (Math.cos(angle) * (segment1Length + segment2Length) * Constants.armExtendBuffer) + mountX;
       targetY = (Math.sin(angle) * (segment1Length + segment2Length) * Constants.armExtendBuffer) + mountY;
     }
-    /*
-    if(targetY > segment1Length - segment2Length + mountY){
-      targetX = Math.max(targetX, Math.cos(Math.asin((targetY - segment1Length - mountY) / segment2Length)) * segment2Length + mountX);
-    }
-    */
+
     targetY = Functions.Clamp(targetY, Constants.clawMinHeight, Constants.clawMaxHeight); //clamp to keep from hiting the floor, and ceiling
     targetX = Functions.Clamp(targetX, -80, 93.5); //adjust later if not working, clamp to limit extension range
   }
@@ -91,26 +75,20 @@ public class ArmSubsystem extends SubsystemBase {
     return new double[]{((Math.cos(Math.toRadians(cAngle)) * cDistance) + mountX), ((Math.sin(Math.toRadians(cAngle)) * cDistance) + mountY)};
   }
 
-  //Finds the new target angles given a targetX and targetY
-  public double[] changeInAngle(double cRaise, double cBend, double targetX, double targetY){
-    double[] angleChange = positionToAngle(targetX, targetY);
-    angleChange[0] -= cRaise;
-    angleChange[1] -= cBend;
-    return angleChange;
-  }
-
-  public double[] positionToAngle(double positionX, double positionY){
+  //takes x and y, returns bend and raise angles needed to reach it.
+  public double[] positionToAngle(double positionX, double positionY){ 
     targetDistance = Math.sqrt(((positionX-mountX) * (positionX-mountX)) + ((positionY-mountY) * (positionY-mountY))); //distance between arm and target. Needs targetX, targetY, mountX, mountY
     targetAngle = -(Math.atan2((positionX-mountX), (positionY-mountY)) * (180 / Math.PI)) + 90; //the angle of the target from the robot. Needs targetX, targetY, mountX, mountY
-    //returns raise angle, bend angle
     return new double[]{(targetAngle + Math.acos(((segment1Length*segment1Length) - (segment2Length*segment2Length) + (targetDistance*targetDistance))/(2 * segment1Length * targetDistance)) * (180/Math.PI)), (Math.acos(((segment1Length*segment1Length) + (segment2Length*segment2Length) - (targetDistance*targetDistance))/(2 * segment1Length * segment2Length)) * (180/Math.PI))};
   }
 
+  //calibrates motor encoders and sets angles to predetermined values. 
   public void resetArmAngles(){
     Constants.armMotor1.getEncoder().setPosition((Constants.raiseRestingAngle / Constants.armGearRatio1) / 360);
     Constants.armMotor2.getEncoder().setPosition((Constants.bendRestingAngle / Constants.armGearRatio2) / 360);
   }
 
+  //moves the motors directly, inverts motor movements if set to.
   public void moveArm(double S1, double S2)
   {
     Constants.armMotor1.set(Constants.raiseMotorInverted ? -S1 : S1);
@@ -119,22 +97,33 @@ public class ArmSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("S2 output", Constants.bendMotorInverted ? -S2 : S2);
   }
 
+  //moves arm to target
   public void moveArmToTarget(){
     //moveArm(Constants.armSegment1PMult * (positionToAngle(targetX, targetY)[0]-raiseAngle), Constants.armSegment2PMult * (positionToAngle(targetX, targetY)[1]-bendAngle));
     moveArmToAngle(positionToAngle(targetX, targetY)[0], positionToAngle(targetX, targetY)[1]);
   }
   
+  //moves arm to angle, with PID
   public void moveArmToAngle(double A1, double A2)
   {
     moveArm(Functions.Clamp(Constants.armSegment1PMult * (Functions.DeltaAngleDegrees(A1, raiseAngle)), -Constants.maxArmSpeed, Constants.maxArmSpeed), Functions.Clamp(Constants.armSegment2PMult * (Functions.DeltaAngleDegrees(A2, bendAngle)), -Constants.maxArmSpeed, Constants.maxArmSpeed));
   }
   
+  //moves target based on given ((x and y value) * (arm speed mult)) cm/sec based on a controller. Clamps target after finished.
   public void updateTarget(double x, double y){
-    targetX += -x * Constants.armSpeedMult * 0.02;
-    targetY += -y * Constants.armSpeedMult * 0.02;
+    targetX += x * Constants.armSpeedMult * 0.02;
+    targetY += y * Constants.armSpeedMult * 0.02;
     clampTargets();
   }
 
+  // sets targets to a given x and y, both in cm. Clamps target after finished
+  public void setTarget(double x, double y){
+    targetX = x;
+    targetY = y;
+    clampTargets();
+  }
+
+  //sets target to current arm position. Essentially stops arm from moving to target.
   public void setTargetToCurrent()
   {
     targetX = angleToPosition(raiseAngle, bendAngle)[0];
@@ -145,7 +134,7 @@ public class ArmSubsystem extends SubsystemBase {
   {
     if(timeSinceStart < 2.0*Math.PI)
     {
-      targetY = 5*(Math.sin((4*timeSinceStart) - (Math.PI/2))) + 55;
+      setTarget(45, 5*(Math.sin((4*timeSinceStart) - (Math.PI/2))) + 55);
     }
     else
     {

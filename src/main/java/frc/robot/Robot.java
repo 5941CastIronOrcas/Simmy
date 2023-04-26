@@ -173,7 +173,7 @@ public class Robot extends TimedRobot {
       RobotContainer.armSystem.setTargetToCurrent();
     }
     if(advancedArmControlEnabled){
-      RobotContainer.armSystem.updateTarget(RSYB, LSYB);
+      RobotContainer.armSystem.updateTarget(-RSYB, -LSYB);
       RobotContainer.armSystem.moveArmToTarget();
     }else{
       RobotContainer.armSystem.moveArm(LSYB, RSYB);
