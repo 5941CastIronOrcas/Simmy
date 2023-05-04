@@ -47,6 +47,7 @@ public class ArmSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Arm Current Y", angleToPosition(raiseAngle, bendAngle)[1]);
     SmartDashboard.putNumber("Target Angle 1", positionToAngle(targetX, targetY)[0]);
     SmartDashboard.putNumber("Target Angle 2", positionToAngle(targetX, targetY)[1]);
+    SmartDashboard.putNumber("HorizonAngle", segment2HorizonAngle);
     // This method will be called once per scheduler run
   }
 
@@ -106,7 +107,9 @@ public class ArmSubsystem extends SubsystemBase {
   //moves arm to angle, with PID
   public void moveArmToAngle(double A1, double A2)
   {
-    moveArm(Functions.Clamp(Constants.armSegment1PMult * (Functions.DeltaAngleDegrees(A1, raiseAngle)), -Constants.maxArmSpeed, Constants.maxArmSpeed), Functions.Clamp(Constants.armSegment2PMult * (Functions.DeltaAngleDegrees(A2, bendAngle)), -Constants.maxArmSpeed, Constants.maxArmSpeed));
+    moveArm(Functions.Clamp((Constants.armSegment1PMult * (Functions.DeltaAngleDegrees(A1, raiseAngle))), -Constants.maxArmSpeed, Constants.maxArmSpeed), 
+            Functions.Clamp((Constants.armSegment2PMult * (Functions.DeltaAngleDegrees(A2, bendAngle)))+(Constants.armSegment2GravMult * -Math.cos(Math.toRadians(segment2HorizonAngle))), -Constants.maxArmSpeed, Constants.maxArmSpeed)
+            );
   }
   
   //moves target based on given ((x and y value) * (arm speed mult)) cm/sec based on a controller. Clamps target after finished.
