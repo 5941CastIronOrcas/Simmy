@@ -180,8 +180,8 @@ public class Robot extends TimedRobot {
     }
     if(!RPS)
     {
-      Constants.gripperMotorA.set(-(Constants.controllerB.getRightTriggerAxis()-Constants.controllerB.getLeftTriggerAxis()));
-      Constants.gripperMotorB.set((Constants.controllerB.getRightTriggerAxis()-Constants.controllerB.getLeftTriggerAxis()));
+      Constants.gripperMotorA.set(Functions.Clamp(-(Constants.controllerB.getRightTriggerAxis()-Constants.controllerB.getLeftTriggerAxis()), -0.25, 0.25));
+      Constants.gripperMotorB.set(Functions.Clamp((Constants.controllerB.getRightTriggerAxis()-Constants.controllerB.getLeftTriggerAxis()), -0.25, 0.25));
     }
     if(Constants.controllerB.getStartButtonPressed() && advancedArmControlEnabled)
     {
