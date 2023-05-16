@@ -104,10 +104,12 @@ public final class Constants
     public static double armSegmentBLength = 52; // length of second arm segment from 
     public static double armGearRatio1 = (1.0/100.0); 
     public static double armGearRatio2 = (1.0/80.0);
+
     public static double armSegment1PMult = 1.0/15.0; // arm PID multiplier
-    public static double armSegment1DMult = 0;
+    public static double armSegment1DMult = 0.00005;
     public static double armSegment2PMult = 1.0/15.0; // arm PID multiplier
     public static double armSegment2DMult = 0.00005;
+
     public static double armPreciseModeMult = 0.33; // precision mode for the arm, slows down arm by multiplier when mode is activated.
     public static double armSpeedMult = 20; // cm/sec
     public static double bendRestingAngle = -90.0; //-90 for hanging   -139.6 for stowed
@@ -115,7 +117,8 @@ public final class Constants
     public static boolean raiseMotorInverted = true; //inverts the motor movement on arm motor 1
     public static boolean bendMotorInverted = true; //inverts the motor movement on arm 
     public static double maxArmSpeed = 1.0; //maximum power output for the arm. 1.0 is 100%. 
-    public static double armExtendBuffer = 0.98; //set between 0 and 1, 1 for max extension range, but be careful !DO NOT SET ABOVE ONE!
+    public static double armExtendBuffer = 0.9975; //set between 0 and 1, 1 for max extension range, but be careful !DO NOT SET ABOVE ONE!
+    
     public static double armSegment1GravMult = 0;
     public static double armSegment2GravMult = -0.1;
 
