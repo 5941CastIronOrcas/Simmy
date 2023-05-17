@@ -93,5 +93,4 @@ public class Functions {
         return Math.sqrt((x * x) + (y * y));
     }
 
-
 }
