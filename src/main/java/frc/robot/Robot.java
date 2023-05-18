@@ -33,7 +33,6 @@ public class Robot extends TimedRobot {
   int selectedAutoSequence = Constants.defaultAutoSequence;
   double demoTargetX = 0;
   double demoTargetY = 0;
-  boolean advancedArmControlEnabled = false;
   boolean RPS = false;
   int RPSValue = 0;
   double RPSTime = 0;
@@ -126,7 +125,7 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
-    advancedArmControlEnabled = false;
+
   }
 
   /** This function is called periodically during operator control. */
@@ -135,7 +134,7 @@ public class Robot extends TimedRobot {
   {
     //Calculates the speed multipler applied to the joystick axes
     crouchSpeed = 1-((1-Constants.swerveCrouchModeMult) * Constants.controller.getLeftTriggerAxis());
-    if(Constants.controllerB.getBButtonPressed())
+    if(Constants.controllerB.getLeftStickButtonPressed())
     {
       preciseMode = !preciseMode;
     }
@@ -167,35 +166,30 @@ public class Robot extends TimedRobot {
       Constants.primaryAccelerometer.setYaw(0);
     }
     
-    if(Constants.controllerB.getXButtonPressed())
-    {
-      advancedArmControlEnabled = !advancedArmControlEnabled;
-      RobotContainer.armSystem.setTargetToCurrent();
-    }
-    if(advancedArmControlEnabled){
-      RobotContainer.armSystem.updateTarget(-RSYB, -LSYB);
-      RobotContainer.armSystem.moveArmToTarget();
-    }else{
-      RobotContainer.armSystem.moveArm(LSYB, RSYB);
-    }
     if(!RPS)
     {
+      if(Constants.controllerB.getYButton()){RobotContainer.armSystem.moveArmToAngles(0, 0);}
+      else if(Constants.controllerB.getXButton()){RobotContainer.armSystem.moveArmToAngles(0, 0);}
+      else if(Constants.controllerB.getBButton()){RobotContainer.armSystem.moveArmToAngles(0, 0);}  //calibrate these
+      else if(Constants.controllerB.getAButton()){RobotContainer.armSystem.moveArmToAngles(0, 0);}
+      else{RobotContainer.armSystem.moveArm(LSYB, RSYB);}
       Constants.gripperMotorA.set(Functions.Clamp(-(Constants.controllerB.getRightTriggerAxis()-Constants.controllerB.getLeftTriggerAxis()), -0.25, 0.25));
       Constants.gripperMotorB.set(Functions.Clamp((Constants.controllerB.getRightTriggerAxis()-Constants.controllerB.getLeftTriggerAxis()), -0.25, 0.25));
     }
-    if(Constants.controllerB.getStartButtonPressed() && advancedArmControlEnabled)
+
+    if(Constants.controllerB.getStartButtonPressed())
     {
       RPS = true;
       RPSValue = (int)(3*Math.random());
       RPSTime = 0;
       RobotContainer.armSystem.setTargetToCurrent();
     }
-    if(Constants.controllerB.getStartButton() && advancedArmControlEnabled)
+    if(Constants.controllerB.getStartButton())
     {
       RPSTime += 0.02;
       RobotContainer.armSystem.RockPaperScissorsPeriodic(RPSTime, RPSValue);
     }
-    if(Constants.controllerB.getStartButtonReleased() && advancedArmControlEnabled)
+    if(Constants.controllerB.getStartButtonReleased())
     {
       Constants.gripperMotorA.set(0);
       Constants.gripperMotorB.set(0);
@@ -203,7 +197,7 @@ public class Robot extends TimedRobot {
       RPS = false;
     }
 
-    if(Constants.controllerB.getYButtonPressed()){
+    if(Constants.controllerB.getRightBumperPressed()){
       RobotContainer.armSystem.resetArmAngles();
     }
 
