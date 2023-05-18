@@ -53,7 +53,7 @@ public class ArmSubsystem extends SubsystemBase {
     +(Constants.armSegment1DMult*Constants.armMotor1.getEncoder().getVelocity()), 
     -Constants.maxArmSpeed, Constants.maxArmSpeed), 
             Functions.Clamp((Constants.armSegment2PMult * (a2 - segment2HorizonAngle))
-    +(Constants.armSegment2GravMult * -Math.cos(Math.toRadians(segment2HorizonAngle)))
+    +(Constants.armSegment2GravMult * Math.cos(Math.toRadians(segment2HorizonAngle)))
     +(Constants.armSegment2DMult*Constants.armMotor2.getEncoder().getVelocity()), 
     -Constants.maxArmSpeed, Constants.maxArmSpeed)
     );
