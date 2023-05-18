@@ -168,11 +168,11 @@ public class Robot extends TimedRobot {
     
     if(!RPS)
     {
-      if(Constants.controllerB.getYButton()){RobotContainer.armSystem.moveArmToAngles(0, 0);}
-      else if(Constants.controllerB.getXButton()){RobotContainer.armSystem.moveArmToAngles(0, 0);}
-      else if(Constants.controllerB.getBButton()){RobotContainer.armSystem.moveArmToAngles(0, 0);}  //calibrate these
+      if(Constants.controllerB.getYButton()){RobotContainer.armSystem.moveArmToAngles(20, 0);}
+      else if(Constants.controllerB.getXButton()){RobotContainer.armSystem.moveArmToAngles(11.5, 13);}
+      else if(Constants.controllerB.getBButton()){RobotContainer.armSystem.moveArmToAngles(-67, -52);}  //calibrate these
       else if(Constants.controllerB.getAButton()){RobotContainer.armSystem.moveArmToAngles(0, 0);}
-      else{RobotContainer.armSystem.moveArm(LSYB, RSYB);}
+      else{RobotContainer.armSystem.moveArm(-LSYB, -RSYB);}
       Constants.gripperMotorA.set(Functions.Clamp(-(Constants.controllerB.getRightTriggerAxis()-Constants.controllerB.getLeftTriggerAxis()), -0.25, 0.25));
       Constants.gripperMotorB.set(Functions.Clamp((Constants.controllerB.getRightTriggerAxis()-Constants.controllerB.getLeftTriggerAxis()), -0.25, 0.25));
     }

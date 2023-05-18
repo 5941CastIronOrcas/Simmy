@@ -100,19 +100,19 @@ public final class Constants
     public static double armGearRatio2 = (1.0/80.0);
 
     public static double armSegment1PMult = 1.0/15.0; // arm PID multiplier
-    public static double armSegment1DMult = 0.00005;
+    public static double armSegment1DMult = 0.0000;
     public static double armSegment2PMult = 1.0/15.0; // arm PID multiplier
-    public static double armSegment2DMult = 0.00005;
+    public static double armSegment2DMult = 0.0000;
 
     public static double armPreciseModeMult = 0.33; // precision mode for the arm, slows down arm by multiplier when mode is activated.
     public static double bendRestingAngle = 0.0; //
     public static double raiseRestingAngle = 0.0; //
-    public static boolean raiseMotorInverted = true; //inverts the motor movement on arm motor 1
-    public static boolean bendMotorInverted = true; //inverts the motor movement on arm 
-    public static double maxArmSpeed = 0.1; //maximum power output for the arm. 1.0 is 100%. 
+    public static boolean raiseMotorInverted = false; //inverts the motor movement on arm motor 1
+    public static boolean bendMotorInverted = false; //inverts the motor movement on arm 
+    public static double maxArmSpeed = 0.3; //maximum power output for the arm. 1.0 is 100%. 
 
     public static double armSegment1GravMult = 0;
-    public static double armSegment2GravMult = -0.1;
+    public static double armSegment2GravMult = 0;
 
     public static CANSparkMax armMotor1 = new CANSparkMax(13, MotorType.kBrushless); //declare arm motors
     public static CANSparkMax armMotor2 = new CANSparkMax(14, MotorType.kBrushless); 

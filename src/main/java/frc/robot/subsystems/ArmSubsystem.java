@@ -48,15 +48,17 @@ public class ArmSubsystem extends SubsystemBase {
 
   public void moveArmToAngles(double a1, double a2)
   {
-    moveArm(Functions.Clamp((Constants.armSegment1PMult * (Functions.DeltaAngleDegrees(a1, raiseAngle)))
+    moveArm(Functions.Clamp((Constants.armSegment1PMult * (a1 - raiseAngle))
     +(Constants.armSegment1GravMult * Math.cos(Math.toRadians(raiseAngle)))
     +(Constants.armSegment1DMult*Constants.armMotor1.getEncoder().getVelocity()), 
     -Constants.maxArmSpeed, Constants.maxArmSpeed), 
-            Functions.Clamp((Constants.armSegment2PMult * (Functions.DeltaAngleDegrees(a2, bendAngle)))
+            Functions.Clamp((Constants.armSegment2PMult * (a2 - segment2HorizonAngle))
     +(Constants.armSegment2GravMult * -Math.cos(Math.toRadians(segment2HorizonAngle)))
     +(Constants.armSegment2DMult*Constants.armMotor2.getEncoder().getVelocity()), 
     -Constants.maxArmSpeed, Constants.maxArmSpeed)
     );
+    SmartDashboard.putNumber("S1 Target", a1);
+    SmartDashboard.putNumber("S2 Target", a2);
   }
 
   //moves the motors directly, inverts motor movements if set to.
