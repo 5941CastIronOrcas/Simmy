@@ -99,17 +99,17 @@ public final class Constants
     public static double armGearRatio1 = (1.0/100.0); 
     public static double armGearRatio2 = (1.0/80.0);
 
-    public static double armSegment1PMult = 1.0/15.0; // arm PID multiplier
+    public static double armSegment1PMult = 1.0/30.0; // arm PID multiplier
     public static double armSegment1DMult = -0.0001;
-    public static double armSegment2PMult = 1.0/15.0; // arm PID multiplier
-    public static double armSegment2DMult = 0.0001;
+    public static double armSegment2PMult = 1.0/30.0; // arm PID multiplier
+    public static double armSegment2DMult = -0.0001;
 
     public static double armPreciseModeMult = 0.33; // precision mode for the arm, slows down arm by multiplier when mode is activated.
-    public static double bendRestingAngle = 0.0; //
-    public static double raiseRestingAngle = 0.0; //
+    public static double bendRestingAngle = 276; //
+    public static double raiseRestingAngle = 189; //
     public static boolean raiseMotorInverted = false; //inverts the motor movement on arm motor 1
     public static boolean bendMotorInverted = false; //inverts the motor movement on arm 
-    public static double maxArmSpeed = 0.3; //maximum power output for the arm. 1.0 is 100%. 
+    public static double maxArmSpeed = 0.2; //maximum power output for the arm. 1.0 is 100%. 
 
     public static double armSegment1GravMult = 0;
     public static double armSegment2GravMult = 0;

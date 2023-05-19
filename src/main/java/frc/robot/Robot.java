@@ -51,6 +51,7 @@ public class Robot extends TimedRobot {
     Constants.gripperMotorA.setSmartCurrentLimit((int)Constants.clawAmpLimit);
     Constants.gripperMotorB.setSmartCurrentLimit((int)Constants.clawAmpLimit);
     Constants.primaryAccelerometer.setYaw(0);
+    RobotContainer.armSystem.resetArmAngles();
   }
 
   /**
@@ -170,11 +171,11 @@ public class Robot extends TimedRobot {
     {
       if(Constants.controllerB.getYButton()){RobotContainer.armSystem.moveArmToAngles(20, 0);}
       else if(Constants.controllerB.getXButton()){RobotContainer.armSystem.moveArmToAngles(11.5, 13);}
-      else if(Constants.controllerB.getBButton()){RobotContainer.armSystem.moveArmToAngles(-67, -52);}  //calibrate these
-      else if(Constants.controllerB.getAButton()){RobotContainer.armSystem.moveArmToAngles(0, 0);}
+      else if(Constants.controllerB.getBButton()){RobotContainer.armSystem.moveArmToAngles(-73, -36);}  //calibrate these
+      else if(Constants.controllerB.getAButton()){RobotContainer.armSystem.moveArmToAngles(Constants.raiseRestingAngle, Constants.bendRestingAngle);}
       else{RobotContainer.armSystem.moveArm(-LSYB, -RSYB);}
-      Constants.gripperMotorA.set(Functions.Clamp(-(Constants.controllerB.getRightTriggerAxis()-Constants.controllerB.getLeftTriggerAxis()), -0.25, 0.25));
-      Constants.gripperMotorB.set(Functions.Clamp((Constants.controllerB.getRightTriggerAxis()-Constants.controllerB.getLeftTriggerAxis()), -0.25, 0.25));
+      Constants.gripperMotorA.set(Functions.Clamp(-(Constants.controllerB.getRightTriggerAxis()-Constants.controllerB.getLeftTriggerAxis()), -0.25, 0.5));
+      Constants.gripperMotorB.set(Functions.Clamp((Constants.controllerB.getRightTriggerAxis()-Constants.controllerB.getLeftTriggerAxis()), -0.25, 0.5));
     }
 
     if(Constants.controllerB.getStartButtonPressed())

@@ -71,9 +71,9 @@ public class ArmSubsystem extends SubsystemBase {
   }
   public void RockPaperScissorsPeriodic(double timeSinceStart, int id)
   {
-    if(timeSinceStart < 2.0*Math.PI)
+    if(timeSinceStart < 6)
     {
-      
+      moveArmToAngles(-5*Math.cos(1.3333*Math.PI*timeSinceStart), 0);
     }
     else
     {
