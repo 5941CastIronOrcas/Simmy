@@ -100,9 +100,9 @@ public final class Constants
     public static double armGearRatio2 = (1.0/80.0);
 
     public static double armSegment1PMult = 1.0/15.0; // arm PID multiplier
-    public static double armSegment1DMult = 0.0000;
+    public static double armSegment1DMult = -0.0001;
     public static double armSegment2PMult = 1.0/15.0; // arm PID multiplier
-    public static double armSegment2DMult = 0.0000;
+    public static double armSegment2DMult = 0.0001;
 
     public static double armPreciseModeMult = 0.33; // precision mode for the arm, slows down arm by multiplier when mode is activated.
     public static double bendRestingAngle = 0.0; //
