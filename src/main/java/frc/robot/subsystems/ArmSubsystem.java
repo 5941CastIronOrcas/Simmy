@@ -77,6 +77,7 @@ public class ArmSubsystem extends SubsystemBase {
     }
     else
     {
+      moveArmToAngles(-5, 0);
       switch(id)
       {
         case 1:
