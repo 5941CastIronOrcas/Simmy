@@ -46,7 +46,6 @@ public final class Constants
     public static double swerveWheelCircumference = 0.1 * Math.PI; //in m
     public static double swerveDriveToPMult = 1.0;
     public static double swerveDriveToDMult = 7.0;
-    public static double swerveDriveToMaxSpeed = 1.0; //The max speed (percent) that swerve is allowed to move when moving on it's own
     public static double swerveMaxSpeed = 3.6576; // meters per second
 
     public static double swerveAutoTurnPMult = 0.005;

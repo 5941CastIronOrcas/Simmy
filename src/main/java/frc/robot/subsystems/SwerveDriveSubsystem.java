@@ -59,16 +59,16 @@ public class SwerveDriveSubsystem extends SubsystemBase {
         
     }
 
-    public void DriveTo(double x, double y, double angle)
+    public void DriveTo(double x, double y, double angle, double speedLimit)
     {
         DriveFieldOrientedAtAngle(
             Functions.DeadZone(Functions.Clamp(
                 Constants.swerveDriveToPMult*(x-VisionSubsystem.conFieldX)
                 -Constants.swerveDriveToDMult*(VisionSubsystem.deltaX), 
-                -Constants.swerveDriveToMaxSpeed, Constants.swerveDriveToMaxSpeed), 0.05), 
+                -speedLimit, speedLimit), 0.05), 
                 Functions.DeadZone(Functions.Clamp(Constants.swerveDriveToPMult*(y-VisionSubsystem.conFieldY)
             -Constants.swerveDriveToDMult*(VisionSubsystem.deltaY), 
-                -Constants.swerveDriveToMaxSpeed, Constants.swerveDriveToMaxSpeed), 0.05), 
+                -speedLimit, speedLimit), 0.05), 
             angle);
     }
 
@@ -166,13 +166,13 @@ public class SwerveDriveSubsystem extends SubsystemBase {
         
         switch(type){
             case 0:
-                DriveTo(VisionSubsystem.conFieldX, VisionSubsystem.conFieldY, robotYawFieldRelative);
+                DriveTo(VisionSubsystem.conFieldX, VisionSubsystem.conFieldY, robotYawFieldRelative, 1);
                 break;
             case 1:
                 //DriveTo();
                 break;
             default:
-            DriveTo(VisionSubsystem.conFieldX, VisionSubsystem.conFieldY, robotYawFieldRelative);
+            DriveTo(VisionSubsystem.conFieldX, VisionSubsystem.conFieldY, robotYawFieldRelative, 1);
                 break;
         }
         
