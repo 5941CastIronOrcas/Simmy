@@ -10,7 +10,6 @@ import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriverDisplay;
 import frc.robot.subsystems.VisionSubsystem;
 
@@ -173,6 +172,7 @@ public class Robot extends TimedRobot {
       else if(Constants.controllerB.getXButton()){RobotContainer.armSystem.moveArmToAngles(11.5, 13);}
       else if(Constants.controllerB.getBButton()){RobotContainer.armSystem.moveArmToAngles(-73, -36);}  //calibrate these
       else if(Constants.controllerB.getAButton()){RobotContainer.armSystem.moveArmToAngles(Constants.raiseRestingAngle, Constants.bendRestingAngle);}
+      else if(Constants.controllerB.getBackButton()){RobotContainer.armSystem.moveArmToAngles(-5, 0);}
       else{RobotContainer.armSystem.moveArm(-LSYB, -RSYB);}
       Constants.gripperMotorA.set(Functions.Clamp(-(Constants.controllerB.getRightTriggerAxis()-Constants.controllerB.getLeftTriggerAxis()), -0.25, 1));
       Constants.gripperMotorB.set(Functions.Clamp((Constants.controllerB.getRightTriggerAxis()-Constants.controllerB.getLeftTriggerAxis()), -0.25, 1));

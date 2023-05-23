@@ -18,6 +18,8 @@ public class ArmSubsystem extends SubsystemBase {
   public double raiseAngle = 0; //current raise angle of the arm, in degrees. Horizontal is 0 degrees, down is negative, up is positive. 
   public double bendAngle = 0; //lower angle between the first arm segment and second arm segment. Arm straight is 180, arm bent is 90. 
   public double segment2HorizonAngle; //angle of second arm relative to the horizon. 
+  double minClawAngle;
+  double maxClawAngle;
 
   public ArmSubsystem() {}
 
@@ -26,7 +28,8 @@ public class ArmSubsystem extends SubsystemBase {
     raiseAngle = Constants.armMotor1.getEncoder().getPosition() * 360 * Constants.armGearRatio1; //sets current raise angle to encoder positions.
     segment2HorizonAngle = (Constants.armMotor2.getEncoder().getPosition() * 360 * Constants.armGearRatio2); //if it doesn't work check the 180
     bendAngle = segment2HorizonAngle - raiseAngle; //sets the current bend angle based on the encoder positions.
-    
+    minClawAngle = raiseAngle-90;
+    maxClawAngle = raiseAngle+90;
     SmartDashboard.putNumber("S1 Angle", raiseAngle);
     SmartDashboard.putNumber("S2 Angle", bendAngle);
     SmartDashboard.putNumber("HorizonAngle", segment2HorizonAngle);
@@ -48,17 +51,18 @@ public class ArmSubsystem extends SubsystemBase {
 
   public void moveArmToAngles(double a1, double a2)
   {
+    double a2Clamped = Functions.Clamp(a2, minClawAngle, maxClawAngle);
     moveArm(Functions.Clamp((Constants.armSegment1PMult * (a1 - raiseAngle))
     +(Constants.armSegment1GravMult * Math.cos(Math.toRadians(raiseAngle)))
     +(Constants.armSegment1DMult*Constants.armMotor1.getEncoder().getVelocity()), 
     -Constants.maxArmSpeed, Constants.maxArmSpeed), 
-            Functions.Clamp((Constants.armSegment2PMult * (a2 - segment2HorizonAngle))
+            Functions.Clamp((Constants.armSegment2PMult * (a2Clamped - segment2HorizonAngle))
     +(Constants.armSegment2GravMult * Math.cos(Math.toRadians(segment2HorizonAngle)))
     +(Constants.armSegment2DMult*Constants.armMotor2.getEncoder().getVelocity()), 
     -Constants.maxArmSpeed, Constants.maxArmSpeed)
     );
     SmartDashboard.putNumber("S1 Target", a1);
-    SmartDashboard.putNumber("S2 Target", a2);
+    SmartDashboard.putNumber("S2 Target", a2Clamped);
   }
 
   //moves the motors directly, inverts motor movements if set to.
