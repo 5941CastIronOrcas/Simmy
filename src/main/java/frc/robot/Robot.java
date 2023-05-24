@@ -256,7 +256,7 @@ public class Robot extends TimedRobot {
   }
   public void autoSequence1()
   {
-    if(isAutoTimeBetween(0, 1)) //first 1 second
+    if(isAutoTimeBetween(0, 0.04)) //first 0.04 seconds
     {
       Functions.KillAllSwerve();
       Functions.KillAllArm();
@@ -274,7 +274,7 @@ public class Robot extends TimedRobot {
   }
   public void autoSequence2()
   {
-    if(isAutoTimeBetween(0, 1)) //first 1 second
+    if(isAutoTimeBetween(0, 0.04)) //first 0.04 second
     {
       Functions.KillAllSwerve();
       Functions.KillAllArm();

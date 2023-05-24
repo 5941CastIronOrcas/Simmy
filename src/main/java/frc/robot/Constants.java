@@ -38,7 +38,7 @@ public final class Constants
 {
     public static double turnMultiplier = 0.25;
     public static double swerveModulePMult = 0.01;
-    public static double swerveModuleDMult = 0.0001;
+    public static double swerveModuleDMult = 0.000;
     public static double swerveModuleMaxThrottleChange = 0.1; //percent per frame
     public static double swerveCrouchModeMult = 0.25;
     public static double swerveMaxAccel = 0.06; //percent per frame

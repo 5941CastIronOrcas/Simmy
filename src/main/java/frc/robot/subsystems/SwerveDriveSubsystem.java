@@ -70,6 +70,7 @@ public class SwerveDriveSubsystem extends SubsystemBase {
             -Constants.swerveDriveToDMult*(VisionSubsystem.deltaY), 
                 -speedLimit, speedLimit), 0.05), 
             angle);
+        double distance = Functions.Pythagorean(x-VisionSubsystem.conFieldX, y-VisionSubsystem.conFieldY);
     }
 
     public void DriveFieldOrientedAtAngle(double x, double y, double angle)
@@ -94,15 +95,6 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     
     public void Drive(double LSX, double LSY, double RSX)
     {   
-            //set the target X and Y speeds based on controller input
-            /*FRX = RSX + LSX;
-            FRY = -RSX + LSY;
-            FLX = RSX + LSX;
-            FLY = RSX + LSY;
-            BRX = -RSX + LSX;
-            BRY = -RSX + LSY;
-            BLX = -RSX + LSX;
-            BLY = RSX + LSY;*/
             FRX += Functions.Clamp(RSX+LSX - FRX, -Constants.swerveMaxAccel, Constants.swerveMaxAccel);
             FRY += Functions.Clamp(-RSX+LSY - FRY, -Constants.swerveMaxAccel, Constants.swerveMaxAccel);;
             FLX += Functions.Clamp(RSX+LSX - FLX, -Constants.swerveMaxAccel, Constants.swerveMaxAccel);
