@@ -70,18 +70,16 @@ public class SwerveDriveSubsystem extends SubsystemBase {
             -Constants.swerveDriveToDMult*(VisionSubsystem.deltaY), 
                 -speedLimit, speedLimit), 0.05), 
             angle);*/
-        double distance = Functions.Clamp(Constants.swerveDriveToPMult*Functions.Pythagorean(x-VisionSubsystem.conFieldX, y-VisionSubsystem.conFieldY), 0, speedLimit);
+        double pComponent = Functions.Clamp(Constants.swerveDriveToPMult*Functions.Pythagorean(x-VisionSubsystem.conFieldX, y-VisionSubsystem.conFieldY), 0, speedLimit);
         double angleToTarget = Math.atan2(x-VisionSubsystem.conFieldX, y-VisionSubsystem.conFieldY);
-        double xComponent = Functions.DeadZone(distance * Math.sin(angleToTarget), 0.05);
-        double yComponent = Functions.DeadZone(distance * Math.cos(angleToTarget), 0.05);
+        double xComponent = Functions.DeadZone(pComponent * Math.sin(angleToTarget), 0.05);
+        double yComponent = Functions.DeadZone(pComponent * Math.cos(angleToTarget), 0.05);
         DriveFieldOrientedAtAngle(
             Functions.Clamp(
-                (xComponent)
-                -Constants.swerveDriveToDMult*(VisionSubsystem.deltaX), 
+                (xComponent)-Constants.swerveDriveToDMult*(VisionSubsystem.deltaX), 
                 -speedLimit, speedLimit), 
                 Functions.Clamp(
-                (yComponent)
-            -Constants.swerveDriveToDMult*(VisionSubsystem.deltaY), 
+                (yComponent)-Constants.swerveDriveToDMult*(VisionSubsystem.deltaY), 
                 -speedLimit, speedLimit), 
             angle);
     }
