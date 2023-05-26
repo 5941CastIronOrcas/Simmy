@@ -33,8 +33,6 @@ public class ArmSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("S1 Angle", raiseAngle);
     SmartDashboard.putNumber("S2 Angle", bendAngle);
     SmartDashboard.putNumber("HorizonAngle", segment2HorizonAngle);
-    SmartDashboard.putNumber("S1 Speed", Constants.armMotor1.getEncoder().getVelocity());
-    SmartDashboard.putNumber("S2 Speed", Constants.armMotor2.getEncoder().getVelocity());
     // This method will be called once per scheduler run
   }
 

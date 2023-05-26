@@ -70,7 +70,7 @@ public class SwerveDriveSubsystem extends SubsystemBase {
             -Constants.swerveDriveToDMult*(VisionSubsystem.deltaY), 
                 -speedLimit, speedLimit), 0.05), 
             angle);*/
-        double pComponent = Functions.Clamp(Constants.swerveDriveToPMult*Functions.Pythagorean(x-VisionSubsystem.conFieldX, y-VisionSubsystem.conFieldY), 0, speedLimit);
+        /*double pComponent = Functions.Clamp(Constants.swerveDriveToPMult*Functions.Pythagorean(x-VisionSubsystem.conFieldX, y-VisionSubsystem.conFieldY), 0, speedLimit);
         double angleToTarget = Math.atan2(x-VisionSubsystem.conFieldX, y-VisionSubsystem.conFieldY);
         double xComponent = Functions.DeadZone(pComponent * Math.sin(angleToTarget), 0.05);
         double yComponent = Functions.DeadZone(pComponent * Math.cos(angleToTarget), 0.05);
@@ -81,7 +81,14 @@ public class SwerveDriveSubsystem extends SubsystemBase {
                 Functions.Clamp(
                 (yComponent)-Constants.swerveDriveToDMult*(VisionSubsystem.deltaY), 
                 -speedLimit, speedLimit), 
-            angle);
+            angle);*/
+            double angleToTarget = Math.atan2(x-VisionSubsystem.conFieldX, y-VisionSubsystem.conFieldY);
+            double pComponent = Constants.swerveDriveToPMult*Functions.Pythagorean(x-VisionSubsystem.conFieldX, y-VisionSubsystem.conFieldY);
+            double dComponent = Constants.swerveDriveToDMult*Functions.Pythagorean(VisionSubsystem.deltaX, VisionSubsystem.deltaY);
+            double output = Functions.Clamp(pComponent - dComponent, 0, speedLimit);
+            double xComponent = Functions.DeadZone(output * Math.sin(angleToTarget), 0.00);
+            double yComponent = Functions.DeadZone(output * Math.cos(angleToTarget), 0.00);
+            DriveFieldOrientedAtAngle(xComponent, yComponent, angle);
     }
 
     public void DriveFieldOrientedAtAngle(double x, double y, double angle)
