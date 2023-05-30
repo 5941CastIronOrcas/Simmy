@@ -58,7 +58,7 @@ public class SwerveDriveSubsystem extends SubsystemBase {
         
     }
 
-    public void DriveTo(double x, double y, double angle, double speedLimit)
+    public void DriveTo(double x, double y, double angle, double speedLimit, double turnLimit)
     {
         /*DriveFieldOrientedAtAngle(
             Functions.DeadZone(Functions.Clamp(
@@ -87,14 +87,16 @@ public class SwerveDriveSubsystem extends SubsystemBase {
             double output = Functions.Clamp(pComponent - dComponent, 0, speedLimit);
             double xComponent = Functions.DeadZone(output * Math.sin(angleToTarget), 0.00);
             double yComponent = Functions.DeadZone(output * Math.cos(angleToTarget), 0.00);
-            DriveFieldOrientedAtAngle(xComponent, yComponent, angle);
+            DriveFieldOrientedAtAngle(xComponent, yComponent, angle, turnLimit);
     }
 
-    public void DriveFieldOrientedAtAngle(double x, double y, double angle)
+    public void DriveFieldOrientedAtAngle(double x, double y, double angle, double turnLimit)
     {
         DriveDriverOriented(DriverStation.getAlliance() == DriverStation.Alliance.Red?y:-y, 
         DriverStation.getAlliance() == DriverStation.Alliance.Red?-x:x, 
-        Functions.Clamp(-Constants.swerveAutoTurnPMult*Functions.DeltaAngleDegrees(angle, robotYawFieldRelative), -Constants.swerveAutoTurnMaxSpeed, Constants.swerveAutoTurnMaxSpeed));
+        Functions.Clamp(-Constants.swerveAutoTurnPMult*Functions.DeltaAngleDegrees(angle, robotYawFieldRelative), 
+        -Constants.swerveAutoTurnMaxSpeed*Functions.Clamp(turnLimit, 0, 1), 
+        Constants.swerveAutoTurnMaxSpeed*Functions.Clamp(turnLimit, 0, 1)));
     }
 
     public void DriveFieldOriented(double x, double y, double turn)
@@ -102,10 +104,12 @@ public class SwerveDriveSubsystem extends SubsystemBase {
         Drive(x*Math.cos(Math.toRadians(-robotYawFieldRelative))+y*Math.sin(Math.toRadians(-robotYawFieldRelative)), y*Math.cos(Math.toRadians(-robotYawFieldRelative))+x*Math.sin(Math.toRadians(robotYawFieldRelative)), turn);
     }
 
-    public void DriveDriverOrientedAtAngle(double LSX, double LSY, double angle)
+    public void DriveDriverOrientedAtAngle(double LSX, double LSY, double angle, double turnLimit)
     {
         DriveDriverOriented(LSX, LSY, 
-        Functions.Clamp(-Constants.swerveAutoTurnPMult*Functions.DeltaAngleDegrees(angle, robotYawAngle), -Constants.swerveAutoTurnMaxSpeed, Constants.swerveAutoTurnMaxSpeed));
+        Functions.Clamp(-Constants.swerveAutoTurnPMult*Functions.DeltaAngleDegrees(angle, robotYawAngle), 
+        -Constants.swerveAutoTurnMaxSpeed*Functions.Clamp(turnLimit, 0, 1), 
+        Constants.swerveAutoTurnMaxSpeed*Functions.Clamp(turnLimit, 0, 1)));
     }
 
     public void DriveDriverOriented(double LSX, double LSY, double RSX)
@@ -178,13 +182,13 @@ public class SwerveDriveSubsystem extends SubsystemBase {
         
         switch(type){
             case 0:
-                DriveTo(VisionSubsystem.conFieldX, VisionSubsystem.conFieldY, robotYawFieldRelative, 1);
+                DriveTo(VisionSubsystem.conFieldX, VisionSubsystem.conFieldY, robotYawFieldRelative, 1, 1);
                 break;
             case 1:
                 //DriveTo();
                 break;
             default:
-            DriveTo(VisionSubsystem.conFieldX, VisionSubsystem.conFieldY, robotYawFieldRelative, 1);
+            DriveTo(VisionSubsystem.conFieldX, VisionSubsystem.conFieldY, robotYawFieldRelative, 1, 1);
                 break;
         }
         

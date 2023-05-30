@@ -153,11 +153,11 @@ public class Robot extends TimedRobot {
     //Determines what drive function to use based on controller buttons
     if(Constants.controller.getAButton())
     {
-      RobotContainer.driveTrain.DriveTo(demoTargetX, demoTargetY, demoTargetAngle, crouchSpeed);
+      RobotContainer.driveTrain.DriveTo(demoTargetX, demoTargetY, demoTargetAngle, crouchSpeed, 1);
     }
     else if(Constants.controller.getPOV() >= 0)
     {
-      RobotContainer.driveTrain.DriveDriverOrientedAtAngle(LSX, LSY, Constants.controller.getPOV());
+      RobotContainer.driveTrain.DriveDriverOrientedAtAngle(LSX, LSY, Constants.controller.getPOV(), crouchSpeed);
     }
     else
     {
@@ -268,7 +268,7 @@ public class Robot extends TimedRobot {
     }
     else if(isAutoTimeBetween(1, 2)) //next 1 seconds
     {
-      RobotContainer.driveTrain.DriveDriverOrientedAtAngle(0,0.5,0);
+      RobotContainer.driveTrain.DriveDriverOrientedAtAngle(0,0.5,0, 0.5);
     }
     else
     {
@@ -286,7 +286,7 @@ public class Robot extends TimedRobot {
     }
     else if(isAutoTimeBetween(1, 2.6)) //next 1 seconds
     {
-      RobotContainer.driveTrain.DriveDriverOrientedAtAngle(0,0.4,0);
+      RobotContainer.driveTrain.DriveDriverOrientedAtAngle(0,0.4,0, 0.5);
     }
     else if(isAutoTimeBetween(2.6, 15)) //remainder
     {
