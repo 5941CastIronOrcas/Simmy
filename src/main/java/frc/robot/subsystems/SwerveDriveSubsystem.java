@@ -16,18 +16,11 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     //T = throttle
 
     double FRX = 0, FRY = 0, FLX = 0, FLY = 0, BRX = 0, BRY = 0, BLX = 0, BLY = 0;
-
     double FRA, FLA, BRA, BLA;
-    
     double FRT, FLT, BRT, BLT;
-
     double FRTOutput, FLTOutput, BRTOutput, BLTOutput;
-
-    //double LSX, LSY, RSX;
-
     double highestSpeed = 0;
-    //boolean crouchMode = true;
-    
+
     public double robotYawAngle = 0, robotPitchAngle = 0, robotYawFieldRelative;
 
     SwerveModule frontRightModule = new SwerveModule(Constants.frontRightAngleMotor, true, Constants.frontRightDriveMotor, false, Constants.frontRightEncoder);
@@ -44,7 +37,8 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     public void periodic() //Every 0.02 sec (50 FPS)
     {
         robotYawAngle = Functions.DeltaAngleDegrees(0, -Constants.primaryAccelerometer.getYaw());
-        
+        robotPitchAngle = Constants.primaryAccelerometer.getRoll();
+
         //Adjusts robotYawFieldRelative depending on what alliance we're on
         if(DriverStation.getAlliance() == DriverStation.Alliance.Red)
         {robotYawFieldRelative = Functions.DeltaAngleDegrees(0, robotYawAngle - 90);}
@@ -53,7 +47,6 @@ public class SwerveDriveSubsystem extends SubsystemBase {
         else
         {robotYawFieldRelative = robotYawAngle;}
         
-        robotPitchAngle = Constants.primaryAccelerometer.getRoll();
         SmartDashboard.putNumber("RobotFieldYaw", robotYawFieldRelative);
         
     }
@@ -163,11 +156,11 @@ public class SwerveDriveSubsystem extends SubsystemBase {
 
     public void AutoBalance()
     {
-        if(robotPitchAngle > 8)
+        if(robotPitchAngle > 7)
         {
             Drive(0,-0.0625,0);
         }
-        else if(robotPitchAngle < -5)
+        else if(robotPitchAngle < -7)
         {
             Drive(0,0.0625,0);
         }

@@ -51,6 +51,7 @@ public class Robot extends TimedRobot {
     Constants.gripperMotorA.setSmartCurrentLimit((int)Constants.clawAmpLimit);
     Constants.gripperMotorB.setSmartCurrentLimit((int)Constants.clawAmpLimit);
     Constants.primaryAccelerometer.setYaw(0);
+    Constants.primaryAccelerometer.configMountPoseRoll(Constants.primaryAccelerometer.getRoll());
     RobotContainer.armSystem.resetArmAngles();
   }
 
