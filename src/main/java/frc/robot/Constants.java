@@ -36,7 +36,7 @@ import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 
 public final class Constants 
 {
-    public static double turnMultiplier = 0.25;
+    public static double turnMultiplier = 0.25; //applied to the right stick to limit turn speed to a reasonable amount
     public static double swerveModulePMult = 0.01;
     public static double swerveModuleDMult = 0.000;
     public static double swerveModuleMaxThrottleChange = 0.1; //percent per frame
@@ -49,7 +49,7 @@ public final class Constants
     public static double swerveDriveToDMult = 7.0;//7
     public static double swerveMaxSpeed = 3.6576; // meters per second
     public static double swerveAutoTurnPMult = 0.005;
-    public static double swerveAutoTurnMaxSpeed = 0.5; //The max speed (percent) that swerve is allowed to spin when turning on it's own
+    public static double swerveAutoTurnMaxSpeed = 0.5; //The absolute max speed (percent) that swerve is ever allowed to spin when turning on it's own
     public static double swerveAutoTurnDMult = 0;
 
     public static Pose2d[] redGrid;
