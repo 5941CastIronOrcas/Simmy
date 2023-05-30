@@ -54,7 +54,6 @@ public class SwerveDriveSubsystem extends SubsystemBase {
         {robotYawFieldRelative = robotYawAngle;}
         
         robotPitchAngle = Constants.primaryAccelerometer.getRoll();
-        SmartDashboard.putNumber("Robot Yaw", robotYawAngle);
         SmartDashboard.putNumber("RobotFieldYaw", robotYawFieldRelative);
         
     }
@@ -93,7 +92,9 @@ public class SwerveDriveSubsystem extends SubsystemBase {
 
     public void DriveFieldOrientedAtAngle(double x, double y, double angle)
     {
-        DriveDriverOriented(DriverStation.getAlliance() == DriverStation.Alliance.Red?y:-y, DriverStation.getAlliance() == DriverStation.Alliance.Red?-x:x, Functions.Clamp(-Constants.swerveAutoTurnPMult*Functions.DeltaAngleDegrees(angle, robotYawFieldRelative), -Constants.swerveAutoTurnMaxSpeed, Constants.swerveAutoTurnMaxSpeed));
+        DriveDriverOriented(DriverStation.getAlliance() == DriverStation.Alliance.Red?y:-y, 
+        DriverStation.getAlliance() == DriverStation.Alliance.Red?-x:x, 
+        Functions.Clamp(-Constants.swerveAutoTurnPMult*Functions.DeltaAngleDegrees(angle, robotYawFieldRelative), -Constants.swerveAutoTurnMaxSpeed, Constants.swerveAutoTurnMaxSpeed));
     }
 
     public void DriveFieldOriented(double x, double y, double turn)
@@ -103,7 +104,8 @@ public class SwerveDriveSubsystem extends SubsystemBase {
 
     public void DriveDriverOrientedAtAngle(double LSX, double LSY, double angle)
     {
-        DriveDriverOriented(LSX, LSY, Functions.Clamp(-Constants.swerveAutoTurnPMult*Functions.DeltaAngleDegrees(angle, robotYawAngle), -Constants.swerveAutoTurnMaxSpeed, Constants.swerveAutoTurnMaxSpeed));
+        DriveDriverOriented(LSX, LSY, 
+        Functions.Clamp(-Constants.swerveAutoTurnPMult*Functions.DeltaAngleDegrees(angle, robotYawAngle), -Constants.swerveAutoTurnMaxSpeed, Constants.swerveAutoTurnMaxSpeed));
     }
 
     public void DriveDriverOriented(double LSX, double LSY, double RSX)

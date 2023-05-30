@@ -18,6 +18,7 @@ public class DriverDisplay extends SubsystemBase {
   public static GenericEntry autoSequenceSelector = mainTab.add("Selected Auto Sequence", Constants.defaultAutoSequence).getEntry();
   public static GenericEntry demoTargetXSelector = mainTab.add("Target X", 0).getEntry();
   public static GenericEntry demoTargetYSelector = mainTab.add("Target Y", 0).getEntry();
+  public static GenericEntry demoTargetAngleSelector = mainTab.add("Target Angle", 0).getEntry();
   public DriverDisplay() {}
 
   @Override

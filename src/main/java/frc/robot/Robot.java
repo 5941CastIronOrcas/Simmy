@@ -32,6 +32,7 @@ public class Robot extends TimedRobot {
   int selectedAutoSequence = Constants.defaultAutoSequence;
   double demoTargetX = 0;
   double demoTargetY = 0;
+  double demoTargetAngle = 0;
   boolean RPS = false;
   int RPSValue = 0;
   double RPSTime = 0;
@@ -70,8 +71,10 @@ public class Robot extends TimedRobot {
     selectedAutoSequence = (int)DriverDisplay.autoSequenceSelector.getInteger(0);
     demoTargetX = DriverDisplay.demoTargetXSelector.getDouble(0);
     demoTargetY = DriverDisplay.demoTargetYSelector.getDouble(0);
+    demoTargetAngle = DriverDisplay.demoTargetAngleSelector.getDouble(0);
     SmartDashboard.putNumber("Targeted X", demoTargetX);
     SmartDashboard.putNumber("Targeted Y", demoTargetY);
+    SmartDashboard.putNumber("Targeted Angle", demoTargetAngle);
 
   }
 
@@ -150,7 +153,7 @@ public class Robot extends TimedRobot {
     //Determines what drive function to use based on controller buttons
     if(Constants.controller.getAButton())
     {
-      RobotContainer.driveTrain.DriveTo(demoTargetX, demoTargetY, RobotContainer.driveTrain.robotYawFieldRelative, crouchSpeed);
+      RobotContainer.driveTrain.DriveTo(demoTargetX, demoTargetY, demoTargetAngle, crouchSpeed);
     }
     else if(Constants.controller.getPOV() >= 0)
     {
@@ -219,6 +222,7 @@ public class Robot extends TimedRobot {
       }
       DriverDisplay.demoTargetXSelector.setDouble(VisionSubsystem.conFieldX);
       DriverDisplay.demoTargetYSelector.setDouble(VisionSubsystem.conFieldY);
+      DriverDisplay.demoTargetAngleSelector.setDouble(RobotContainer.driveTrain.robotYawFieldRelative);
     }
   }
 

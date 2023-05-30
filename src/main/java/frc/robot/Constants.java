@@ -41,7 +41,7 @@ public final class Constants
     public static double swerveModuleDMult = 0.000;
     public static double swerveModuleMaxThrottleChange = 0.1; //percent per frame
     public static double swerveCrouchModeMult = 0.25;
-    public static double swerveMaxAccel = 0.06; //percent per frame
+    public static double swerveMaxAccel = 0.15; //percent per frame   0.06
     public static double swerveDriveRatio = (1.0/8.14); //Swerve module gear ratio
     public static double swerveWheelCircumference = 0.1 * Math.PI; //in m
 
