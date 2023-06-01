@@ -47,6 +47,7 @@ public final class Constants
 
     public static double swerveDriveToPMult = 1.0; //1.0
     public static double swerveDriveToDMult = 7.0;//7
+    public static double swerveDriveToDeadZone = 0.05; //meters
     public static double swerveMaxSpeed = 3.6576; // meters per second
     public static double swerveAutoTurnPMult = 0.005;
     public static double swerveAutoTurnMaxSpeed = 0.5; //The absolute max speed (percent) that swerve is ever allowed to spin when turning on it's own
