@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriverDisplay;
 import frc.robot.subsystems.VisionSubsystem;
 
@@ -114,6 +115,12 @@ public class Robot extends TimedRobot {
       case 2:
         autoSequence2();
         break;
+      case 3:
+        autoSequence3();
+        break;
+      case 4:
+      autoSequence4();
+        break;
       default:
         autoSequence0();
         break;
@@ -172,10 +179,10 @@ public class Robot extends TimedRobot {
     
     if(!RPS)
     {
-      if(Constants.controllerB.getYButton()){RobotContainer.armSystem.moveArmToAngles(20, 0);}
-      else if(Constants.controllerB.getXButton()){RobotContainer.armSystem.moveArmToAngles(11.5, 13);}
-      else if(Constants.controllerB.getBButton()){RobotContainer.armSystem.moveArmToAngles(-73, -36);}  //calibrate these
-      else if(Constants.controllerB.getAButton()){RobotContainer.armSystem.moveArmToAngles(Constants.raiseRestingAngle, Constants.bendRestingAngle);}
+      if(Constants.controllerB.getYButton()){RobotContainer.armSystem.moveArmToAngles(Constants.armCollectAngle1, Constants.armCollectAngle2);}
+      else if(Constants.controllerB.getXButton()){RobotContainer.armSystem.moveArmToAngles(Constants.armDepositAngle1, Constants.armDepositAngle2);}
+      else if(Constants.controllerB.getBButton()){RobotContainer.armSystem.moveArmToAngles(Constants.armScoopAngle1, Constants.armScoopAngle2);}
+      else if(Constants.controllerB.getAButton()){RobotContainer.armSystem.moveArmToAngles(Constants.armRestingAngle1, Constants.armRestingAngle2);}
       else if(Constants.controllerB.getBackButton()){RobotContainer.armSystem.moveArmToAngles(-5, 0);}
       else{RobotContainer.armSystem.moveArm(-LSYB, -RSYB);}
       Constants.gripperMotorA.set(Functions.Clamp(-(Constants.controllerB.getRightTriggerAxis()-Constants.controllerB.getLeftTriggerAxis()), -0.25, 1));
@@ -267,7 +274,7 @@ public class Robot extends TimedRobot {
       Functions.KillAllArm();
       Constants.primaryAccelerometer.setYaw(0);
     }
-    else if(isAutoTimeBetween(1, 2)) //next 1 seconds
+    else if(isAutoTimeBetween(0.04, 1.04)) //next 1 seconds
     {
       RobotContainer.driveTrain.DriveDriverOrientedAtAngle(0,0.5,0, 0.5);
     }
@@ -285,11 +292,11 @@ public class Robot extends TimedRobot {
       Functions.KillAllArm();
       Constants.primaryAccelerometer.setYaw(0);
     }
-    else if(isAutoTimeBetween(1, 2.6)) //next 1 seconds
+    else if(isAutoTimeBetween(0.04, 1.64)) //next 1 seconds
     {
       RobotContainer.driveTrain.DriveDriverOrientedAtAngle(0,0.4,0, 0.5);
     }
-    else if(isAutoTimeBetween(2.6, 15)) //remainder
+    else if(isAutoTimeBetween(1.64, 15)) //remainder
     {
       RobotContainer.driveTrain.AutoBalance();
     }
@@ -297,6 +304,68 @@ public class Robot extends TimedRobot {
     {
       Functions.KillAllArm();
       Functions.KillAllSwerve();
+    }
+  }
+  public void autoSequence3()
+  {
+    if(isAutoTimeBetween(0, 0.04)) //first 0.04 second
+    {
+      Functions.KillAllSwerve();
+      Functions.KillAllArm();
+      Constants.primaryAccelerometer.setYaw(180);
+    }
+    else if(isAutoTimeBetween(0.04, 5))
+    {
+      RobotContainer.armSystem.moveArmToAngles(Constants.armDepositAngle1, Constants.armDepositAngle2);
+    }
+    else if(isAutoTimeBetween(5, 5.5))
+    {
+      Constants.gripperMotorA.set(-1);
+      Constants.gripperMotorB.set(1);
+    }
+    else if(isAutoTimeBetween(5.5, 6.5))
+    {
+      Constants.gripperMotorA.set(0);
+      Constants.gripperMotorB.set(0);
+      RobotContainer.driveTrain.DriveDriverOrientedAtAngle(0,0.5,180, 0.5);
+    }
+    else
+    {
+      Functions.KillAllSwerve();
+      Functions.KillAllArm();
+    }
+  }
+  public void autoSequence4()
+  {
+    if(isAutoTimeBetween(0, 0.04)) //first 0.04 second
+    {
+      Functions.KillAllSwerve();
+      Functions.KillAllArm();
+      Constants.primaryAccelerometer.setYaw(180);
+    }
+    else if(isAutoTimeBetween(0.04, 5))
+    {
+      RobotContainer.armSystem.moveArmToAngles(Constants.armDepositAngle1, Constants.armDepositAngle2);
+    }
+    else if(isAutoTimeBetween(5, 5.5))
+    {
+      Constants.gripperMotorA.set(-1);
+      Constants.gripperMotorB.set(1);
+    }
+    else if(isAutoTimeBetween(5.5, 7.1))
+    {
+      Constants.gripperMotorA.set(0);
+      Constants.gripperMotorB.set(0);
+      RobotContainer.driveTrain.DriveDriverOrientedAtAngle(0,0.4,180, 0.5);
+    }
+    else if(isAutoTimeBetween(7.1, 15)) //remainder
+    {
+      RobotContainer.driveTrain.AutoBalance();
+    }
+    else
+    {
+      Functions.KillAllSwerve();
+      Functions.KillAllArm();
     }
   }
 }

@@ -113,6 +113,7 @@ public class VisionSubsystem extends SubsystemBase {
     // averages the 4 raw motor angle values, multiplies by the sin & cos of the angle of the motor to get each motors x and y velocity.
     //tries to estimate the change in position as the robot moves.
     //delta XY is meters/frame
+    //sin(radian(angle + f_relative)) * velocity * ratio * 1/3000 * circumfrence)
     deltaX = ((
          (Math.sin(Math.toRadians(RobotContainer.driveTrain.frontRightModule.currentAngle + RobotContainer.driveTrain.robotYawFieldRelative)) * Constants.frontRightDriveMotor.getEncoder().getVelocity() * Constants.swerveDriveRatio * (1.0/3000.0) * Constants.swerveWheelCircumference)
        + (Math.sin(Math.toRadians(RobotContainer.driveTrain.frontLeftModule.currentAngle + RobotContainer.driveTrain.robotYawFieldRelative)) * -Constants.frontLeftDriveMotor.getEncoder().getVelocity() * Constants.swerveDriveRatio * (1.0/3000.0) * Constants.swerveWheelCircumference)

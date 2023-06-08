@@ -43,7 +43,7 @@ public final class Constants
     public static double swerveCrouchModeMult = 0.25;
     public static double swerveMaxAccel = 0.15; //percent per frame   0.06
     public static double swerveDriveRatio = (1.0/8.14); //Swerve module gear ratio
-    public static double swerveWheelCircumference = 0.095 * Math.PI; //in m
+    public static double swerveWheelCircumference = 0.096774 * Math.PI; //in m
 
     public static double swerveDriveToPMult = 1.0; //1.0
     public static double swerveDriveToDMult = 7.0;//7
@@ -105,14 +105,17 @@ public final class Constants
     public static double armSegment2DMult = -0.0001;
 
     public static double armPreciseModeMult = 0.33; // precision mode for the arm, slows down arm by multiplier when mode is activated.
-    public static double bendRestingAngle = 276; //
-    public static double raiseRestingAngle = 189; //
     public static boolean raiseMotorInverted = false; //inverts the motor movement on arm motor 1
     public static boolean bendMotorInverted = false; //inverts the motor movement on arm 
     public static double maxArmSpeed = 0.2; //maximum power output for the arm. 1.0 is 100%. 
 
     public static double armSegment1GravMult = 0;
     public static double armSegment2GravMult = 0;
+
+    public static double armRestingAngle1 = 189, armRestingAngle2 = 276;
+    public static double armCollectAngle1 = 20, armCollectAngle2 = 0;
+    public static double armDepositAngle1 = 11.5, armDepositAngle2 = 13;
+    public static double armScoopAngle1 = -73, armScoopAngle2 = -36;
 
     public static CANSparkMax armMotor1 = new CANSparkMax(13, MotorType.kBrushless); //declare arm motors
     public static CANSparkMax armMotor2 = new CANSparkMax(14, MotorType.kBrushless); 

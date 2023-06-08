@@ -38,8 +38,8 @@ public class ArmSubsystem extends SubsystemBase {
 
   //calibrates motor encoders and sets angles to predetermined values. 
   public void resetArmAngles(){
-    Constants.armMotor1.getEncoder().setPosition((Constants.raiseRestingAngle / Constants.armGearRatio1) / 360);
-    Constants.armMotor2.getEncoder().setPosition((Constants.bendRestingAngle / Constants.armGearRatio2) / 360);
+    Constants.armMotor1.getEncoder().setPosition((Constants.armRestingAngle1 / Constants.armGearRatio1) / 360);
+    Constants.armMotor2.getEncoder().setPosition((Constants.armRestingAngle2 / Constants.armGearRatio2) / 360);
   }
 
   public void setTargetToCurrent()
