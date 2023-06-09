@@ -19,7 +19,6 @@ public class ExperimentalSubsystem extends SubsystemBase {
   }
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("Pitch Angle", Constants.primaryAccelerometer.getRoll());
     SmartDashboard.putNumber("Current", Constants.PDP.getTotalCurrent());
     
   }

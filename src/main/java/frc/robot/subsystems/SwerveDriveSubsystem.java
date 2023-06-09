@@ -37,7 +37,7 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     public void periodic() //Every 0.02 sec (50 FPS)
     {
         robotYawAngle = Functions.DeltaAngleDegrees(0, -Constants.primaryAccelerometer.getYaw());
-        robotPitchAngle = Constants.primaryAccelerometer.getRoll();
+        robotPitchAngle = -Constants.primaryAccelerometer.getPitch() + Constants.primaryAccelerometerPitchOffset;
 
         //Adjusts robotYawFieldRelative depending on what alliance we're on
         if(DriverStation.getAlliance() == DriverStation.Alliance.Red)
@@ -47,6 +47,7 @@ public class SwerveDriveSubsystem extends SubsystemBase {
         else
         {robotYawFieldRelative = robotYawAngle;}
         
+        SmartDashboard.putNumber("Pitch Angle", robotPitchAngle);
         SmartDashboard.putNumber("RobotFieldYaw", robotYawFieldRelative);
         
     }
@@ -159,17 +160,18 @@ public class SwerveDriveSubsystem extends SubsystemBase {
 
     public void AutoBalance()
     {
-        if(robotPitchAngle > 7)
+        double balanceAngle = robotPitchAngle;
+        if(balanceAngle > 7)
         {
-            Drive(0,-0.0625,0);
+            DriveDriverOrientedAtAngle(0, 0.0625, 0, 0.25);
         }
         else if(robotPitchAngle < -7)
         {
-            Drive(0,0.0625,0);
+            DriveDriverOrientedAtAngle(0, -0.0625, 0, 0.25);
         }
         else
         {
-            Drive(0,0,0);
+            DriveDriverOrientedAtAngle(0, 0, 0, 0.25);
         }
     }
     

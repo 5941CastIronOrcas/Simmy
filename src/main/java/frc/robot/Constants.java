@@ -87,6 +87,7 @@ public final class Constants
     public static WPI_CANCoder  backLeftEncoder = new WPI_CANCoder(18);
 
     public static Pigeon2 primaryAccelerometer = new Pigeon2(19);
+    public static double primaryAccelerometerPitchOffset = 0;
     
     
     public static Compressor demoCompressor = new Compressor(0, PneumaticsModuleType.CTREPCM);
