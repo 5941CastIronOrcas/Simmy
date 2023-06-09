@@ -168,6 +168,10 @@ public class Robot extends TimedRobot {
     {
       RobotContainer.driveTrain.DriveDriverOrientedAtAngle(LSX, LSY, Constants.controller.getPOV(), crouchSpeed);
     }
+    else if(Constants.controller.getXButton())
+    {
+      RobotContainer.driveTrain.AutoBalance();
+    }
     else
     {
       RobotContainer.driveTrain.DriveDriverOriented(LSX, LSY, RSX);
