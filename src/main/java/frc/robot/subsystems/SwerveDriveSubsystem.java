@@ -85,11 +85,14 @@ public class SwerveDriveSubsystem extends SubsystemBase {
 
     public void DriveFieldOrientedAtAngle(double x, double y, double angle, double turnLimit)
     {
-        DriveDriverOriented(DriverStation.getAlliance() == DriverStation.Alliance.Red?y:-y, 
+        /*DriveDriverOriented(DriverStation.getAlliance() == DriverStation.Alliance.Red?y:-y, 
         DriverStation.getAlliance() == DriverStation.Alliance.Red?-x:x, 
         Functions.Clamp(-Constants.swerveAutoTurnPMult*Functions.DeltaAngleDegrees(angle, robotYawFieldRelative), 
         -Constants.swerveAutoTurnMaxSpeed*Functions.Clamp(turnLimit, 0, 1), 
-        Constants.swerveAutoTurnMaxSpeed*Functions.Clamp(turnLimit, 0, 1)));
+        Constants.swerveAutoTurnMaxSpeed*Functions.Clamp(turnLimit, 0, 1)));*/
+        DriveDriverOrientedAtAngle(DriverStation.getAlliance() == DriverStation.Alliance.Red?y:-y, 
+        DriverStation.getAlliance() == DriverStation.Alliance.Red?-x:x, 
+        Functions.FieldToDriverAngle(angle), turnLimit);
     }
 
     public void DriveFieldOriented(double x, double y, double turn)
@@ -100,7 +103,7 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     public void DriveDriverOrientedAtAngle(double LSX, double LSY, double angle, double turnLimit)
     {
         DriveDriverOriented(LSX, LSY, 
-        Functions.Clamp(-Constants.swerveAutoTurnPMult*Functions.DeltaAngleDegrees(angle, robotYawAngle), 
+        Functions.Clamp(-Constants.swerveAutoTurnPMult*Functions.DeadZone(Functions.DeltaAngleDegrees(angle, robotYawAngle), Constants.swerveAutoTurnDeadZone), 
         -Constants.swerveAutoTurnMaxSpeed*Functions.Clamp(turnLimit, 0, 1), 
         Constants.swerveAutoTurnMaxSpeed*Functions.Clamp(turnLimit, 0, 1)));
     }

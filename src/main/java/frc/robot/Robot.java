@@ -161,7 +161,7 @@ public class Robot extends TimedRobot {
     //Determines what drive function to use based on controller buttons
     if(Constants.controller.getAButton())
     {
-      RobotContainer.driveTrain.DriveTo(demoTargetX, demoTargetY, demoTargetAngle, crouchSpeed, 1);
+      RobotContainer.driveTrain.DriveTo(demoTargetX, demoTargetY, demoTargetAngle, crouchSpeed, crouchSpeed);
     }
     else if(Constants.controller.getPOV() >= 0)
     {
