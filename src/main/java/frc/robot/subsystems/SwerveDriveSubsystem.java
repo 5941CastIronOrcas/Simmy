@@ -161,7 +161,7 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     public void AutoBalance()
     {
         double balanceAngle = robotPitchAngle;
-        if(balanceAngle > 7)
+        /*if(balanceAngle > 7)
         {
             DriveDriverOrientedAtAngle(0, 0.0625, 0, 0.25);
         }
@@ -172,7 +172,8 @@ public class SwerveDriveSubsystem extends SubsystemBase {
         else
         {
             DriveDriverOrientedAtAngle(0, 0, 0, 0.25);
-        }
+        }*/
+        DriveDriverOrientedAtAngle(0, Functions.DeadZone(0.005*balanceAngle, 0.0001), 0, 0.125);
     }
     
     public void DriveToNearest(int type)
