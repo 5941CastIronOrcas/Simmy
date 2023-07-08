@@ -29,6 +29,7 @@ public class VisionSubsystem extends SubsystemBase {
 
   public static double deltaX = 0;
   public static double deltaY = 0;
+  public static double deltaPosition = 0;
 
   public static Transform3d robotToCam = new Transform3d(new Translation3d(0.5, 0.0, 0.5), new Rotation3d(0,0,0));
 
@@ -126,6 +127,7 @@ public class VisionSubsystem extends SubsystemBase {
        + (Math.cos(Math.toRadians(RobotContainer.driveTrain.backRightModule.currentAngle + RobotContainer.driveTrain.robotYawFieldRelative)) * Constants.backRightDriveMotor.getEncoder().getVelocity() * Constants.swerveDriveRatio * (1.0/3000.0) * Constants.swerveWheelCircumference)
        + (Math.cos(Math.toRadians(RobotContainer.driveTrain.backLeftModule.currentAngle + RobotContainer.driveTrain.robotYawFieldRelative)) * -Constants.backLeftDriveMotor.getEncoder().getVelocity() * Constants.swerveDriveRatio * (1.0/3000.0) * Constants.swerveWheelCircumference))
         / 4.0);
+    deltaPosition = Functions.Pythagorean(deltaX, deltaY);
         //uses one module
     //double tempX = ((Math.sin(Math.toRadians(RobotContainer.driveTrain.frontLeftModule.currentAngle)) * Constants.frontLeftDriveMotor.getEncoder().getVelocity() * Constants.swerveDriveRatio * (1.0/3000.0) * Constants.swerveWheelCircumference));
     //double tempY = ((Math.cos(Math.toRadians(RobotContainer.driveTrain.frontLeftModule.currentAngle)) * Constants.frontLeftDriveMotor.getEncoder().getVelocity() * Constants.swerveDriveRatio * (1.0/3000.0) * Constants.swerveWheelCircumference));

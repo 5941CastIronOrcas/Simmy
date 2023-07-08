@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Functions;
 
 
 public class DriverDisplay extends SubsystemBase {
@@ -19,10 +20,14 @@ public class DriverDisplay extends SubsystemBase {
   public static GenericEntry demoTargetXSelector = mainTab.add("Target X", 0).getEntry();
   public static GenericEntry demoTargetYSelector = mainTab.add("Target Y", 0).getEntry();
   public static GenericEntry demoTargetAngleSelector = mainTab.add("Target Angle", 0).getEntry();
+  public static GenericEntry tripOdometer = mainTab.add("TripOdometer", 0).getEntry();
+  public static GenericEntry odometer = mainTab.addPersistent("Odometer", 0).getEntry();
   public DriverDisplay() {}
 
   @Override
   public void periodic() {
-    
+
+    tripOdometer.setDouble(tripOdometer.getDouble(0) + Functions.DeadZone(VisionSubsystem.deltaPosition, 0.0001));
+
   }
 }
