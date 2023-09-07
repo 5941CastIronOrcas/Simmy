@@ -15,6 +15,7 @@ import frc.robot.subsystems.SimmyGripperSubsystem;
 //import frc.robot.subsystems.PneumaticsSubsystem;
 import frc.robot.subsystems.SwerveDriveSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
+import frc.robot.subsystems.VisionSubsystem2D;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /**
@@ -43,6 +44,8 @@ public class RobotContainer {
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 
   private final VisionSubsystem m_vision = new VisionSubsystem();
+
+  private final VisionSubsystem2D m_vision2D = new VisionSubsystem2D();
 
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */

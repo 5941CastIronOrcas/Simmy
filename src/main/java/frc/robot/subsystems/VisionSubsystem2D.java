@@ -23,7 +23,7 @@ import org.photonvision.PhotonPoseEstimator.PoseStrategy;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
 
-public class VisionSubsystem extends SubsystemBase {
+public class VisionSubsystem2D extends SubsystemBase {
   
   public static PhotonCamera camera = new PhotonCamera("Microsoft_LifeCam_HD-3000");
 
@@ -49,11 +49,14 @@ public class VisionSubsystem extends SubsystemBase {
   public static double conFieldX = 0;
   public static double conFieldY = 0;
 
-  public static double aprilYawAngle;
+  public static PhotonTrackedTarget target;
+  public static double tagPitch;
+  public static double tagYaw;
+  public static double tagDistance;
+  public static int tagID = 0;
 
-  public static Pose2d estimatedGlobalPoseOld = new Pose2d();
 
-  public VisionSubsystem() {}
+  public VisionSubsystem2D() {}
   
   public static Boolean camCheck() {
     var result = camera.getLatestResult();
@@ -71,28 +74,6 @@ public class VisionSubsystem extends SubsystemBase {
     else {
       return new PhotonTrackedTarget();
     }
-  }
-
-  public static Pose2d getEstimatedGlobalPose() {
-    //var emptyTarget = new PhotonTrackedTarget();
-    if (!camCheck()) {
-      return estimatedGlobalPoseOld;
-    }
-    
-    /*if (photonPoseEstimator.update().isPresent()) {
-      return photonPoseEstimator.update().orElse(null).estimatedPose.toPose2d();
-    }*/
-    
-    try{
-      if (photonPoseEstimator.update().isPresent()) {
-        return photonPoseEstimator.update().get().estimatedPose.toPose2d();
-      }
-    }
-    catch(Exception e)
-    {
-      System.out.println("Caught Error: " + e);
-    }
-    return estimatedGlobalPoseOld;
   }
 
   public boolean isValid(Pose2d oldPose, Pose2d newPose)
@@ -131,36 +112,31 @@ public class VisionSubsystem extends SubsystemBase {
         //uses one module
     //double tempX = ((Math.sin(Math.toRadians(RobotContainer.driveTrain.frontLeftModule.currentAngle)) * Constants.frontLeftDriveMotor.getEncoder().getVelocity() * Constants.swerveDriveRatio * (1.0/3000.0) * Constants.swerveWheelCircumference));
     //double tempY = ((Math.cos(Math.toRadians(RobotContainer.driveTrain.frontLeftModule.currentAngle)) * Constants.frontLeftDriveMotor.getEncoder().getVelocity() * Constants.swerveDriveRatio * (1.0/3000.0) * Constants.swerveWheelCircumference));
-    Pose2d globalPose = estimatedGlobalPoseOld;
+
     if (camCheck()) {
-      if (getEstimatedGlobalPose() != null) {
-        globalPose = getEstimatedGlobalPose();
-      }
-    }
-    if (camCheck()) {
-      if (estimatedGlobalPoseOld != globalPose && isValid(estimatedGlobalPoseOld, globalPose)) {
-        // apriltags present and information updated
-        conFieldX = globalPose.getX();
-        conFieldY = globalPose.getY();
-        aprilYawAngle = globalPose.getRotation().getDegrees();
-      }
-      else {
-      // apriltags present, information not updated
-      conFieldX += Math.abs(deltaX) > 0.0001 ? deltaX : 0;
-      conFieldY += Math.abs(deltaY) > 0.0001 ? deltaY : 0;
-      }
+      target = camera.getLatestResult().getBestTarget();
+      tagPitch = target.getPitch();
+      tagYaw = target.getYaw();
+      tagDistance = 0;
+      tagID = target.getFiducialId();
+      conFieldX = 0;
+      conFieldY = 0;
     }
     else {
       // no apriltags detected
       conFieldX += Math.abs(deltaX) > 0.0001 ? deltaX : 0;
       conFieldY += Math.abs(deltaY) > 0.0001 ? deltaY : 0;
+      tagPitch = 0;
+      tagDistance = 0;
+      tagYaw = 0;
+      tagID = 0;
     }
-    if (camCheck() && getEstimatedGlobalPose() != null) {
-      estimatedGlobalPoseOld = getEstimatedGlobalPose();
-    }
-    //SmartDashboard.putBoolean("isPresent", camCheck());
-    //SmartDashboard.putNumber("conField Y", conFieldY);
-    //SmartDashboard.putNumber("conField X", conFieldX);
+    SmartDashboard.putBoolean("isPresent", camCheck());
+    SmartDashboard.putNumber("conField Y", conFieldY);
+    SmartDashboard.putNumber("conField X", conFieldX);
+    SmartDashboard.putNumber("tagPitch", tagPitch);
+    SmartDashboard.putNumber("tagYaw", tagYaw);
+    SmartDashboard.putNumber("tagID", tagID);
     //SmartDashboard.putNumber("Latency", camera.getLatestResult().getLatencyMillis());
   }
 

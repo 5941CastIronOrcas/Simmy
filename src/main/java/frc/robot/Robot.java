@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriverDisplay;
 import frc.robot.subsystems.VisionSubsystem;
+import frc.robot.subsystems.VisionSubsystem2D;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -171,6 +172,10 @@ public class Robot extends TimedRobot {
     else if(Constants.controller.getXButton())
     {
       RobotContainer.driveTrain.AutoBalance();
+    }
+    else if(Constants.controller.getBButton())
+    {
+      RobotContainer.driveTrain.DriveDriverOriented(LSX, LSY, VisionSubsystem2D.tagYaw / 270.0);
     }
     else
     {
