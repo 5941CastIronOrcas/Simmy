@@ -18,8 +18,8 @@ public class ArmSubsystem extends SubsystemBase {
   public double raiseAngle = 0; //current raise angle of the arm, in degrees. Horizontal is 0 degrees, down is negative, up is positive. 
   public double bendAngle = 0; //lower angle between the first arm segment and second arm segment. Arm straight is 180, arm bent is 90. 
   public double segment2HorizonAngle; //angle of second arm relative to the horizon. 
-  double minClawAngle;
-  double maxClawAngle;
+  public double minClawAngle;
+  public double maxClawAngle;
 
   public ArmSubsystem() {}
 

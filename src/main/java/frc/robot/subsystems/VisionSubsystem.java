@@ -83,6 +83,7 @@ public class VisionSubsystem extends SubsystemBase {
       return photonPoseEstimator.update().orElse(null).estimatedPose.toPose2d();
     }*/
     
+    
     try{
       if (photonPoseEstimator.update().isPresent()) {
         return photonPoseEstimator.update().get().estimatedPose.toPose2d();
@@ -92,6 +93,7 @@ public class VisionSubsystem extends SubsystemBase {
     {
       System.out.println("Caught Error: " + e);
     }
+    
     return estimatedGlobalPoseOld;
   }
 

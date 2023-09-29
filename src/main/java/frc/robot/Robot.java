@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import org.ejml.dense.row.decomposition.hessenberg.HessenbergSimilarDecomposition_FDRM;
+
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
@@ -38,6 +40,9 @@ public class Robot extends TimedRobot {
   boolean RPS = false;
   int RPSValue = 0;
   double RPSTime = 0;
+  boolean holdArmPosition = false;
+  double armTargetAngle = 0;
+  double clawTargetAngle = 0;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -138,6 +143,7 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+    holdArmPosition = false;
 
   }
 
@@ -187,6 +193,13 @@ public class Robot extends TimedRobot {
       Constants.primaryAccelerometer.setYaw(0);
     }
     
+    if(Constants.controllerB.getRightStickButtonPressed())
+    {
+      holdArmPosition = !holdArmPosition;
+      armTargetAngle = RobotContainer.armSystem.raiseAngle;
+      clawTargetAngle = RobotContainer.armSystem.segment2HorizonAngle;
+    }
+
     if(!RPS)
     {
       if(Constants.controllerB.getYButton()){RobotContainer.armSystem.moveArmToAngles(Constants.armCollectAngle1, Constants.armCollectAngle2);}
@@ -194,6 +207,12 @@ public class Robot extends TimedRobot {
       else if(Constants.controllerB.getBButton()){RobotContainer.armSystem.moveArmToAngles(Constants.armScoopAngle1, Constants.armScoopAngle2);}
       else if(Constants.controllerB.getAButton()){RobotContainer.armSystem.moveArmToAngles(Constants.armRestingAngle1, Constants.armRestingAngle2);}
       else if(Constants.controllerB.getBackButton()){RobotContainer.armSystem.moveArmToAngles(-5, 0);}
+      else if(holdArmPosition)
+      {
+        armTargetAngle -= 2.5*LSYB;
+        clawTargetAngle -= 2.5*RSYB;
+        RobotContainer.armSystem.moveArmToAngles(armTargetAngle, clawTargetAngle);
+      }
       else{RobotContainer.armSystem.moveArm(-LSYB, -RSYB);}
       Constants.gripperMotorA.set(Functions.Clamp(-(Constants.controllerB.getRightTriggerAxis()-Constants.controllerB.getLeftTriggerAxis()), -0.25, 1));
       Constants.gripperMotorB.set(Functions.Clamp((Constants.controllerB.getRightTriggerAxis()-Constants.controllerB.getLeftTriggerAxis()), -0.25, 1));
