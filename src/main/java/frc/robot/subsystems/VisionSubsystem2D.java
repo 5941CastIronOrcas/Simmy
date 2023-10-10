@@ -55,6 +55,10 @@ public class VisionSubsystem2D extends SubsystemBase {
   public static double tagDistance;
   public static int tagID = 0;
 
+  public static double tagX;
+  public static double tagY;
+  public static double fieldTagAngle;
+
 
   public VisionSubsystem2D() {}
   
@@ -119,8 +123,11 @@ public class VisionSubsystem2D extends SubsystemBase {
       tagYaw = target.getYaw();
       tagDistance = 0;
       tagID = target.getFiducialId();
-      conFieldX = 0;
-      conFieldY = 0;
+      tagX = aprilTagFieldLayout.getTags().get(tagID).pose.getX();
+      tagY = aprilTagFieldLayout.getTags().get(tagID).pose.getY();
+      fieldTagAngle = SmartDashboard.getNumber("RobotFieldYaw", 0) + tagYaw;
+      conFieldX = tagX - tagDistance*Math.sin(Math.toRadians(fieldTagAngle));
+      conFieldY = tagY - tagDistance*Math.sin(Math.toRadians(fieldTagAngle));
     }
     else {
       // no apriltags detected
@@ -128,6 +135,8 @@ public class VisionSubsystem2D extends SubsystemBase {
       conFieldY += Math.abs(deltaY) > 0.0001 ? deltaY : 0;
       tagPitch = 0;
       tagDistance = 0;
+      tagX = 0;
+      tagY = 0;
       tagYaw = 0;
       tagID = 0;
     }
