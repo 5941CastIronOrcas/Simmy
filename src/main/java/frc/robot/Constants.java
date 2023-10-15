@@ -114,7 +114,7 @@ public final class Constants
     public static double armSegment1GravMult = 0;
     public static double armSegment2GravMult = 0;
 
-    public static double armRestingAngle1 = 189, armRestingAngle2 = 276;
+    public static double armRestingAngle1 = 188, armRestingAngle2 = 276;
     public static double armCollectAngle1 = 20, armCollectAngle2 = 0;
     public static double armDepositAngle1 = 11.5, armDepositAngle2 = 13;
     public static double armScoopAngle1 = -73, armScoopAngle2 = -36;

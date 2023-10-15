@@ -202,11 +202,31 @@ public class Robot extends TimedRobot {
 
     if(!RPS)
     {
-      if(Constants.controllerB.getYButton()){RobotContainer.armSystem.moveArmToAngles(Constants.armCollectAngle1, Constants.armCollectAngle2);}
-      else if(Constants.controllerB.getXButton()){RobotContainer.armSystem.moveArmToAngles(Constants.armDepositAngle1, Constants.armDepositAngle2);}
-      else if(Constants.controllerB.getBButton()){RobotContainer.armSystem.moveArmToAngles(Constants.armScoopAngle1, Constants.armScoopAngle2);}
-      else if(Constants.controllerB.getAButton()){RobotContainer.armSystem.moveArmToAngles(Constants.armRestingAngle1, Constants.armRestingAngle2);}
-      else if(Constants.controllerB.getBackButton()){RobotContainer.armSystem.moveArmToAngles(-5, 0);}
+      if(Constants.controllerB.getYButton())
+      {
+        RobotContainer.armSystem.moveArmToAngles(Constants.armCollectAngle1, Constants.armCollectAngle2);
+        holdArmPosition = false;
+      }
+      else if(Constants.controllerB.getXButton())
+      {
+        RobotContainer.armSystem.moveArmToAngles(Constants.armDepositAngle1, Constants.armDepositAngle2);
+        holdArmPosition = false;
+      }
+      else if(Constants.controllerB.getBButton())
+      {
+        RobotContainer.armSystem.moveArmToAngles(Constants.armScoopAngle1, Constants.armScoopAngle2);
+        holdArmPosition = false;
+      }
+      else if(Constants.controllerB.getAButton())
+      {
+        RobotContainer.armSystem.moveArmToAngles(Constants.armRestingAngle1, Constants.armRestingAngle2);
+        holdArmPosition = false;
+      }
+      else if(Constants.controllerB.getBackButton())
+      {
+        RobotContainer.armSystem.moveArmToAngles(-5, 0);
+        holdArmPosition = false;
+      }
       else if(holdArmPosition)
       {
         armTargetAngle -= 2.5*LSYB;
