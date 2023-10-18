@@ -193,7 +193,7 @@ public class Robot extends TimedRobot {
       Constants.primaryAccelerometer.setYaw(0);
     }
     
-    if(Constants.controllerB.getRightStickButtonPressed())
+    if(Constants.controllerB.getLeftBumperPressed())
     {
       holdArmPosition = !holdArmPosition;
       armTargetAngle = RobotContainer.armSystem.raiseAngle;
