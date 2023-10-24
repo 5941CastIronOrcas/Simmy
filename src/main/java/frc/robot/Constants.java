@@ -109,7 +109,7 @@ public final class Constants
     public static double armPreciseModeMult = 0.33; // precision mode for the arm, slows down arm by multiplier when mode is activated.
     public static boolean raiseMotorInverted = false; //inverts the motor movement on arm motor 1
     public static boolean bendMotorInverted = false; //inverts the motor movement on arm 
-    public static double maxArmSpeed = 0.2; //maximum power output for the arm. 1.0 is 100%. 
+    public static double maxArmSpeed = 0.3; //maximum power output for the arm. 1.0 is 100%. 
 
     public static double armSegment1GravMult = 0;
     public static double armSegment2GravMult = 0;
@@ -123,5 +123,5 @@ public final class Constants
     public static CANSparkMax armMotor1 = new CANSparkMax(13, MotorType.kBrushless); //declare arm motors
     public static CANSparkMax armMotor2 = new CANSparkMax(14, MotorType.kBrushless); 
 
-    public static int defaultAutoSequence = 2;
+    public static int defaultAutoSequence = 0;
 }

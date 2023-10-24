@@ -155,12 +155,12 @@ public class Robot extends TimedRobot {
     crouchSpeed = 1-((1-Constants.swerveCrouchModeMult) * Constants.controller.getLeftTriggerAxis());
     if(Constants.controllerB.getLeftStickButtonPressed())
     {
-      preciseMode = !preciseMode;
+      preciseMode = true;
     }
       
     //Updates doubles representing stick axes
-    LSX = (crouchSpeed)*Functions.Exponential(Functions.DeadZone(Constants.controller.getLeftX(), Constants.controllerDeadZone));
-    LSY = (crouchSpeed)*Functions.Exponential(Functions.DeadZone(-Constants.controller.getLeftY(), Constants.controllerDeadZone));
+    LSX = 1.0*(crouchSpeed)*Functions.Exponential(Functions.DeadZone(Constants.controller.getLeftX(), Constants.controllerDeadZone));
+    LSY = 1.0*(crouchSpeed)*Functions.Exponential(Functions.DeadZone(-Constants.controller.getLeftY(), Constants.controllerDeadZone));
     RSX = Constants.turnMultiplier * (crouchSpeed)*Functions.Exponential(Functions.DeadZone(Constants.controller.getRightX(), Constants.controllerDeadZone));
 
     LSYB = (preciseMode?Constants.armPreciseModeMult:1)*Functions.Exponential(Functions.DeadZone(Constants.controllerB.getLeftY(), Constants.controllerDeadZone));
@@ -372,7 +372,7 @@ public class Robot extends TimedRobot {
       Constants.gripperMotorA.set(-1);
       Constants.gripperMotorB.set(1);
     }
-    else if(isAutoTimeBetween(5.5, 6.5))
+    else if(isAutoTimeBetween(5.5, 8.5))
     {
       Constants.gripperMotorA.set(0);
       Constants.gripperMotorB.set(0);
@@ -392,22 +392,26 @@ public class Robot extends TimedRobot {
       Functions.KillAllArm();
       Constants.primaryAccelerometer.setYaw(180);
     }
-    else if(isAutoTimeBetween(0.04, 5))
+    else if(isAutoTimeBetween(0.04, 3))
     {
       RobotContainer.armSystem.moveArmToAngles(Constants.armDepositAngle1, Constants.armDepositAngle2);
     }
-    else if(isAutoTimeBetween(5, 5.5))
+    else if(isAutoTimeBetween(3, 3.5  ))
     {
       Constants.gripperMotorA.set(-1);
       Constants.gripperMotorB.set(1);
     }
-    else if(isAutoTimeBetween(5.5, 7.1))
+    else if(isAutoTimeBetween(3.5, 8.5))
     {
       Constants.gripperMotorA.set(0);
       Constants.gripperMotorB.set(0);
+      RobotContainer.armSystem.moveArmToAngles((Constants.armRestingAngle1), Constants.armRestingAngle2);
+    }
+    else if(isAutoTimeBetween(8.5, 10.1))
+    {
       RobotContainer.driveTrain.DriveDriverOrientedAtAngle(0,0.4,180, 0.5);
     }
-    else if(isAutoTimeBetween(7.1, 15)) //remainder
+    else if(isAutoTimeBetween(10.1, 15)) //remainder
     {
       RobotContainer.driveTrain.AutoBalance();
     }
