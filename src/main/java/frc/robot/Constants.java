@@ -119,6 +119,7 @@ public final class Constants
     public static double armCollectAngle1 = 20, armCollectAngle2 = 0;
     public static double armDepositAngle1 = 11.5, armDepositAngle2 = 13;
     public static double armScoopAngle1 = -73, armScoopAngle2 = -36;
+    public static double armBackDepositAngle1 = 135, armBackDepositAngle2 = 175;
 
     public static CANSparkMax armMotor1 = new CANSparkMax(13, MotorType.kBrushless); //declare arm motors
     public static CANSparkMax armMotor2 = new CANSparkMax(14, MotorType.kBrushless); 

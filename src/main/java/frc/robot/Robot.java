@@ -227,6 +227,11 @@ public class Robot extends TimedRobot {
         RobotContainer.armSystem.moveArmToAngles(-5, 0);
         holdArmPosition = false;
       }
+      else if(Constants.controllerB.getPOV() == 0)
+      {
+        RobotContainer.armSystem.moveArmToAngles(Constants.armBackDepositAngle1, Constants.armBackDepositAngle2);
+        holdArmPosition = false;
+      }
       else if(holdArmPosition)
       {
         armTargetAngle -= 2.5*LSYB;
