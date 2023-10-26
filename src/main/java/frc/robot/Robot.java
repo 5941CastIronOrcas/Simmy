@@ -123,10 +123,16 @@ public class Robot extends TimedRobot {
         autoSequence2();
         break;
       case 3:
-        autoSequence3();
+        //autoSequence3();
         break;
       case 4:
-      autoSequence4();
+        autoSequence4();
+        break;
+      case 5:
+        //autoSequence5();
+        break;
+      case 6:
+      autoSequence6();
         break;
       default:
         autoSequence0();
@@ -360,7 +366,36 @@ public class Robot extends TimedRobot {
       Functions.KillAllSwerve();
     }
   }
-  public void autoSequence3()
+  public void autoSequence3() 
+  {
+    if(isAutoTimeBetween(0, 0.04)) //first 0.04 second
+    {
+      Functions.KillAllSwerve();
+      Functions.KillAllArm();
+      Constants.primaryAccelerometer.setYaw(180);
+    }
+    else if(isAutoTimeBetween(0.04, 5))
+    {
+      RobotContainer.armSystem.moveArmToAngles(Constants.armDepositAngle1, Constants.armDepositAngle2);
+    }
+    else if(isAutoTimeBetween(5, 5.5))
+    {
+      Constants.gripperMotorA.set(-1);
+      Constants.gripperMotorB.set(1);
+    }
+    else if(isAutoTimeBetween(5.5, 10.5))
+    {
+      Constants.gripperMotorA.set(0);
+      Constants.gripperMotorB.set(0);
+      RobotContainer.armSystem.moveArmToAngles(Constants.armRestingAngle1, Constants.armRestingAngle2);
+    }
+    else
+    {
+      Functions.KillAllSwerve();
+      Functions.KillAllArm();
+    }
+  }
+  public void autoSequence4()
   {
     if(isAutoTimeBetween(0, 0.04)) //first 0.04 second
     {
@@ -389,7 +424,40 @@ public class Robot extends TimedRobot {
       Functions.KillAllArm();
     }
   }
-  public void autoSequence4()
+  public void autoSequence5() 
+  {
+    if(isAutoTimeBetween(0, 0.04)) //first 0.04 second
+    {
+      Functions.KillAllSwerve();
+      Functions.KillAllArm();
+      Constants.primaryAccelerometer.setYaw(180);
+    }
+    else if(isAutoTimeBetween(0.04, 3))
+    {
+      RobotContainer.armSystem.moveArmToAngles(Constants.armDepositAngle1, Constants.armDepositAngle2);
+    }
+    else if(isAutoTimeBetween(3, 3.5  ))
+    {
+      Constants.gripperMotorA.set(-1);
+      Constants.gripperMotorB.set(1);
+    }
+    else if(isAutoTimeBetween(3.5, 8.5))
+    {
+      Constants.gripperMotorA.set(0);
+      Constants.gripperMotorB.set(0);
+      RobotContainer.armSystem.moveArmToAngles(Constants.armRestingAngle1, Constants.armRestingAngle2);
+    }
+    else if(isAutoTimeBetween(8.5, 10.1))
+    {
+      RobotContainer.driveTrain.DriveDriverOrientedAtAngle(0,0.4,180, 0.5);
+    }
+    else
+    {
+      Functions.KillAllSwerve();
+      Functions.KillAllArm();
+    }
+  }
+  public void autoSequence6()
   {
     if(isAutoTimeBetween(0, 0.04)) //first 0.04 second
     {
