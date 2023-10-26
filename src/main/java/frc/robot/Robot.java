@@ -123,13 +123,13 @@ public class Robot extends TimedRobot {
         autoSequence2();
         break;
       case 3:
-        //autoSequence3();
+        autoSequence3();
         break;
       case 4:
         autoSequence4();
         break;
       case 5:
-        //autoSequence5();
+        autoSequence5();
         break;
       case 6:
       autoSequence6();
