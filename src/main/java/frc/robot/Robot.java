@@ -165,9 +165,9 @@ public class Robot extends TimedRobot {
     }
       
     //Updates doubles representing stick axes
-    LSX = 1.0*(crouchSpeed)*Functions.Exponential(Functions.DeadZone(Constants.controller.getLeftX(), Constants.controllerDeadZone));
-    LSY = 1.0*(crouchSpeed)*Functions.Exponential(Functions.DeadZone(-Constants.controller.getLeftY(), Constants.controllerDeadZone));
-    RSX = Constants.turnMultiplier * (crouchSpeed)*Functions.Exponential(Functions.DeadZone(Constants.controller.getRightX(), Constants.controllerDeadZone));
+    LSX = 1.0*(crouchSpeed)*Functions.Exponential(Functions.DeadZone(Constants.controller.getRightX(), Constants.controllerDeadZone));
+    LSY = 1.0*(crouchSpeed)*Functions.Exponential(Functions.DeadZone(-Constants.controller.getRightY(), Constants.controllerDeadZone));
+    RSX = Constants.turnMultiplier * (crouchSpeed)*Functions.Exponential(Functions.DeadZone(Constants.controller.getLeftX(), Constants.controllerDeadZone));
 
     LSYB = (preciseMode?Constants.armPreciseModeMult:1)*Functions.Exponential(Functions.DeadZone(Constants.controllerB.getLeftY(), Constants.controllerDeadZone));
     RSYB = (preciseMode?Constants.armPreciseModeMult:1)*Functions.Exponential(Functions.DeadZone(Constants.controllerB.getRightY(), Constants.controllerDeadZone));
